@@ -1,0 +1,67 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.head {
+  padding: 20px 0px 20px 8rem ;
+}
+.login [class*="modal-dialog"] {
+  max-width: 400px;
+}
+.login [class*="modal-body"] {
+  padding: 1.8rem;
+}
+.ttl {
+  text-align: center;
+  font-weight: 600;
+  font-size: var(--h5);
+  margin-bottom: 2.5rem;
+}
+.form {
+}
+.input {
+}
+.forgotPassword {
+  background: transparent;
+  color: var(--green);
+  border: none;
+  display: block;
+  font-size: 13px;
+  margin-top: -8px;
+}
+.continue {
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  margin-top: 8rem;
+}
+.signup {
+  font-size: 13px;
+  font-weight: 700;
+}
+.signup button {
+  display: inline;
+  margin-left: 6px;
+}
+.outsideBtn {
+  width: fit-content;
+  color: var(--white);
+  position: absolute;
+  top: -2.5rem;
+  font-weight: 600;
+  font-size: 13px;
+}
+.outsideBtn svg {
+  transform: rotate(180deg);
+  width: 10px;
+  margin-right: 1rem;
+}
+.outsideBtn svg path {
+  fill: var(--green);
+}
+.info {
+  font-size: 13px;
+  line-height: 1.5;
+}
