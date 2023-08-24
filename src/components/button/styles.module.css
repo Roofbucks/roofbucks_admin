@@ -1,0 +1,46 @@
+.btn {
+  font-family: "Source Sans Pro";
+  font-weight: 500;
+  border-radius: 7px;
+  padding: 8px 20px;
+  border: 1px solid;
+  cursor: pointer;
+  font-size: 13px;
+}
+.primary {
+  color: var(--white);
+  background: var(--green);
+  border-color: var(--green);
+}
+.primary:hover {
+  box-shadow: 27px 59px 26px rgba(15, 201, 75, 0.01),
+    15px 33px 22px rgba(15, 201, 75, 0.05),
+    7px 15px 16px rgba(15, 201, 75, 0.09), 2px 4px 9px rgba(15, 201, 75, 0.1),
+    0px 0px 0px rgba(15, 201, 75, 0.1);
+}
+.primary:disabled {
+  background: #76f59f;
+  border-color: #76f59f;
+  color: rgba(250, 250, 250, 0.75);
+}
+.primary:focus {
+  background: #086526;
+  border-color: #086526;
+}
+.secondary {
+  background: transparent;
+  border-color: var(--green);
+  color: var(--green);
+}
+.secondary:disabled {
+  background: transparent;
+  border-color: 76f59f;
+  color: var(--green);
+}
+.tertiary {
+  background: transparent;
+  border-color: transparent;
+  font-weight: 600;
+  padding-left: 0;
+  padding-right: 0;
+}

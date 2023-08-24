@@ -1,0 +1,70 @@
+.inputWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background: transparent;
+  margin-bottom: 16px;
+}
+.label {
+  font-size: 12px;
+  background: transparent;
+  padding: 0;
+  color: #808080;
+  margin-bottom: 10px;
+}
+.message {
+  font-size: 12px;
+  color: var(--red);
+  display: block;
+  margin-top: 8px;
+}
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 2rem;
+  width: 20px;
+  height: auto;
+  cursor: pointer;
+}
+.select [class*="formSelect__indicator-separator"] {
+  display: none;
+}
+.select [class*="formSelect__control"] {
+  min-height: unset;
+  margin-top: 0;
+  border: 1px solid #EFEFEF;
+  border-radius: 10px;
+  background: #fcfcfc;
+  font-size: 14px;
+}
+.select [class*="formSelect__control--is-focused"] {
+  /* background: transparent; */
+  border-color: #e5e5e5 !important;
+  box-shadow: none;
+}
+.select [class*="formSelect__input-container"] {
+  height: 44px;
+  margin: 0;
+}
+.select [class*="formSelect__value-container"] {
+  padding: 0 0 0 1rem;
+}
+.select [class*="formSelect__placeholder"] {
+  color: var(--grey);
+  opacity: 0.8;
+  font-size: 13px;
+}
+.error label {
+  color: var(--red);
+}
+.error .select [class*="formSelect__control"] {
+  background: #fffafa;
+  border-bottom: 1.5px solid var(--red);
+}
+.select [class*="formSelect__menu"] {
+  text-transform: capitalize;
+}
+.select svg path {
+  fill: var(--green);
+}

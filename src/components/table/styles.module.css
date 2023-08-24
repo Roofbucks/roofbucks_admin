@@ -1,0 +1,132 @@
+table {
+  table-layout: auto;
+  width: 100%;
+  text-align: center;
+}
+.tableWrapper {
+  background: #f4f4f4;
+  border-radius: 12px;
+  padding: 1.2rem;
+}
+.mainTableContainer {
+  border-collapse: collapse;
+}
+.tableHeader {
+  background: #fff;
+}
+th {
+  background: #fff;
+  color: var(--black);
+  padding: 12px 10px;
+  margin-bottom: 1rem;
+  box-shadow: 1px 0 0 1px #d4e4f6;
+}
+.tableHeader th:first-child {
+  border-radius: 8px 0 0 0;
+  box-shadow: 0 0 0 1px #d4e4f6;
+}
+.tableHeader th:last-child {
+  border-radius: 0 8px 0 0;
+  padding-right: 1rem;
+  box-shadow: 1px -1px 0 0px #d4e4f6;
+}
+td {
+  padding: 12px 10px;
+  border-top: 1px solid #d4e4f6;
+  border-bottom: 1px solid #d4e4f6;
+  color: var(--black);
+  text-transform: capitalize;
+  vertical-align: top;
+  background: #fafafa;
+  font-weight: 500;
+}
+.tableBody tr:hover td {
+  background: #fff;
+}
+.tableBody td:first-child {
+  border-left: 1px solid #d4e4f6;
+}
+.tableBody td:last-child {
+  border-right: 1px solid #d4e4f6;
+}
+.tableBody tr:last-of-type td {
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  box-shadow: 1px 0 0 1px #d4e4f6;
+}
+.tableBody tr:last-of-type td:first-child {
+  box-shadow: 0 0 0 1px #d4e4f6;
+  border-bottom-left-radius: 8px;
+}
+.tableBody tr:last-of-type td:last-child {
+  box-shadow: 1px 1px 0 0px #d4e4f6;
+  border-bottom-right-radius: 8px;
+}
+
+.title {
+  color: #4e5d78;
+  font-weight: 600;
+  font-size: 18px;
+  position: relative;
+}
+.emptyTable {
+  text-align: center;
+}
+.emptyTable svg {
+  width: 70%;
+  max-width: 350px;
+  margin: 2rem 0;
+}
+.emptyTable p {
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.8;
+}
+.hdWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dropdownList {
+  padding: 12px;
+  right: 3rem;
+  margin-bottom: 1rem;
+  background: #fafafa;
+  box-shadow: 289px 720px 310px rgba(39, 181, 67, 0.01),
+    163px 405px 262px rgba(39, 181, 67, 0.03),
+    72px 180px 194px rgba(39, 181, 67, 0.04),
+    18px 45px 107px rgba(39, 181, 67, 0.05), 0px 0px 0px rgba(39, 181, 67, 0.05);
+  border-radius: 8px;
+  min-width: 160px;
+}
+.dropdownListItem {
+  border: none;
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-bottom: 2px;
+}
+.dropdownListItem:hover {
+  background: var(--green);
+  color: #fff;
+}
+.dropdownListItem:hover svg path {
+  fill: var(--white);
+}
+@media screen and (max-width: 800px) {
+  .mainTableContainer {
+    background: transparent;
+    padding: 0;
+  }
+  /* .tableHeader,
+  tbody {
+    display: none;
+  } */
+  .title {
+    font-size: 14px;
+  }
+  .emptyTable p {
+    font-size: 14px;
+  }
+}

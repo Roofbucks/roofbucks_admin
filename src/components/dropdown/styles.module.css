@@ -1,0 +1,83 @@
+.dropdownWrapper {
+  display: inline-block;
+  position: relative;
+}
+.active {
+  text-align: center;
+  padding: 4px 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: unset;
+  display: flex;
+  align-items: center;
+}
+.active svg {
+  width: 10px;
+  margin-left: 12px;
+  transform: rotate(90deg);
+}
+.active svg path {
+  fill: var(--green);
+}
+svg.greenCaret path {
+  fill: var(--green);
+}
+svg.blackCaret path {
+  fill: var(--black);
+}
+.dropdownList {
+  border-radius: 6px;
+  background: var(--white);
+  position: absolute;
+  top: 140%;
+  animation: fadeIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  box-shadow: 0 0 4px rgb(0 0 0 / 15%);
+  z-index: 10;
+}
+.dropdownListItem {
+  padding: 10px 1.2rem;
+  border-bottom: 1px solid rgba(191, 191, 191, 0.6);
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+}
+.dropdownListItem:last-of-type {
+  border-bottom: none;
+}
+.dropdownListItem:hover {
+  background: #fafbfc;
+}
+.ellipsisWrap {
+  border: none;
+}
+.ellipsis {
+  display: flex;
+}
+.ellipsis div {
+  width: 5px;
+  height: 5px;
+  background: var(--black);
+  border-radius: 50%;
+  margin: 0 1.5px;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    top: 90%;
+  }
+  100% {
+    opacity: 1;
+    top: 140%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .ellipsis div {
+    width: 4px;
+    height: 4px;
+    margin: 0 1px;
+  }
+  .ellipsisWrap {
+    padding: 4px 12px;
+  }
+}

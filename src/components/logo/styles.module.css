@@ -1,0 +1,20 @@
+.logo {
+  display: flex;
+  align-items: flex-end;
+  width: fit-content;
+}
+.logoImg {
+  width: 22px;
+  height: auto;
+}
+.logoText {
+  font-family: "Cronos";
+  font-size: 16px;
+  margin-left: 6px;
+}
+.light {
+  color: var(--white);
+}
+.dark {
+  color: var(--black);
+}

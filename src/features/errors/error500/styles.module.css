@@ -1,0 +1,40 @@
+.wrapper {
+  text-align: center;
+  padding: 6rem 1rem 4rem;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 600px;
+}
+.wrapper svg {
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 1.5rem;
+}
+.wrapper h1 {
+  font-size: var(--h1);
+  margin-bottom: 10px;
+}
+.wrapper p {
+  font-size: 20px;
+  margin-bottom: 1.5rem;
+}
+.wrapper button {
+  padding: 10px 3.5rem;
+  font-size: 15px;
+}
+
+@media screen and (max-width: 800px) {
+  .wrapper h1 {
+    font-size: var(--h3);
+  }
+  .wrapper p {
+    font-size: 16px;
+  }
+  .wrapper button {
+    padding: 10px 3rem;
+    font-size: 14px;
+  }
+}
