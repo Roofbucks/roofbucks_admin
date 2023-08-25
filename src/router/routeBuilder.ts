@@ -1,4 +1,4 @@
-import { Login, Error404, ForgotPassword } from "pages";
+import { Login, Error404, ForgotPassword, ResetPassword } from "pages";
 import { LayoutRouteProps } from "react-router-dom";
 import { Routes } from "./routes";
 
@@ -31,6 +31,10 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.forgotPassword,
     Element: ForgotPassword,
+  },
+  {
+    path: Routes.resetPassword,
+    Element: ResetPassword,
   },
   {
     path: "*",

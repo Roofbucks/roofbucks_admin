@@ -52,14 +52,14 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
       <div className={styles.head}>
         <LogoWithText
           type={"dark"}    
-        />
-      </div>
-      <div className={styles.body}>
+      />
+    </div>
+    <div className={styles.body}>
       <Button
         onClick={() => {
           login();
         }}
-        type="primary"
+        type="tertiary"
         className={styles.outsideBtn}
       >
         <ArrowRight /> Back to login
