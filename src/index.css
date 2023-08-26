@@ -36,6 +36,12 @@
   --h1-space: 1.8px;
 }
 
+@font-face {
+  font-family: "Cronos";
+  font-display: swap;
+  src: url("./assets/fonts/CronosPro-Bold.ttf") format("truetype");
+}
+
 body {
   margin: 0;
   font-family: "Source Sans Pro", sans-serif;
