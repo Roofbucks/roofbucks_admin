@@ -3,17 +3,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 80vh;
 }
 .head {
-  padding: 20px 0px 20px 8rem ;
-}
-.login {
-}
-.login [class*="modal-dialog"] {
-  max-width: 400px;
-}
-.login [class*="modal-body"] {
-  padding: 1.8rem;
+  padding: 20px 0px;
+  display: flex;
+  justify-content: center;
 }
 .ttl {
   text-align: center;
@@ -22,8 +17,8 @@
   margin-bottom: 2.5rem;
 }
 .form {
-}
-.input {
+  width: 500px;
+  margin: 0px 5%;
 }
 .forgotPassword {
   background: transparent;
@@ -37,37 +32,42 @@
   width: 100%;
   height: 40px;
   font-size: 14px;
-  margin-top: 2rem;
+  margin: 3rem 0rem 1rem 0rem;
 }
 .signup {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
 }
 .signup button {
   display: inline;
   margin-left: 6px;
 }
-.outsideBtn {
-  width: fit-content;
-  color: var(--white);
-  position: absolute;
-  top: -2.5rem;
-  font-weight: 600;
-  font-size: 13px;
-}
-.outsideBtn svg {
-  transform: rotate(180deg);
-  width: 10px;
-  margin-right: 1rem;
-}
-.outsideBtn svg path {
-  fill: var(--green);
-}
 .list {
-  font-size: 12px;
+  font-size: 13px;
   color: #808080;
   line-height: 1.5;
 }
 .list li {
   margin-left: 1.5rem;
+}
+.back {
+  display: flex;
+  gap: 1rem;
+}
+
+.back svg {
+  color: red;
+  transform: rotate(180deg);
+}
+
+@media screen and (max-width: 500px) {
+  .form {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .form {
+    width: 300px;
+  }
 }

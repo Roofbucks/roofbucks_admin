@@ -3,16 +3,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 80vh;
 }
 .head {
-  padding: 20px 0px 20px 8rem ;
-  margin-bottom: 40px;
-}
-.login [class*="modal-dialog"] {
-  max-width: 700px;
-}
-.login [class*="modal-body"] {
-  padding: 1.8rem;
+  padding: 20px 0px;
+  display: flex;
+  justify-content: center;
 }
 .ttl {
   text-align: center;
@@ -21,7 +17,8 @@
   margin-bottom: 2.5rem;
 }
 .form {
-  min-width: 700px;
+  width: 500px;
+  margin: 0px 5%;
 }
 .forgotPassword {
   background: transparent;
@@ -38,4 +35,16 @@
   font-size: 14px;
   margin-top: 3rem;
   margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 500px) {
+  .form {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .form {
+    width: 300px;
+  }
 }

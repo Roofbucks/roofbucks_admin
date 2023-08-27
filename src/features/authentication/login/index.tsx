@@ -21,7 +21,6 @@ const initialValues: LoginData = {
 export interface LoginModalProps {
   login: (data: LoginData) => void;
   forgotPassword: () => void;
-  signup: () => void;
 }
 
 const loginSchema = yup
@@ -34,7 +33,6 @@ const loginSchema = yup
 const LoginUI: React.FC<LoginModalProps> = ({
   login,
   forgotPassword,
-  signup,
 }: LoginModalProps) => {
   const {
     register,

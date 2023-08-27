@@ -5,6 +5,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input, LogoWithText } from "components";
 import { ArrowRight } from "assets";
+import { useNavigate } from "react-router-dom";
+import { Routes } from "router";
 
 interface RecoveryData {
   email: string;
@@ -14,7 +16,7 @@ const initialValues: RecoveryData = {
   email: "",
 };
 
-export interface RecoveryModalProps{
+export interface RecoveryModalProps {
   recovery: (data: RecoveryData) => void;
   login: () => void;
   clear: boolean;
@@ -45,25 +47,16 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
     reset();
   }, [clear]);
 
+  const navigate = useNavigate();
+
   const onSubmit: SubmitHandler<RecoveryData> = (data) => recovery(data);
 
   return (
     <div className={styles.page}>
       <div className={styles.head}>
-        <LogoWithText
-          type={"dark"}    
-      />
-    </div>
-    <div className={styles.body}>
-      <Button
-        onClick={() => {
-          login();
-        }}
-        type="tertiary"
-        className={styles.outsideBtn}
-      >
-        <ArrowRight /> Back to login
-      </Button>
+        <LogoWithText type={"dark"} />
+      </div>
+      <div className={styles.body}>
         <h1 className={styles.ttl}>Account Recovery</h1>
         <form className={styles.form}>
           <Input
@@ -86,8 +79,18 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
           >
             Continue
           </Button>
+          <Button
+            onClick={() => {
+              navigate(Routes.home)
+              login();
+            }}
+            type="tertiary"
+            className={styles.back} 
+          >
+            <ArrowRight /> Back to login
+          </Button>
         </form>
-    </div>
+      </div>
     </div>
   );
 };

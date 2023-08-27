@@ -6,6 +6,8 @@ import * as yup from "yup";
 import { Button, Input } from "components";
 import { ArrowRight } from "assets";
 import { LogoWithText } from "components";
+import { useNavigate } from "react-router-dom";
+import { Routes } from "router";
 
 interface ResetData {
   password: string;
@@ -56,6 +58,8 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
     defaultValues: initialValues,
   });
 
+  const navigate = useNavigate();
+
   const onSubmit: SubmitHandler<ResetData> = (data) => reset(data);
 
   return (
@@ -64,15 +68,6 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
         <LogoWithText type={"dark"} />
       </div>
       <div className={styles.body}>
-        <Button
-          onClick={() => {
-            login();
-          }}
-          type="tertiary"
-          className={styles.outsideBtn}
-        >
-          <ArrowRight /> Back to login
-        </Button>
         <h1 className={styles.ttl}>Reset Password</h1>
         <form className={styles.form}>
           <Input
@@ -109,6 +104,16 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
             onClick={handleSubmit(onSubmit)}
           >
             Continue
+          </Button>
+          <Button
+            onClick={() => {
+              navigate(Routes.home);
+              login();
+            }}
+            type="tertiary"
+            className={styles.back}
+          >
+            <ArrowRight /> Back to login
           </Button>
         </form>
       </div>
