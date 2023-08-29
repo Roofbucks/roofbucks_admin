@@ -1,4 +1,4 @@
-import { ErrorIcon, EyeIconOutline, TickIcon } from "assets";
+import { ErrorIcon, EyeIconOutline, SendIcon, TickIcon } from "assets";
 import * as React from "react";
 import {
   ActionItem,
@@ -47,7 +47,7 @@ const UserTable: React.FC<TableBodyProps> = ({
     {
       text: (
         <>
-          <EyeIconOutline className={styles.dropdownIcon} /> Resend email
+          <SendIcon className={styles.dropdownIcon} /> Resend email
         </>
       ),
       action: () => resendMail(id),

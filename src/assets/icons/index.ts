@@ -14,6 +14,7 @@ import { ReactComponent as TickIcon } from "./tick.svg";
 import { ReactComponent as ErrorIcon } from "./errorIcon.svg";
 import { ReactComponent as CloseIcon } from "./closeIcon.svg";
 import { ReactComponent as FilterIconOutline } from "./filterIconOutline.svg";
+import { ReactComponent as SendIcon } from "./sendIcon.svg";
 
 export {
   FilterIconOutline,
@@ -32,4 +33,5 @@ export {
   SearchIcon,
   TickIcon,
   ErrorIcon,
+  SendIcon,
 };
