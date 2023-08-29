@@ -13,4 +13,12 @@ export const Routes = {
   home: "/",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
+
+  // Dashboard
+  overview: "/overview",
+  users: "/users",
+  properties: "/properties",
+  finance: "/finance",
+  team: "/team",
+  settings: "/settings",
 };

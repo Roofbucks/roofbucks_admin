@@ -1,0 +1,238 @@
+.main {
+}
+.sideBar {
+  background: var(--black);
+  width: 220px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.6rem 2rem 0;
+  align-items: flex-start;
+  position: fixed;
+  z-index: 2;
+  overflow: auto;
+}
+.logo {
+}
+.logo svg {
+  width: 32px;
+}
+.logo p {
+  font-size: 24px;
+  line-height: 0.8;
+  margin-left: 10px;
+}
+.sidebarList {
+  color: var(--white);
+  margin-bottom: auto;
+  margin-top: 4rem;
+  list-style: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.sidebarList li:last-of-type {
+  margin-top: auto;
+}
+.sidebarItem {
+  margin-bottom: 1.8rem;
+}
+.sidebarType {
+  display: flex;
+  align-items: center;
+}
+a.sidebarType {
+  color: var(--white);
+  text-decoration: none;
+}
+button.sidebarType {
+  color: inherit;
+  border: none;
+  background: transparent;
+}
+.sidebarIcon {
+  margin-right: 1rem;
+}
+.sidebarText {
+}
+.sidebarItem:hover .sidebarText,
+.activeItem .sidebarText {
+  color: var(--green);
+}
+.sidebarItem:hover .sidebarIcon path,
+.activeItem .sidebarIcon path {
+  fill: var(--green);
+}
+.navBar {
+  margin-left: 220px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: calc(100% - 220px);
+  padding: 10px 2rem;
+  border-bottom: 1px solid #d0e3ff;
+  z-index: 2;
+  background: var(--white);
+}
+.profileSec {
+  display: flex;
+  align-items: center;
+}
+.profileSec p {
+  font-weight: 600;
+  font-size: 16px;
+}
+.profileSec img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: contain;
+  margin-right: 1rem;
+}
+.content {
+  padding: 2rem;
+  width: calc(100% - 220px);
+  margin-left: 220px;
+  position: relative;
+  top: 61px;
+}
+.menuBtn {
+  display: none;
+}
+.menuDropdown {
+  right: unset !important;
+  left: 35px;
+  top: 3rem !important;
+}
+.menuDropdown svg {
+  right: unset;
+  left: 26px;
+}
+@media screen and (max-width: 1200px) {
+  .navBar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: calc(100% - 180px);
+    margin-left: 180px;
+  }
+  .sideBar {
+    width: 180px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .content {
+    width: calc(100% - 180px);
+    margin-left: 180px;
+    padding: 1rem;
+  }
+  .logo svg {
+    width: 28px;
+  }
+  .logo p {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .navBar {
+    display: none;
+  }
+  .sideBar {
+    width: 100vw;
+    z-index: 3;
+    background: var(--white);
+    height: auto;
+    padding: 0;
+    overflow: unset;
+    top: 0;
+  }
+  .sidebarList {
+    position: absolute;
+    color: var(--black);
+    font-weight: 600;
+    background: var(--white);
+    height: unset;
+    padding: 1.5rem 1.2rem;
+    border: 1px solid #25d366;
+    box-shadow: 289px 720px 310px rgb(39 181 67 / 1%),
+      163px 405px 262px rgb(39 181 67 / 3%),
+      72px 180px 194px rgb(39 181 67 / 4%), 18px 45px 107px rgb(39 181 67 / 5%),
+      0px 0px 0px rgb(39 181 67 / 5%);
+    border-radius: 20px;
+    min-width: 180px;
+    right: 1rem;
+    display: none;
+  }
+  .sidebarList li:last-of-type {
+    margin-bottom: 0;
+  }
+  div.logo {
+    color: var(--black);
+  }
+  .sidebarIcon {
+    width: 20px;
+  }
+  .sidebarIcon path {
+    fill: var(--black);
+  }
+  .sidebarItem {
+    margin-bottom: 1.2rem;
+  }
+  .sidebarText {
+    color: var(--black);
+    font-weight: 600;
+  }
+  .menuBtn {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+  .menuBtn path {
+    fill: var(--black);
+  }
+  .mobileNav {
+    border-bottom: 1px solid #ebf1ec;
+    height: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  .overLay {
+    background: rgba(31, 29, 30, 0.6);
+    height: 100vh;
+  }
+  .overLay .mobileNav {
+    border-color: #57575760;
+  }
+  .overLay .sidebarList {
+    display: flex;
+  }
+  .content {
+    width: 100%;
+    margin-left: 0;
+    top: 67px;
+    padding: 0 1rem 1rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .logo svg {
+    width: 22px;
+  }
+  .logo p {
+    font-size: 16px;
+    margin-left: 6px;
+  }
+  .sidebarList {
+    right: 1rem;
+    margin-top: 57px;
+  }
+  .content {
+    top: 57px;
+  }
+}

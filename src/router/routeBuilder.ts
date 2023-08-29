@@ -1,6 +1,14 @@
-import { Login, Error404, ForgotPassword, ResetPassword } from "pages";
+import {
+  Login,
+  Error404,
+  ForgotPassword,
+  ResetPassword,
+  Overview,
+  Users,
+} from "pages";
 import { LayoutRouteProps } from "react-router-dom";
 import { Routes } from "./routes";
+import { Layout } from "layout";
 
 // Route Builder Item Props
 export interface RouteBuilderItem extends LayoutRouteProps {
@@ -35,6 +43,22 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.resetPassword,
     Element: ResetPassword,
+  },
+  {
+    path: Routes.overview,
+    Element: Overview,
+    Layout: Layout,
+    props: {
+      active: "Overview",
+    },
+  },
+  {
+    path: Routes.users,
+    Element: Users,
+    Layout: Layout,
+    props: {
+      active: "Users",
+    },
   },
   {
     path: "*",
