@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles.module.css";
+import styles from "../styles.module.scss";
 
 // Table header item
 interface TableHeaderItemProps {
@@ -28,17 +28,15 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   tableRowClassName = "",
 }) => {
   return (
-    <thead className={`${styles.tableHeader} ${tableHeaderClassName}`}>
-      <tr className={`${styles.tableRow} ${tableRowClassName}`}>
-        {tableHeaderTitles.map((header, idx) => {
-          return (
-            <th className={tableHeadItemClassName} key={`${header}${idx + 1}`}>
-              {header.title}
-            </th>
-          );
-        })}
-      </tr>
-    </thead>
+    <section className={`${styles.tableHeader} ${tableHeaderClassName}`}>
+      {tableHeaderTitles.map((header, idx) => {
+        return (
+          <span className={tableHeadItemClassName} key={`${header}${idx + 1}`}>
+            {header.title}
+          </span>
+        );
+      })}
+    </section>
   );
 };
 

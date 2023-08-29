@@ -1,0 +1,41 @@
+.empty {
+  text-align: center;
+  background: var(--bg-main);
+  border: 1px solid var(--bg-image);
+  box-shadow: var(--shadow);
+  border-radius: 16px;
+  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__img {
+    width: 300px;
+    margin-bottom: 3rem;
+  }
+
+  &__ttl {
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 18px;
+    margin-bottom: 1rem;
+  }
+
+  &__txt {
+    font-weight: 500;
+  }
+
+  button {
+    margin-top: 3rem;
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 1rem;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

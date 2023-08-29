@@ -9,8 +9,15 @@ import { ReactComponent as SettingsIcon } from "./settingsIcon.svg";
 import { ReactComponent as LogoutIcon } from "./logoutIcon.svg";
 import { ReactComponent as MenuOpen } from "./menuOpen.svg";
 import { ReactComponent as MenuClose } from "./menuClose.svg";
+import { ReactComponent as SearchIcon } from "./searchIcon.svg";
+import { ReactComponent as TickIcon } from "./tick.svg";
+import { ReactComponent as ErrorIcon } from "./errorIcon.svg";
+import { ReactComponent as CloseIcon } from "./closeIcon.svg";
+import { ReactComponent as FilterIconOutline } from "./filterIconOutline.svg";
 
 export {
+  FilterIconOutline,
+  CloseIcon,
   CaretRight,
   EyeIconOutline,
   EditIcon,
@@ -22,4 +29,7 @@ export {
   LogoutIcon,
   MenuOpen,
   MenuClose,
+  SearchIcon,
+  TickIcon,
+  ErrorIcon,
 };

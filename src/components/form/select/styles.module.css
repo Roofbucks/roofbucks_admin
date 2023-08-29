@@ -33,7 +33,7 @@
 .select [class*="formSelect__control"] {
   min-height: unset;
   margin-top: 0;
-  border: 1px solid #EFEFEF;
+  border: 1px solid #efefef;
   border-radius: 10px;
   background: #fcfcfc;
   font-size: 14px;
@@ -65,6 +65,6 @@
 .select [class*="formSelect__menu"] {
   text-transform: capitalize;
 }
-.select svg path {
-  fill: var(--green);
+.select svg {
+  width: 16px;
 }

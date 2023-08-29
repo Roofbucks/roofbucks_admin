@@ -1,13 +1,12 @@
 import * as React from "react";
 import { TableHeader, TableHeaderItemProps } from "./components";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 
 // An interface for all custom table classes
 interface AllCustomTableClasses {
   tableHeaderClassName?: string;
   tableHeaderItemClassName?: string;
   tableContainerClassName?: string;
-  tableWrapperClass?: string;
 }
 
 //  Table Props
@@ -40,11 +39,10 @@ const Table: React.FC<TableProps> = ({
     tableHeaderClassName = "",
     tableHeaderItemClassName = "",
     tableContainerClassName = "",
-    tableWrapperClass = "",
   } = customTableClasses || {};
 
   return (
-    <section className={`${styles.tableWrapper} ${tableWrapperClass}`}>
+    <>
       {!emptyTable?.show ? (
         <table
           className={`${styles.mainTableContainer} ${tableContainerClassName}`}
@@ -61,7 +59,7 @@ const Table: React.FC<TableProps> = ({
       ) : (
         <>{emptyTable.element}</>
       )}
-    </section>
+    </>
   );
 };
 

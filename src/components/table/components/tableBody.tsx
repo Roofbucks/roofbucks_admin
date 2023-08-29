@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles.module.css";
+import styles from "../styles.module.scss";
 
 // Table body props
 interface TableBodyProps {
@@ -14,8 +14,12 @@ interface TableBodyProps {
  *
  */
 
-const TableBody: React.FC<TableBodyProps> = ({ children, customClassName = "" }) => {
-  return <tbody className={`${styles.tableBody} ${customClassName}`}>{children}</tbody>;
+ const TableBody: React.FC<TableBodyProps> = ({ children, customClassName = "" }) => {
+  return <section className={`${styles.tableBody} ${customClassName}`}>{children}</section>;
 };
 
-export { TableBody };
+const TableBodyRow: React.FC<TableBodyProps> = ({ children, customClassName = "" }) => {
+  return <div className={`${styles.tableBodyRow} ${customClassName}`}>{children}</div>;
+};
+
+export { TableBody,TableBodyRow };

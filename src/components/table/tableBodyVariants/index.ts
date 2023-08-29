@@ -1,1 +1,2 @@
-export * from "./propertyTable"
+export * from "./propertyTable";
+export * from "./userTable";

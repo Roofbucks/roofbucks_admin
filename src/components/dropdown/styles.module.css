@@ -40,6 +40,8 @@ svg.blackCaret path {
   cursor: pointer;
   text-align: left;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
 }
 .dropdownListItem:last-of-type {
   border-bottom: none;

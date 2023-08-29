@@ -1,6 +1,6 @@
 import { Dropdown, DropdownListItem } from "components";
 import React from "react";
-import styles from "../styles.module.css";
+import styles from "../styles.module.scss";
 
 /**
  * This is a representation of the table's action dropdown component
