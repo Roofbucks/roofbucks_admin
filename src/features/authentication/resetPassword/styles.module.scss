@@ -1,14 +1,27 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  padding: 2rem 1rem;
+}
+
 .body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
 }
 .head {
-  padding: 20px 0px;
-  display: flex;
-  justify-content: center;
+  margin-bottom: 1.5rem;
+  transform: scale(1.2);
 }
 .ttl {
   text-align: center;
@@ -17,8 +30,7 @@
   margin-bottom: 2.5rem;
 }
 .form {
-  width: 500px;
-  margin: 0px 5%;
+  width: 100%;
 }
 .forgotPassword {
   background: transparent;
@@ -52,22 +64,26 @@
 }
 .back {
   display: flex;
-  gap: 1rem;
-}
+  align-items: center;
+  width: 100%;
+  justify-content: center;
 
-.back svg {
-  color: red;
-  transform: rotate(180deg);
-}
-
-@media screen and (max-width: 500px) {
-  .form {
-    width: 400px;
+  svg {
+    transform: rotate(180deg);
+    width: 12px;
+    margin-right: 10px;
   }
 }
 
-@media screen and (max-width: 400px) {
-  .form {
-    width: 300px;
+@media screen and (max-width: 600px) {
+  .body {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  .head {
+    transform: unset;
+  }
+  .ttl {
+    font-size: 20px;
   }
 }
