@@ -1,9 +1,14 @@
 import { LoginUI } from "features";
 
 const Login = () => {
+  const login = () => {}
+  const forgot = () => {}
   return (
     <>
-      <LoginUI />
+      <LoginUI
+        login={login}
+        forgotPassword={forgot}
+      />
     </>
   );
 };

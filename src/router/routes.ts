@@ -11,4 +11,6 @@
 export const Routes = {
   // Authentication
   home: "/",
+  forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password",
 };
