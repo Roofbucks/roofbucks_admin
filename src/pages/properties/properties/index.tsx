@@ -1,17 +1,17 @@
-import { UserProfileUI } from "features";
+import { PropertiesUI } from "features";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 
-const UserProfile = () => {
+const Properties = () => {
   const navigate = useNavigate();
 
   const handleView = (id) => navigate(Routes.property(id));
-
+  
   return (
     <>
-      <UserProfileUI handleView={handleView} />
+      <PropertiesUI handleView={handleView} />
     </>
   );
 };
 
-export { UserProfile };
+export { Properties };

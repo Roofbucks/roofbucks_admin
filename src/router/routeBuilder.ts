@@ -6,6 +6,8 @@ import {
   Overview,
   Users,
   UserProfile,
+  Properties,
+  Property,
 } from "pages";
 import { LayoutRouteProps } from "react-router-dom";
 import { Routes } from "./routes";
@@ -67,6 +69,22 @@ export const RouteBuilder: RouteBuilderItem[] = [
     Layout: Layout,
     props: {
       active: "Users",
+    },
+  },
+  {
+    path: Routes.properties,
+    Element: Properties,
+    Layout: Layout,
+    props: {
+      active: "Properties",
+    },
+  },
+  {
+    path: Routes.property(":id"),
+    Element: Property,
+    Layout: Layout,
+    props: {
+      active: "Properties",
     },
   },
   {

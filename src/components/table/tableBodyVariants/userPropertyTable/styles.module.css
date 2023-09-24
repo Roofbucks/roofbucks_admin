@@ -54,11 +54,9 @@
 }
 .name {
   text-overflow: ellipsis;
-  max-width: calc(40 / 100 * (100vw - 350px));
   overflow: hidden;
   white-space: nowrap;
   margin: auto;
-  min-width: 180px;
 }
 .propertyID {
   text-overflow: ellipsis;

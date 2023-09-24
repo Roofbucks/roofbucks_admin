@@ -1,1 +1,2 @@
-export * from "./usersFilter"
+export * from "./usersFilter";
+export * from "./propertiesFilter";

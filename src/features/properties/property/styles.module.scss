@@ -1,0 +1,163 @@
+.backBtn {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0;
+
+  svg {
+    transform: rotate(180deg);
+    margin-right: 10px;
+    width: 12px;
+  }
+}
+
+.section {
+  margin-bottom: 2rem;
+
+  &__heading {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+
+    button {
+    }
+  }
+
+  &__ttl {
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+
+    div {
+      span {
+        color: #a5a3a3;
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      p {
+      }
+    }
+  }
+
+  &__documents {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+
+    div {
+      display: flex;
+      background: #fff;
+      padding: 1rem 12px;
+      border-radius: 8px;
+      align-items: center;
+
+      > svg {
+        margin-right: 10px;
+        width: 18px;
+      }
+
+      p {
+        font-weight: 600;
+        margin-right: auto;
+      }
+
+      a {
+        margin-left: 10px;
+        svg {
+          width: 18px;
+        }
+      }
+    }
+  }
+
+  &__images {
+    display: grid;
+    grid-template-columns: 1fr 80px;
+    gap: 1rem;
+
+    &__main {
+      border: 1px solid #98c7a7;
+      border-radius: 8px;
+      padding: 2px;
+      background: #fafafa;
+
+      img {
+        width: 100%;
+        object-fit: contain;
+        height: 396px;
+      }
+    }
+
+    &__list {
+      display: grid;
+      gap: 1rem;
+      max-height: 400px;
+      overflow: auto;
+
+      img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        background: #fafafa;
+        border: 2px solid #98c7a7;
+        border-radius: 4px;
+
+        &:hover {
+          border-color: var(--green);
+        }
+      }
+    }
+  }
+}
+
+.description {
+  background: #fff;
+  padding: 1rem 12px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+
+  span {
+    color: #a5a3a3;
+    margin-bottom: 4px;
+    display: block;
+  }
+  p {
+  }
+}
+
+.suspend {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+section.tableHeader,
+div.tableBodyItem {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 40px;
+  gap: 1rem;
+}
+.tableWrap {
+  min-width: 700px;
+}
+
+.image {
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fafafa;
+  width: 40px;
+  height: 40px;
+}
+.imageSec {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 10px;
+}
