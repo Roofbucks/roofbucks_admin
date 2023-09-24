@@ -1,4 +1,10 @@
-import { ArrowRight, DocumentIcon, DownloadIcon, EmptyStreet } from "assets";
+import {
+  ArrowRight,
+  DocumentIcon,
+  DownloadIcon,
+  EmptyStreet,
+  placeholderAvatar,
+} from "assets";
 import styles from "./styles.module.scss";
 import {
   Button,
@@ -46,9 +52,16 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
           </Button>
         </div>
         <div className={styles.section__content}>
-          <div>
-            <span>First name</span>
-            <p>John Doe</p>
+          <div className={styles.imageSec}>
+            <img
+              className={styles.image}
+              src={placeholderAvatar}
+              alt="avatar"
+            />
+            <div>
+              <span>First name</span>
+              <p>John Doe</p>
+            </div>
           </div>
           <div>
             <span>Last name</span>
@@ -139,14 +152,22 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
           </Button>
         </div>
         <div className={styles.section__content}>
+          <div className={styles.imageSec}>
+            <img
+              className={styles.image}
+              src={placeholderAvatar}
+              alt="company logo"
+            />
+            <div>
+              <span>Company Name</span>
+              <p>John Doe</p>
+            </div>
+          </div>
           <div>
             <span>Registration No</span>
             <p>John Doe</p>
           </div>
-          <div>
-            <span>Company Name</span>
-            <p>John Doe</p>
-          </div>
+
           <div>
             <span>Email</span>
             <p>info@company.com</p>

@@ -109,3 +109,16 @@ div.tableBodyItem {
 .tableWrap {
   min-width: 700px;
 }
+
+.image {
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fafafa;
+  width: 40px;
+  height: 40px;
+}
+.imageSec {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 10px;
+}
