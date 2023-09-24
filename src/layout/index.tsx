@@ -56,6 +56,8 @@ type dashboardPages =
   | "Overview"
   | "Users"
   | "Properties"
+  | "Listings"
+  | "Marketplace"
   | "Finance"
   | "Team"
   | "Settings";
@@ -67,14 +69,14 @@ export interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ active, children }) => {
   const SidebarItems: SidebarType[] = [
-    {
-      active,
-      state: "Overview",
-      url: Routes.overview,
-      type: "link",
-      Icon: OverviewIcon,
-      action: () => setShowMenu(false),
-    },
+    // {
+    //   active,
+    //   state: "Overview",
+    //   url: Routes.overview,
+    //   type: "link",
+    //   Icon: OverviewIcon,
+    //   action: () => setShowMenu(false),
+    // },
     {
       active,
       state: "Users",
@@ -87,6 +89,22 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
       active,
       state: "Properties",
       url: Routes.properties,
+      type: "link",
+      Icon: PropertiesIcon,
+      action: () => setShowMenu(false),
+    },
+    {
+      active,
+      state: "Listings",
+      url: Routes.listings,
+      type: "link",
+      Icon: PropertiesIcon,
+      action: () => setShowMenu(false),
+    },
+    {
+      active,
+      state: "Marketplace",
+      url: Routes.marketplace,
       type: "link",
       Icon: PropertiesIcon,
       action: () => setShowMenu(false),

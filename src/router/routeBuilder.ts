@@ -8,6 +8,8 @@ import {
   UserProfile,
   Properties,
   Property,
+  Listings,
+  Marketplace,
 } from "pages";
 import { LayoutRouteProps } from "react-router-dom";
 import { Routes } from "./routes";
@@ -77,6 +79,22 @@ export const RouteBuilder: RouteBuilderItem[] = [
     Layout: Layout,
     props: {
       active: "Properties",
+    },
+  },
+  {
+    path: Routes.listings,
+    Element: Listings,
+    Layout: Layout,
+    props: {
+      active: "Listings",
+    },
+  },
+  {
+    path: Routes.marketplace,
+    Element: Marketplace,
+    Layout: Layout,
+    props: {
+      active: "Marketplace",
     },
   },
   {

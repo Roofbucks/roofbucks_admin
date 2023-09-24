@@ -20,6 +20,8 @@ export const Routes = {
   user: (id) => `/user/${id}`,
   properties: "/properties",
   property: (id) => `/property/${id}`,
+  listings: "/listings",
+  marketplace: "/marketplace",
   finance: "/finance",
   team: "/team",
   settings: "/settings",
