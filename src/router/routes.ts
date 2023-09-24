@@ -17,6 +17,8 @@ export const Routes = {
   // Dashboard
   overview: "/overview",
   users: "/users",
+  user: (id) => `/user/${id}`,
+  // userID: (id) => `/user/${id}`,
   properties: "/properties",
   finance: "/finance",
   team: "/team",

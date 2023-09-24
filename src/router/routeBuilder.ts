@@ -5,6 +5,7 @@ import {
   ResetPassword,
   Overview,
   Users,
+  UserProfile,
 } from "pages";
 import { LayoutRouteProps } from "react-router-dom";
 import { Routes } from "./routes";
@@ -55,6 +56,14 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.users,
     Element: Users,
+    Layout: Layout,
+    props: {
+      active: "Users",
+    },
+  },
+  {
+    path: Routes.user(":id"),
+    Element: UserProfile,
     Layout: Layout,
     props: {
       active: "Users",

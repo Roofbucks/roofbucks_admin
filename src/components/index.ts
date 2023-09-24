@@ -8,3 +8,4 @@ export * from "./preloader";
 export * from "./emptyTable"
 export * from "./search"
 export * from "./filters"
+export * from "./pagination"

@@ -1,10 +1,14 @@
 import { UsersUI } from "features";
-import styles from "./styles.module.scss";
+import { useNavigate } from "react-router-dom";
+import { Routes } from "router";
 
 const Users = () => {
+  const navigate = useNavigate()
+
+  const handleView = (id) => navigate(Routes.user(id))
   return (
     <>
-      <UsersUI />
+      <UsersUI handleView={handleView} />
     </>
   );
 };

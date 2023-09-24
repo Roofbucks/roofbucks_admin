@@ -15,8 +15,14 @@ import { ReactComponent as ErrorIcon } from "./errorIcon.svg";
 import { ReactComponent as CloseIcon } from "./closeIcon.svg";
 import { ReactComponent as FilterIconOutline } from "./filterIconOutline.svg";
 import { ReactComponent as SendIcon } from "./sendIcon.svg";
+import { ReactComponent as DocumentIcon } from "./documentIcon.svg";
+import { ReactComponent as DownloadIcon } from "./downloadIcon.svg";
+import { ReactComponent as ChevronIcon } from "./chevronIcon.svg";
 
 export {
+  ChevronIcon,
+  DocumentIcon,
+  DownloadIcon,
   FilterIconOutline,
   CloseIcon,
   CaretRight,

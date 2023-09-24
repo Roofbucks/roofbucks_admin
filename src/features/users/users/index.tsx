@@ -1,5 +1,6 @@
 import {
   EmptyTable,
+  Pagination,
   Search,
   Table,
   TableHeaderItemProps,
@@ -9,7 +10,6 @@ import {
 } from "components";
 import styles from "./styles.module.scss";
 import { EmptyStreet } from "assets";
-import { TypeFlags } from "typescript";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Name" },
@@ -30,13 +30,17 @@ const user: UserTableItem = {
   verifiedBusiness: true,
 };
 
-const UsersUI = () => {
+interface UsersProps {
+  handleView: (id: string) => void;
+}
+
+const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
   return (
     <>
       <h1 className={styles.ttl}>
         Users <span>(58)</span>
       </h1>
-      <section className={styles.searchFilter} >
+      <section className={styles.searchFilter}>
         <UsersFilter
           submit={console.log}
           value={{
@@ -56,7 +60,7 @@ const UsersUI = () => {
         tableBody={
           <UserTable
             tableBodyItems={new Array(10).fill(user)}
-            view={console.log}
+            view={handleView}
             resendMail={console.log}
             tableBodyRowClassName={styles.tableBodyItem}
           />
@@ -77,6 +81,14 @@ const UsersUI = () => {
           ),
         }}
       />
+              <Pagination
+          currentPage={1}
+          totalPages={3}
+          handleChange={console.log}
+          totalCount={21}
+          pageLimit={10}
+          name={"Users"}
+        />
     </>
   );
 };
