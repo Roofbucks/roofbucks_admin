@@ -4,7 +4,7 @@ import { useRef } from "react";
 
 interface ModalProps {
   children: any;
-  position: "centered" | "left" | "right";
+  position?: "centered" | "left" | "right";
   close: () => void;
   show: boolean;
   dialogClassName?: string;
@@ -13,7 +13,7 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({
   children,
-  position,
+  position = "centered",
   close,
   show,
   dialogClassName,

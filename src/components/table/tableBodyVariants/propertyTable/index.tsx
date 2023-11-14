@@ -1,16 +1,17 @@
-import { EyeIconOutline } from "assets";
+import { EditIcon, EyeIconOutline } from "assets";
 import * as React from "react";
 import { TableBody, TableBodyRow } from "../../components";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 
 // Test Table Body Item
 export interface PropertyTableItem {
   propertyID: string;
   propertyName: string;
   agent: string;
-  status: string;
+  status: "pending" | "rejected" | "incomplete" | "approved";
   amount: string;
   date: string;
+  isEdited?: boolean;
 }
 
 // Test Table Body Props
@@ -39,7 +40,14 @@ const PropertyTable: React.FC<TableBodyProps> = ({
               <p className={styles.propertyID}>{item.propertyID}</p>
             </span>
             <span className={tableBodyItemClassName}>
-              <p className={styles.name}>{item.propertyName}</p>
+              <p className={styles.name}>
+                {item.propertyName}{" "}
+                {item.isEdited ? (
+                  <EditIcon title="An edit has been submitted for this property" />
+                ) : (
+                  ""
+                )}
+              </p>
             </span>
             <span className={tableBodyItemClassName}>
               <p className={styles.name}>{item.agent}</p>

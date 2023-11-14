@@ -3,4 +3,10 @@ export * from "./property";
 export * from "./listings";
 export * from "./marketplace";
 export * from "./listingApplication";
-export * from "./marketplaceApplication"
+export * from "./marketplaceApplication";
+export * from "./approveProperty";
+export * from "./rejectProperty";
+export * from "./approveListingApplication";
+export * from "./addMarketValue";
+export * from "./approveMarketplaceApplication";
+export * from "./updateRent";

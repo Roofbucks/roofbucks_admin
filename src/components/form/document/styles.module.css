@@ -1,0 +1,97 @@
+/* Doc Upload */
+.docWrap {
+  margin-bottom: 1rem;
+}
+.docName {
+  margin-bottom: 10px;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  text-transform: capitalize;
+}
+.docTxt {
+  margin-bottom: 1rem;
+}
+.docLabel {
+  background: #f2f3f2;
+  border: 2px dashed #808080;
+  border-radius: 12px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  margin-top: 10px;
+}
+.docLabel svg {
+}
+.docLabel p {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+.docLabel p span {
+  color: var(--green);
+  padding-left: 4px;
+  cursor: pointer;
+}
+p.docNote {
+  text-align: center;
+  font-weight: 400;
+  margin-top: 8px;
+}
+.uploadedSec {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.uploadedDoc {
+  background: #fff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  justify-content: space-between;
+  min-width: 250px;
+  margin-bottom: 1rem;
+}
+.docIcon {
+  border-radius: 50%;
+  background: rgba(237, 248, 241, 0.35);
+  box-shadow: 0px 0px 0px 4px rgb(157 209 160 / 24%);
+  padding: 4px;
+  width: 24px;
+}
+.docInfo {
+  margin-right: auto;
+  margin-left: 12px;
+  padding-right: 12px;
+  color: #757575;
+  font-weight: 600;
+  width: calc(100% - 60px);
+}
+.docInfo p:first-of-type {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.docInfo p:nth-of-type(2) {
+  font-size: 12px;
+}
+.docDelete {
+}
+.errorMsg {
+  font-size: 12px;
+  color: var(--red);
+  display: block;
+  margin-top: 8px;
+}
+.errorMsg svg {
+  width: 16px;
+  margin-right: 4px;
+}
+.emptyDoc {
+  border-color: var(--red);
+}

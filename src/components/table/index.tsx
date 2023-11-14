@@ -44,18 +44,20 @@ const Table: React.FC<TableProps> = ({
   return (
     <>
       {!emptyTable?.show ? (
-        <table
-          className={`${styles.mainTableContainer} ${tableContainerClassName}`}
-        >
-          {!hideHeaders && (
-            <TableHeader
-              tableHeaderClassName={tableHeaderClassName}
-              tableHeadItemClassName={tableHeaderItemClassName}
-              tableHeaderTitles={tableHeaderTitles}
-            />
-          )}
-          {tableBody}
-        </table>
+        <section className={styles.tableWrapper} >
+          <table
+            className={`${styles.mainTableContainer} ${tableContainerClassName}`}
+          >
+            {!hideHeaders && (
+              <TableHeader
+                tableHeaderClassName={tableHeaderClassName}
+                tableHeadItemClassName={tableHeaderItemClassName}
+                tableHeaderTitles={tableHeaderTitles}
+              />
+            )}
+            {tableBody}
+          </table>
+        </section>
       ) : (
         <>{emptyTable.element}</>
       )}

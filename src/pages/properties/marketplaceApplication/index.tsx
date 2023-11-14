@@ -1,9 +1,25 @@
 import { MarketplaceApplicationUI } from "features";
+import { useState } from "react";
+import { ApproveMarketplaceApplication } from "../approveMarketplaceApplication";
 
 const MarketplaceApplication = ({ show, close }) => {
+  const [approve, setApprove] = useState(false);
+
   return (
     <>
-      <MarketplaceApplicationUI show={show} close={close} />
+      <ApproveMarketplaceApplication
+        show={approve}
+        close={() => setApprove(false)}
+      />
+      <MarketplaceApplicationUI
+        approve={() => {
+          close();
+          setApprove(true);
+        }}
+        discard={console.log}
+        show={show}
+        close={close}
+      />
     </>
   );
 };

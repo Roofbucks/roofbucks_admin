@@ -4,7 +4,19 @@ import { ArrowRight, CloseIcon } from "assets";
 import { Link } from "react-router-dom";
 import { Routes } from "router";
 
-const MarketplaceApplicationUI = ({ show, close }) => {
+interface MarketplaceApplicationUIProps {
+  approve: () => void;
+  discard: () => void;
+  show: boolean;
+  close: () => void;
+}
+
+const MarketplaceApplicationUI: React.FC<MarketplaceApplicationUIProps> = ({
+  show,
+  close,
+  approve,
+  discard,
+}) => {
   return (
     <>
       <Modal
@@ -96,11 +108,11 @@ const MarketplaceApplicationUI = ({ show, close }) => {
           </div>
         </section>
         <section className={styles.btns}>
-          <Button type={"primary"} onClick={console.log}>
+          <Button type={"primary"} onClick={approve}>
             Approve
           </Button>
-          <Button type={"secondary"} onClick={console.log}>
-            Reject
+          <Button type={"secondary"} onClick={discard}>
+            Discard
           </Button>
         </section>
       </Modal>

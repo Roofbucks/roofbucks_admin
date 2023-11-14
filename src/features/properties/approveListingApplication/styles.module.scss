@@ -1,0 +1,18 @@
+.header {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__ttl {
+    font-size: 24px;
+  }
+
+  &__close {
+    
+  }
+}
+.btn {
+  width: 100%;
+  margin-top: 1rem;
+}

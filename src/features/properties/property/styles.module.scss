@@ -20,7 +20,13 @@
     margin-bottom: 1rem;
     justify-content: space-between;
 
-    button {
+    .actionBtn {
+      margin-left: 1rem;
+    }
+    .rejectBtn {
+      border: 1px solid currentColor;
+      background: transparent;
+      color: var(--red);
     }
   }
 
@@ -160,4 +166,19 @@ div.tableBodyItem {
   display: grid;
   grid-template-columns: 40px 1fr;
   gap: 10px;
+}
+
+
+@media screen and (max-width: 600px) {
+  .section {
+    &__heading {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+
+      > div {
+        margin-left: auto;
+      }
+    }
+  }
 }

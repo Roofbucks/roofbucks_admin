@@ -9,9 +9,19 @@ import { Button } from "components";
 
 interface PropertyProps {
   goBack: () => void;
+  handleApprove: () => void;
+  handleReject: () => void;
+  handleMarketValue: () => void;
+  handleRent: () => void;
 }
 
-const PropertyUI: React.FC<PropertyProps> = ({ goBack }) => {
+const PropertyUI: React.FC<PropertyProps> = ({
+  goBack,
+  handleApprove,
+  handleReject,
+  handleMarketValue,
+  handleRent,
+}) => {
   return (
     <>
       <Button className={styles.backBtn} type="tertiary" onClick={goBack}>
@@ -21,13 +31,44 @@ const PropertyUI: React.FC<PropertyProps> = ({ goBack }) => {
       <section className={styles.section}>
         <div className={styles.section__heading}>
           <h1 className={styles.section__ttl}>Property Information</h1>
-          <Button
-            className={styles.actionBtn}
-            type="primary"
-            onClick={() => {}}
-          >
-            Approve
-          </Button>
+          <div>
+            {/* Only show for approved property */}
+            <Button
+              className={styles.actionBtn}
+              type="tertiary"
+              onClick={handleRent}
+            >
+              Update rent
+            </Button>
+            {/* Only show for properties that have investors */}
+            <Button
+              className={styles.actionBtn}
+              type="primary"
+              onClick={handleMarketValue}
+            >
+              Update market value
+            </Button>
+
+            {/* Only show for pending property
+            No modal need to approve edited property
+            */}
+            <Button
+              className={styles.actionBtn}
+              type="primary"
+              onClick={handleApprove}
+            >
+              Approve
+            </Button>
+
+            {/* Only show for pending property */}
+            <Button
+              className={`${styles.actionBtn} ${styles.rejectBtn}`}
+              type="secondary"
+              onClick={handleReject}
+            >
+              Reject
+            </Button>
+          </div>
         </div>
         <div className={styles.section__content}>
           <div>
@@ -226,7 +267,7 @@ const PropertyUI: React.FC<PropertyProps> = ({ goBack }) => {
           <h1 className={styles.section__ttl}>Images</h1>
         </div>
         <div className={styles.section__images}>
-          <div className={styles.section__images__main} >
+          <div className={styles.section__images__main}>
             <img src={placeholderAvatar} alt="" />
           </div>
           <div className={styles.section__images__list}>

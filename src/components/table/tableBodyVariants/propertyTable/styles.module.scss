@@ -9,7 +9,7 @@
   margin: auto 0;
   width: 90px;
   text-align: center;
-  font-weight: 500
+  font-weight: 500;
 }
 .pending {
   background: linear-gradient(
@@ -57,6 +57,12 @@
   overflow: hidden;
   white-space: nowrap;
   margin: auto;
+  display: flex;
+
+  svg {
+    width: 16px;
+    margin-left: 8px;
+  }
 }
 .propertyID {
   text-overflow: ellipsis;

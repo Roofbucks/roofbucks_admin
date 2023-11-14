@@ -1,9 +1,25 @@
 import { ListingApplicationUI } from "features";
+import { useState } from "react";
+import { ApproveListingApplication } from "../approveListingApplication";
 
-const ListingApplication = ({ show, close }) => {
+const ListingApplication = ({ show, close, callback }) => {
+  const [approve, setApprove] = useState(false);
+
   return (
     <>
-      <ListingApplicationUI show={show} close={close} />
+      <ApproveListingApplication
+        show={approve}
+        close={() => setApprove(false)}
+      />
+      <ListingApplicationUI
+        approve={() => {
+          close();
+          setApprove(true);
+        }}
+        discard={console.log}
+        show={show}
+        close={close}
+      />
     </>
   );
 };

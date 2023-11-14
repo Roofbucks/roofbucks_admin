@@ -18,8 +18,12 @@ import { ReactComponent as SendIcon } from "./sendIcon.svg";
 import { ReactComponent as DocumentIcon } from "./documentIcon.svg";
 import { ReactComponent as DownloadIcon } from "./downloadIcon.svg";
 import { ReactComponent as ChevronIcon } from "./chevronIcon.svg";
+import { ReactComponent as TrashIcon } from "./trashIcon.svg";
+import { ReactComponent as WarningIcon } from "./warningIcon.svg";
 
 export {
+  TrashIcon,
+  WarningIcon,
   ChevronIcon,
   DocumentIcon,
   DownloadIcon,

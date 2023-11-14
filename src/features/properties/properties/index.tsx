@@ -21,13 +21,14 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
-const Properties: PropertyTableItem = {
+const Property: PropertyTableItem = {
   propertyID: "123",
   propertyName: "New house",
   agent: "John Doe",
   status: "pending",
   date: "12/08/2023",
   amount: "NGN 200,000",
+  isEdited: true,
 };
 
 interface PropertiesProps {
@@ -60,7 +61,19 @@ const PropertiesUI: React.FC<PropertiesProps> = ({ handleView }) => {
         tableHeaderTitles={tableHeaderTitles}
         tableBody={
           <PropertyTable
-            tableBodyItems={new Array(10).fill(Properties)}
+            tableBodyItems={[
+              ...new Array(4).fill(Property),
+              ...new Array(4).fill({
+                ...Property,
+                isEdited: false,
+                status: "approved",
+              }),
+              ...new Array(2).fill({
+                ...Property,
+                isEdited: false,
+                status: "rejected",
+              }),
+            ]}
             view={handleView}
             tableBodyRowClassName={styles.tableBodyItem}
           />

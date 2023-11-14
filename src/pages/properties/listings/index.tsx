@@ -13,7 +13,11 @@ const Listings = () => {
 
   return (
     <>
-      <ListingApplication show={show} close={() => setShow(false)} />
+      <ListingApplication
+        show={show}
+        close={() => setShow(false)}
+        callback={console.log}
+      />
       <ListingsUI
         handleViewProperty={handleViewProperty}
         handleViewApplication={handleViewApplication}
