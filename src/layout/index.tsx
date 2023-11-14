@@ -5,6 +5,8 @@ import {
   OverviewIcon,
   PropertiesIcon,
   SettingsIcon,
+  TeamIcon,
+  UsersIcon,
   placeholderAvatar,
 } from "assets";
 import { LogoWithText, useOutsideAlerter } from "components";
@@ -82,7 +84,7 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
       state: "Users",
       url: Routes.users,
       type: "link",
-      Icon: PropertiesIcon,
+      Icon: UsersIcon,
       action: () => setShowMenu(false),
     },
     {
@@ -122,7 +124,7 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
       state: "Team",
       url: Routes.team,
       type: "link",
-      Icon: SettingsIcon,
+      Icon: TeamIcon,
       action: () => setShowMenu(false),
     },
     {

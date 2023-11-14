@@ -1,0 +1,265 @@
+.heading {
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+
+  p {
+    margin-bottom: 1.3rem;
+  }
+}
+.infoSec {
+  display: grid;
+  grid-template-columns: 0.9fr 2fr;
+  gap: 1rem;
+  padding: 2rem 0 2rem;
+  border-top: 1px solid #eaeaea;
+}
+.descrip {
+  &__ttl {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  &__txt {
+    max-width: 270px;
+    line-height: 1.3;
+  }
+}
+
+.formWrap {
+  form {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+
+    fieldset {
+      display: grid;
+      grid-template-columns: 2fr 1fr 20px;
+      gap: 1rem;
+      align-items: flex-start;
+      width: 100%;
+      border: none;
+
+      .remove {
+        height: fit-content;
+        margin-top: 12px;
+      }
+    }
+
+    > div {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+
+      button.addBtn {
+        padding: 0;
+        display: flex;
+        align-items: center;
+
+        svg {
+          border: 1px solid var(--black);
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          margin-right: 10px;
+          padding: 2px;
+
+          path {
+            fill: var(--black);
+          }
+        }
+      }
+
+      button.sendBtn {
+        padding: 10px 32px;
+        height: fit-content;
+      }
+    }
+  }
+}
+
+.tableHeading {
+  border-top: 1px solid #eaeaea;
+  padding-top: 2rem;
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
+  p {
+    margin-top: 1rem;
+    max-width: 260px;
+    line-height: 1.4;
+  }
+
+  &__ttl {
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  &__tag {
+    background: var(--green-bg);
+    border-radius: 24px;
+    margin-left: 10px;
+    color: var(--green);
+    font-size: 10px;
+    padding: 6px 12px;
+    font-weight: 600;
+  }
+
+  .searchAndFilter {
+    display: flex;
+    align-items: flex-end;
+
+    .sort > div:first-of-type {
+      height: 40px;
+    }
+  }
+
+  .search {
+    margin-left: 1rem;
+    width: 230px;
+    height: 40px;
+  }
+}
+
+// search and filter
+.search {
+  width: 100%;
+  max-width: 250px;
+  margin-left: 12px;
+}
+.searchFilter {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+// team table
+section.tableHeader,
+div.tableBodyItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 40px;
+  gap: 1rem;
+}
+.tableWrap {
+  min-width: 700px;
+}
+
+// pending invites
+.pendingInvites {
+  border-top: var(--border-1);
+  margin-top: 3.5rem;
+  margin-bottom: 2rem;
+  padding-top: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem;
+
+  &__hd {
+    h4 {
+      font-size: var(--heading-4);
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    p {
+      line-height: 1.4;
+      max-width: 250px;
+    }
+  }
+
+  &__list {
+    .invite {
+      display: flex;
+      border-bottom: var(--border-1);
+      padding: 12px 0;
+
+      &__avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        margin-right: 10px;
+        background: #f5f8ff;
+        color: #2960ec;
+        font-weight: 600;
+        font-size: 22px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-transform: capitalize;
+      }
+
+      &__name {
+        font-weight: 600;
+        color: var(--black);
+        margin-bottom: 6px;
+        display: block;
+        text-decoration: unset;
+
+        span {
+          font-size: 11px;
+          background: var(--green-bg);
+          padding: 4px 8px;
+          border-radius: 24px;
+          margin-left: 8px;
+        }
+      }
+
+      &__mail {
+        font-size: 12px;
+      }
+      button {
+        border-radius: 8px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        font-size: 13px;
+      }
+
+      .resend {
+        margin-left: auto;
+        background: var(--bg-image);
+        color: var(--text-main);
+      }
+
+      .revoke {
+        margin-left: 1.3rem;
+        background: #fcd7e4;
+        border: 1px solid #f23577;
+        color: #f23577;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .pendingInvites {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.empty {
+  text-align: center;
+  padding: 1rem;
+
+  svg {
+    width: 300px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+  button {
+    margin: auto;
+  }
+}

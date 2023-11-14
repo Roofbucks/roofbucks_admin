@@ -10,6 +10,7 @@ import {
   Property,
   Listings,
   Marketplace,
+  Team,
 } from "pages";
 import { LayoutRouteProps } from "react-router-dom";
 import { Routes } from "./routes";
@@ -103,6 +104,14 @@ export const RouteBuilder: RouteBuilderItem[] = [
     Layout: Layout,
     props: {
       active: "Properties",
+    },
+  },
+  {
+    path: Routes.team,
+    Element: Team,
+    Layout: Layout,
+    props: {
+      active: "Team",
     },
   },
   {

@@ -11,6 +11,7 @@
   background: transparent;
   padding: 0;
   color: #808080;
+  margin-bottom: 10px;
 }
 .message {
   font-size: 12px;
@@ -25,7 +26,6 @@
 .input {
   height: 44px;
   padding-left: 1rem;
-  margin-top: 10px;
   border: 1px solid #efefef;
   border-radius: 10px;
   background: #fcfcfc;

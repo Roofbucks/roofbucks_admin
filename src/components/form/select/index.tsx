@@ -3,11 +3,6 @@ import styles from "./styles.module.css";
 import Select from "react-select";
 import { optionType } from "types";
 
-export const initOptionType: optionType = {
-  label: "",
-  value: "",
-};
-
 interface CustomSelectProps {
   parentClassName?: string;
   inputClass?: string;
@@ -67,3 +62,4 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
 };
 
 export { CustomSelect };
+export * from "./util";

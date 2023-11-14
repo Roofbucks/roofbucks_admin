@@ -20,8 +20,14 @@ import { ReactComponent as DownloadIcon } from "./downloadIcon.svg";
 import { ReactComponent as ChevronIcon } from "./chevronIcon.svg";
 import { ReactComponent as TrashIcon } from "./trashIcon.svg";
 import { ReactComponent as WarningIcon } from "./warningIcon.svg";
+import { ReactComponent as TeamIcon } from "./teamIcon.svg";
+import { ReactComponent as UsersIcon } from "./usersIcon.svg";
+import { ReactComponent as AddIcon } from "./addIcon.svg";
 
 export {
+  AddIcon,
+  TeamIcon,
+  UsersIcon,
   TrashIcon,
   WarningIcon,
   ChevronIcon,
