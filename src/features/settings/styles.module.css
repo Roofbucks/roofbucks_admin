@@ -1,0 +1,130 @@
+.ttl {
+  color: var(--black);
+  font-size: 22px;
+  font-weight: 600;
+  position: relative;
+  padding-left: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+.ttl::before {
+  content: "";
+  background: var(--green);
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.nav {
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+  font-weight: 600;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+.nav span {
+  margin-right: 3rem;
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+}
+.nav span svg {
+  margin-right: 14px;
+}
+.activeNav {
+  border-bottom: 1px solid var(--green);
+}
+.formWrap {
+  margin-top: 3rem;
+}
+.accountForm {
+  max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.accountForm .inputWrap {
+  width: 48%;
+  margin-bottom: 2rem;
+}
+.securityForm {
+  max-width: 400px;
+}
+.securityForm .inputWrap {
+  margin-bottom: 2rem;
+}
+.inputWrap label {
+  font-size: 13px;
+}
+.inputWrap input {
+  border-color: var(--neutral);
+  background: transparent;
+}
+.btnWrap {
+  width: 100%;
+  padding-top: 2rem;
+}
+.btn {
+  font-size: 17px;
+  letter-spacing: normal;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  font-family: "Source Sans Pro";
+  font-weight: 500;
+}
+
+@media screen and (max-width: 800px) {
+  .ttl {
+    margin-top: 1.2rem;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: 20px;
+  }
+  .ttl::before {
+    width: 10px;
+  }
+  .nav {
+    font-size: 14px;
+    border: none;
+  }
+  .nav span {
+    padding: 8px 12px;
+    margin-right: 1.5rem;
+  }
+  .activeNav {
+    border-width: 2px;
+  }
+  .nav span:first-of-type.activeNav svg path {
+    stroke: var(--green);
+  }
+  .nav span:last-of-type.activeNav.activeNav svg path {
+    fill: var(--green);
+  }
+  .nav span svg {
+    margin-right: 12px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .accountForm .inputWrap,
+  .securityForm .inputWrap {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .accountForm,
+  .securityForm {
+    max-width: unset;
+  }
+  .btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 16px;
+  }
+}

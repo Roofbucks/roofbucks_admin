@@ -23,8 +23,12 @@ import { ReactComponent as WarningIcon } from "./warningIcon.svg";
 import { ReactComponent as TeamIcon } from "./teamIcon.svg";
 import { ReactComponent as UsersIcon } from "./usersIcon.svg";
 import { ReactComponent as AddIcon } from "./addIcon.svg";
+import { ReactComponent as SecurityIcon } from "./securityIcon.svg";
+import { ReactComponent as UserIcon } from "./userIcon.svg";
 
 export {
+  SecurityIcon,
+  UserIcon,
   AddIcon,
   TeamIcon,
   UsersIcon,

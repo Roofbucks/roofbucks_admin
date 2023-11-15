@@ -11,6 +11,7 @@ import {
   Listings,
   Marketplace,
   Team,
+  Settings,
 } from "pages";
 import { LayoutRouteProps } from "react-router-dom";
 import { Routes } from "./routes";
@@ -112,6 +113,14 @@ export const RouteBuilder: RouteBuilderItem[] = [
     Layout: Layout,
     props: {
       active: "Team",
+    },
+  },
+  {
+    path: Routes.settings,
+    Element: Settings,
+    Layout: Layout,
+    props: {
+      active: "Settings",
     },
   },
   {

@@ -4,3 +4,4 @@ export * from "./dashboard";
 export * from "./users";
 export * from "./properties";
 export * from "./team";
+export * from "./settings";
