@@ -1,17 +1,18 @@
 import { FilterIconOutline } from "assets";
 import { useState } from "react";
-import { PropertiesFilterModal, PropertiesFilterData } from "./filterModal";
+import { TeamFilterModal } from "./filterModal";
 import styles from "./styles.module.scss";
+import { optionType } from "types";
 
-interface PropertiesFilterProps {
-  submit: ({ status, startDate, endDate }) => void;
+interface TeamFilterProps {
+  submit: ({ status, accountType }) => void;
   className?: string;
-  value: PropertiesFilterData;
+  role: optionType;
 }
 
-const PropertiesFilter: React.FC<PropertiesFilterProps> = ({
+const TeamFilter: React.FC<TeamFilterProps> = ({
   className = "",
-  value,
+  role,
   submit,
 }) => {
   const [showModal, setModal] = useState(false);
@@ -23,14 +24,14 @@ const PropertiesFilter: React.FC<PropertiesFilterProps> = ({
         className={styles.filter}
         onClick={() => setModal(true)}
       />
-      <PropertiesFilterModal
+      <TeamFilterModal
         show={showModal}
         close={() => setModal(false)}
         submit={submit}
-        value={value}
+        role={role}
       />
     </>
   );
 };
 
-export { PropertiesFilter };
+export { TeamFilter };

@@ -6,6 +6,8 @@ import {
 } from "assets";
 import styles from "./styles.module.scss";
 import { Button } from "components";
+import { Link } from "react-router-dom";
+import { Routes } from "router";
 
 interface PropertyProps {
   goBack: () => void;
@@ -278,6 +280,132 @@ const PropertyUI: React.FC<PropertyProps> = ({
             <img role="button" src={placeholderAvatar} alt="" />
             <img role="button" src={placeholderAvatar} alt="" />
             <img role="button" src={placeholderAvatar} alt="" />
+          </div>
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.section__heading}>
+          <h1 className={styles.section__ttl}>Agent</h1>{" "}
+          <Link
+            target="_blank"
+            className={styles.viewBtn}
+            to={Routes.user("123")}
+          >
+            View user <ArrowRight />{" "}
+          </Link>
+        </div>
+        <div className={styles.section__content}>
+          <div>
+            <span>First Name</span>
+            <p>Murinla </p>
+          </div>
+          <div>
+            <span>Last Name</span>
+            <p>Abel</p>
+          </div>
+          <div>
+            <span>Email</span>
+            <p>abel@gmail.com</p>
+          </div>
+          <div>
+            <span>Phone number</span>
+            <p>08199228822</p>
+          </div>
+          <div>
+            <span>Address</span>
+            <p>25 Makoko Road</p>
+          </div>
+          <div>
+            <span>City</span>
+            <p>Lagos</p>
+          </div>
+          <div>
+            <span>Country</span>
+            <p>Nigeria</p>
+          </div>
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.section__heading}>
+          <h1 className={styles.section__ttl}>Home buyer - 75% ownership</h1>
+          <Link
+            target="_blank"
+            className={styles.viewBtn}
+            to={Routes.user("123")}
+          >
+            View user <ArrowRight />{" "}
+          </Link>
+        </div>
+        <div className={styles.section__content}>
+          <div>
+            <span>First Name</span>
+            <p>Murinla </p>
+          </div>
+          <div>
+            <span>Last Name</span>
+            <p>Abel</p>
+          </div>
+          <div>
+            <span>Email</span>
+            <p>abel@gmail.com</p>
+          </div>
+          <div>
+            <span>Phone number</span>
+            <p>08199228822</p>
+          </div>
+          <div>
+            <span>Address</span>
+            <p>25 Makoko Road</p>
+          </div>
+          <div>
+            <span>City</span>
+            <p>Lagos</p>
+          </div>
+          <div>
+            <span>Country</span>
+            <p>Nigeria</p>
+          </div>
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.section__heading}>
+          <h1 className={styles.section__ttl}>Investor (1) - 25% ownership</h1>{" "}
+          <Link
+            target="_blank"
+            className={styles.viewBtn}
+            to={Routes.user("123")}
+          >
+            View user <ArrowRight />{" "}
+          </Link>
+        </div>
+        <div className={styles.section__content}>
+          <div>
+            <span>First Name</span>
+            <p>Murinla </p>
+          </div>
+          <div>
+            <span>Last Name</span>
+            <p>Abel</p>
+          </div>
+          <div>
+            <span>Email</span>
+            <p>abel@gmail.com</p>
+          </div>
+          <div>
+            <span>Phone number</span>
+            <p>08199228822</p>
+          </div>
+          <div>
+            <span>Address</span>
+            <p>25 Makoko Road</p>
+          </div>
+          <div>
+            <span>City</span>
+            <p>Lagos</p>
+          </div>
+          <div>
+            <span>Country</span>
+            <p>Nigeria</p>
           </div>
         </div>
       </section>

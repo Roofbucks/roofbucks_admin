@@ -36,7 +36,7 @@
 section.tableHeader,
 div.tableBodyItem {
   display: grid;
-  grid-template-columns: 0.7fr 1.2fr 1fr 1fr 1fr 0.8fr 40px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 80px;
   gap: 1rem;
 }
 .tableWrap {

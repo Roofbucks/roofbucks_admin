@@ -168,6 +168,23 @@ div.tableBodyItem {
   gap: 10px;
 }
 
+.viewBtn {
+  color: var(--black);
+  font-weight: 600;
+  text-decoration: unset;
+  color: var(--green);
+
+  svg {
+    transform: rotate(-45deg);
+    width: 13px;
+    margin-left: 4px;
+
+    path {
+      fill: var(--green);
+    }
+  }
+}
+
 
 @media screen and (max-width: 600px) {
   .section {

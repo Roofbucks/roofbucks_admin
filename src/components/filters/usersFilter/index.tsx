@@ -19,6 +19,7 @@ const UsersFilter: React.FC<UsersFilterProps> = ({
   return (
     <>
       <FilterIconOutline
+        role="button"
         className={styles.filter}
         onClick={() => setModal(true)}
       />

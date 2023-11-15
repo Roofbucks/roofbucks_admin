@@ -303,4 +303,14 @@ div.tableBodyItem {
       }
     }
   }
+  .infoSec {
+    grid-template-columns: 1fr;
+  }
+  .formWrap {
+    form {
+      fieldset {
+        grid-template-columns: 1fr 1fr 20px;
+      }
+    }
+  }
 }

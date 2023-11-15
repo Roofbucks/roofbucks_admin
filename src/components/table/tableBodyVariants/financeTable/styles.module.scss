@@ -1,0 +1,24 @@
+.dropdownIcon {
+  width: 22px;
+  margin-right: 12px;
+}
+.dropdownIcon path {
+  fill: #000;
+}
+
+.role {
+  font-weight: 500;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-left: 10px;
+    width: 16px;
+  }
+}
+.email {
+  text-transform: lowercase;
+}

@@ -1,17 +1,18 @@
 import { FilterIconOutline } from "assets";
 import { useState } from "react";
-import { PropertiesFilterModal, PropertiesFilterData } from "./filterModal";
+import { FinanceFilterModal } from "./filterModal";
 import styles from "./styles.module.scss";
+import { optionType } from "types";
 
-interface PropertiesFilterProps {
-  submit: ({ status, startDate, endDate }) => void;
+interface FinanceFilterProps {
+  submit: ({ status, accountType }) => void;
   className?: string;
-  value: PropertiesFilterData;
+  type: optionType;
 }
 
-const PropertiesFilter: React.FC<PropertiesFilterProps> = ({
+const FinanceFilter: React.FC<FinanceFilterProps> = ({
   className = "",
-  value,
+  type,
   submit,
 }) => {
   const [showModal, setModal] = useState(false);
@@ -23,14 +24,14 @@ const PropertiesFilter: React.FC<PropertiesFilterProps> = ({
         className={styles.filter}
         onClick={() => setModal(true)}
       />
-      <PropertiesFilterModal
+      <FinanceFilterModal
         show={showModal}
         close={() => setModal(false)}
         submit={submit}
-        value={value}
+        type={type}
       />
     </>
   );
 };
 
-export { PropertiesFilter };
+export { FinanceFilter };

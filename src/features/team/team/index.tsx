@@ -13,6 +13,7 @@ import {
   EmptyTable,
   Table,
   Search,
+  TeamFilter,
 } from "components";
 import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
 import { optionType } from "types";
@@ -201,6 +202,7 @@ const TeamUI: React.FC<TeamUIProps> = ({
         <p>Manage your team members</p>
       </div>
       <section className={styles.searchFilter}>
+        <TeamFilter submit={console.log} role={{ label: "", value: "" }} />
         <Search
           className={styles.search}
           value={""}
@@ -227,8 +229,8 @@ const TeamUI: React.FC<TeamUIProps> = ({
           element: (
             <EmptyTable
               Vector={EmptyStreet}
-              heading={"No user found"}
-              text={"There are no users at this time"}
+              heading={"No team member found"}
+              text={"There are no team members at this time"}
             />
           ),
         }}
