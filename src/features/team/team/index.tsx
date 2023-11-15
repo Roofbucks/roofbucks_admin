@@ -119,7 +119,7 @@ const TeamUI: React.FC<TeamUIProps> = ({
   return (
     <>
       <section className={styles.heading}>
-        <h1>Team Management</h1>
+        <h1 className={styles.heading__ttl}>Team Management</h1>
         <p>Manage your team members and their accounts here.</p>
       </section>
       <section className={`${styles.infoSec} ${styles.border}`}>

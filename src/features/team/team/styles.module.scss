@@ -6,6 +6,33 @@
     margin-bottom: 14px;
   }
 
+  &__ttl {
+    color: var(--black);
+    font-size: 22px;
+    font-weight: 600;
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 2rem;
+
+    span {
+      color: var(--neutral);
+      font-size: 80%;
+      font-weight: 400;
+      margin-left: 2px;
+    }
+
+    &::before {
+      content: "";
+      background: var(--green);
+      width: 20px;
+      height: 40px;
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
   p {
     margin-bottom: 1.3rem;
   }
@@ -261,5 +288,19 @@ div.tableBodyItem {
   }
   button {
     margin: auto;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .heading {
+    &__ttl {
+      padding-left: 1.5rem;
+      font-size: 20px;
+
+      &::before {
+        width: 10px;
+        height: 30px;
+      }
+    }
   }
 }
