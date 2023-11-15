@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Routes } from "router";
 
 interface ListingApplicationUIProps {
-  approve: () => void;
   discard: () => void;
   show: boolean;
   close: () => void;
@@ -14,7 +13,6 @@ interface ListingApplicationUIProps {
 const ListingApplicationUI: React.FC<ListingApplicationUIProps> = ({
   show,
   close,
-  approve,
   discard,
 }) => {
   return (
@@ -105,9 +103,6 @@ const ListingApplicationUI: React.FC<ListingApplicationUIProps> = ({
           </div>
         </section>
         <section className={styles.btns}>
-          <Button type={"primary"} onClick={approve}>
-            Approve
-          </Button>
           <Button type={"secondary"} onClick={discard}>
             Discard
           </Button>

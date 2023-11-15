@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Routes } from "router";
 
 interface MarketplaceApplicationUIProps {
-  approve: () => void;
   discard: () => void;
   show: boolean;
   close: () => void;
@@ -14,7 +13,6 @@ interface MarketplaceApplicationUIProps {
 const MarketplaceApplicationUI: React.FC<MarketplaceApplicationUIProps> = ({
   show,
   close,
-  approve,
   discard,
 }) => {
   return (
@@ -108,9 +106,6 @@ const MarketplaceApplicationUI: React.FC<MarketplaceApplicationUIProps> = ({
           </div>
         </section>
         <section className={styles.btns}>
-          <Button type={"primary"} onClick={approve}>
-            Approve
-          </Button>
           <Button type={"secondary"} onClick={discard}>
             Discard
           </Button>

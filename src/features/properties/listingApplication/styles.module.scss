@@ -74,11 +74,11 @@
 
 .btns {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin-bottom: 1rem;
 
-  button:nth-of-type(2) {
+  button {
     color: var(--red);
     border-color: var(--red);
   }
