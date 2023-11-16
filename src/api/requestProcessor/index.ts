@@ -1,4 +1,3 @@
-import { refreshTokenService } from "api/services";
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 
 // Create and axios instance
@@ -20,52 +19,17 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => error
+  (error) => Promise.reject(error)
 );
 
 // Refresh access token if token has expired
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
-
-    if (
-      error?.response?.status === 401 &&
-      !originalRequest._retry &&
-      window.location.pathname !== "/"
-    ) {
-      originalRequest._retry = true;
-      const accessToken = await refreshToken();
-      if (accessToken) {
-        return axiosInstance(originalRequest);
-      } else {
-        localStorage.clear();
-        window.location.assign("/login");
-      }
-    }
-    return error;
+    //  Refresh here
+    return Promise.reject(error);
   }
 );
-
-export const refreshToken = async (): Promise<string> => {
-  let token = "";
-
-  await refreshTokenService({
-    refresh: localStorage.getItem("roofbucksAdminRefresh") ?? "",
-  })
-    .then((res) => {
-      token = res.data.access;
-      localStorage.setItem("roofbucksAdminAccess", token);
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      return token;
-    })
-    .catch((err) => {
-      localStorage.clear();
-      window.location.assign("/");
-    });
-
-  return token;
-};
 
 // API Request Functions
 interface ApiRequestProps {
