@@ -43,6 +43,25 @@ div.tableBodyItem {
   min-width: 700px;
 }
 
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1.5rem;
+
+  span {
+    display: block;
+    padding: 1rem;
+    border-bottom: 2px solid #ece8e8;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+
+    &.active {
+      border-color: var(--green);
+    }
+  }
+}
+
 @media screen and (max-width: 800px) {
   .ttl {
     padding-left: 1.5rem;

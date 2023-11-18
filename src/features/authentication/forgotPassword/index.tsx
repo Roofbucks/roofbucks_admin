@@ -70,7 +70,8 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
             register={register}
           />
           <p className={styles.info}>
-            Enter your recovery email address with which you will recieve an OTP
+            Enter your recovery email address to receive instructions on how to
+            reset your password
           </p>
           <Button
             className={styles.continue}
@@ -81,11 +82,11 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
           </Button>
           <Button
             onClick={() => {
-              navigate(Routes.home)
+              navigate(Routes.home);
               login();
             }}
             type="tertiary"
-            className={styles.back} 
+            className={styles.back}
           >
             <ArrowRight /> Back to login
           </Button>

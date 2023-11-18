@@ -25,6 +25,7 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Email" },
   { title: "Date Added" },
   { title: "Role" },
+  // { title: "Status" },
   { title: "" },
 ];
 
@@ -72,25 +73,10 @@ const inviteSchema = yup
   })
   .required();
 
-const invite: PendingInviteData = {
-  email: "bensonboone@yopmail.com",
-  role: "Administrator",
-  date: "11/11/2023 5:07 PM GMT",
-  id: "123",
-};
-
-const invites: PendingInviteData[] = new Array(6).fill(invite);
-
 interface TeamUIProps {
   handleInvite: (data: Invite[]) => void;
-  handleResendInvite: (id) => void;
-  handleRevokeInvite: (id) => void;
 }
-const TeamUI: React.FC<TeamUIProps> = ({
-  handleInvite,
-  handleResendInvite,
-  handleRevokeInvite,
-}) => {
+const TeamUI: React.FC<TeamUIProps> = ({ handleInvite }) => {
   const {
     register,
     handleSubmit,
@@ -243,88 +229,7 @@ const TeamUI: React.FC<TeamUIProps> = ({
         pageLimit={10}
         name={"Team Members"}
       />
-
-      <section className={styles.pendingInvites}>
-        <div className={styles.pendingInvites__hd}>
-          <h4>Pending Invites</h4>
-          <p>
-            Manage all the sent invites that has not been accepted by users.
-          </p>
-        </div>
-        {invites.length === 0 ? (
-          <div className={styles.empty}>
-            <EmptyStreet />
-            <p>You have no pending invites</p>
-          </div>
-        ) : (
-          <div className={styles.pendingInvites__list}>
-            {invites.map((invite, idx) => (
-              <PendingInvite
-                key={`pending_${idx}`}
-                handleResend={handleResendInvite}
-                handleRevoke={handleRevokeInvite}
-                invite={invite}
-              />
-            ))}
-            <Pagination
-              currentPage={1}
-              totalPages={3}
-              handleChange={console.log}
-              totalCount={21}
-              pageLimit={6}
-              name={"Pending Invites"}
-            />
-          </div>
-        )}
-      </section>
     </>
-  );
-};
-
-export interface PendingInviteData {
-  email: string;
-  role: string;
-  date: string;
-  id: string;
-}
-
-interface PendingInviteProps {
-  handleResend: (id) => void;
-  handleRevoke: (id) => void;
-  invite: PendingInviteData;
-}
-
-const PendingInvite: React.FC<PendingInviteProps> = ({
-  handleResend,
-  handleRevoke,
-  invite,
-}) => {
-  const { email, role, id, date } = invite;
-
-  return (
-    <div className={styles.invite}>
-      <div className={styles.invite__avatar}>{email.charAt(0)}</div>
-      <div>
-        <a href={`mailto:${email}`} className={styles.invite__name}>
-          {email} <span>{role}</span>
-        </a>
-        <p className={styles.invite__mail}>{date}</p>
-      </div>
-      <Button
-        className={styles.resend}
-        type={"tertiary"}
-        onClick={() => handleResend(id)}
-      >
-        Resend Invite
-      </Button>
-      <Button
-        className={styles.revoke}
-        type={"secondary"}
-        onClick={() => handleRevoke(id)}
-      >
-        Revoke Invite
-      </Button>
-    </div>
   );
 };
 

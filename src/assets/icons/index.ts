@@ -25,8 +25,10 @@ import { ReactComponent as UsersIcon } from "./usersIcon.svg";
 import { ReactComponent as AddIcon } from "./addIcon.svg";
 import { ReactComponent as SecurityIcon } from "./securityIcon.svg";
 import { ReactComponent as UserIcon } from "./userIcon.svg";
+import { ReactComponent as CheckIcon } from "./checkIcon.svg";
 
 export {
+  CheckIcon,
   SecurityIcon,
   UserIcon,
   AddIcon,

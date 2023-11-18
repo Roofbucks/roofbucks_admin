@@ -10,6 +10,7 @@ import {
   Search,
   PropertiesFilter,
 } from "components";
+import { useState } from "react";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "ID" },
@@ -28,7 +29,6 @@ const Property: PropertyTableItem = {
   status: "pending",
   date: "12/08/2023",
   amount: "NGN 200,000",
-  isEdited: true,
 };
 
 interface PropertiesProps {
@@ -36,11 +36,29 @@ interface PropertiesProps {
 }
 
 const PropertiesUI: React.FC<PropertiesProps> = ({ handleView }) => {
+  const [tab, setTab] = useState("properties");
+
   return (
     <>
       <h1 className={styles.ttl}>
         Properties <span>(58)</span>
       </h1>
+      <section className={styles.tabs}>
+        <span
+          role="button"
+          onClick={() => setTab("properties")}
+          className={tab === "properties" ? styles.active : ""}
+        >
+          Properties (45)
+        </span>
+        <span
+          role="button"
+          onClick={() => setTab("edited")}
+          className={tab === "edited" ? styles.active : ""}
+        >
+          Edited Properties (15)
+        </span>
+      </section>
       <section className={styles.searchFilter}>
         <PropertiesFilter
           submit={console.log}

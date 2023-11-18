@@ -66,8 +66,8 @@ const UpdateRentModal: React.FC<UpdateRentModalProps> = ({
 
       <form>
         <Input
-          label="What is the new rent percentage for this property?"
-          placeholder="Enter percentage"
+          label="What is the new annual rent for this property? in (NGN)"
+          placeholder="Enter rent per annum"
           type="number"
           parentClassName={styles.input}
           required

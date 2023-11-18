@@ -5,8 +5,6 @@ const Team = () => {
     <>
       <TeamUI
         handleInvite={console.log}
-        handleResendInvite={console.log}
-        handleRevokeInvite={console.log}
       />
     </>
   );

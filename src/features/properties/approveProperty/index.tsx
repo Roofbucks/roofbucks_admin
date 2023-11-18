@@ -54,8 +54,8 @@ const ApprovePropertyModal: React.FC<ApprovePropertyModalProps> = ({
 
       <form>
         <Input
-          label="What is the rent percentage for this property?"
-          placeholder="Enter percentage"
+          label="What is the rent value for this property per annum? in (NGN)"
+          placeholder="Enter rent per annum"
           type="number"
           parentClassName={styles.input}
           required

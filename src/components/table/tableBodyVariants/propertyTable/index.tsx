@@ -11,7 +11,6 @@ export interface PropertyTableItem {
   status: "pending" | "rejected" | "incomplete" | "approved";
   amount: string;
   date: string;
-  isEdited?: boolean;
 }
 
 // Test Table Body Props
@@ -40,14 +39,7 @@ const PropertyTable: React.FC<TableBodyProps> = ({
               <p className={styles.propertyID}>{item.propertyID}</p>
             </span>
             <span className={tableBodyItemClassName}>
-              <p className={styles.name}>
-                {item.propertyName}{" "}
-                {item.isEdited ? (
-                  <EditIcon title="An edit has been submitted for this property" />
-                ) : (
-                  ""
-                )}
-              </p>
+              <p className={styles.name}>{item.propertyName} </p>
             </span>
             <span className={tableBodyItemClassName}>
               <p className={styles.name}>{item.agent}</p>
