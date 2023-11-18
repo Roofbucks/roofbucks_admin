@@ -43,7 +43,10 @@ const LoginUI: React.FC<LoginModalProps> = ({
     defaultValues: initialValues,
   });
 
-  const onSubmit: SubmitHandler<LoginData> = (data) => login(data);
+  const onSubmit: SubmitHandler<LoginData> = (data) => {
+    return login(data);
+
+  }
 
   const navigate = useNavigate();
 
