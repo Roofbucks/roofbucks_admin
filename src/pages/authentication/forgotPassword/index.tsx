@@ -1,7 +1,7 @@
 import { forgotPasswordData, forgotPasswordService } from "api";
 import { ForgotPasswordUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 
