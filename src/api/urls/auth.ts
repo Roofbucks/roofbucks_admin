@@ -11,4 +11,4 @@ AUTH URLS
  *
  */
 
-export const loginURL = () => ``;
+export const loginURL = () => `/auth/login/`;
