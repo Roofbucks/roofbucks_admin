@@ -1,5 +1,5 @@
-import { postRequest } from "api";
-import { loginURL} from "api";
+import { forgotPasswordURL, patchRequest, postRequest, resetPasswordURL } from "api";
+import { loginURL } from "api";
 
 /*
 =================================
@@ -17,7 +17,19 @@ export interface LoginRequestData {
 export const loginService = (data: LoginRequestData) => {
 	const requestData = {
 		url: loginURL(),
-		data
+		data,
 	};
 	return postRequest(requestData);
+};
+
+export interface forgotPasswordData {
+	email: string;
+}
+
+export const forgotPasswordService = (data: forgotPasswordData) => {
+	const request = {
+		url: forgotPasswordURL(),
+		data,
+	};
+	return postRequest(request);
 };
