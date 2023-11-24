@@ -26,7 +26,6 @@ export const loginService = (data: loginRequestData) => {
 
 export interface forgotPasswordRequestData {
   email: string;
-  password: string;
 }
 
 export const forgotPasswordService = (data: forgotPasswordRequestData) => {
