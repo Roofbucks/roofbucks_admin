@@ -38,7 +38,8 @@ export const forgotPasswordService = (data: forgotPasswordData) => {
 
 export interface resetPasswordData {
   password: string;
-  confirmPassword: string;
+  token: string | null;
+  uid64: string | null;
 }
 
 export const resetPasswordService = (data: resetPasswordData) => {

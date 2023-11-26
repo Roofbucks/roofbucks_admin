@@ -6,10 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 
 const ForgotPassword = () => {
-  const login = () => { };
-
   const navigate = useNavigate();
   const { run: runRecovery, data: recoveryResponse, error } = useApiRequest({});
+
   const reset = (data: forgotPasswordData) => {
     runRecovery(forgotPasswordService(data));
   };
@@ -23,6 +22,9 @@ const ForgotPassword = () => {
     }
   }, [error, navigate, recoveryResponse]);
     
+  const login = () => {
+    navigate(Routes.home)
+  };
   return (
     <>
       <ForgotPasswordUI login={login} recovery={reset} clear />
