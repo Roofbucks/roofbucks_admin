@@ -9,7 +9,7 @@ import { LogoWithText } from "components";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 
-interface ResetData {
+export interface ResetData {
   password: string;
   confirmPassword: string;
 }
