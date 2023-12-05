@@ -1,4 +1,9 @@
-import { forgotPasswordURL, patchRequest, postRequest, resetPasswordURL } from "api";
+import {
+	forgotPasswordURL,
+	patchRequest,
+	postRequest,
+	resetPasswordURL,
+} from "api";
 import { loginURL } from "api";
 
 /*
@@ -32,4 +37,17 @@ export const forgotPasswordService = (data: forgotPasswordData) => {
 		data,
 	};
 	return postRequest(request);
+};
+export interface resetPasswordData {
+	password: string;
+	token: string | null;
+	uid64: string | null;
+}
+
+export const resetPasswordService = (data: resetPasswordData) => {
+	const request = {
+		url: resetPasswordURL(),
+		data,
+	};
+	return patchRequest(request);
 };
