@@ -3,7 +3,7 @@
 AUTH SERVICES
 =================================
 */
-import { postRequest } from "api";
+import { postRequest, patchRequest } from "api";
 import { loginURL, forgotPasswordURL, resetPasswordURL } from "api";
 
 /**
@@ -36,15 +36,16 @@ export const forgotPasswordService = (data: forgotPasswordRequestData) => {
   return postRequest(requestData);
 };
 
-export interface resetPasswordRequestData {
-  token: string;
-  data: {password: string, confirmPassword: string};
+export interface resetPasswordData {
+  password: string;
+  token: string | null;
+  uid64: string | null
 }
 
-export const resetPasswordService = (data: resetPasswordRequestData) => {
-  const requestData = {
-    url: resetPasswordURL({ uid64: data.token, token: data.token}),
-    data: data.data
+export const resetPasswordService = (data: resetPasswordData) => {
+  const request = {
+    url: resetPasswordURL(),
+    data
   };
-  return postRequest(requestData);
+  return patchRequest(request);
 };

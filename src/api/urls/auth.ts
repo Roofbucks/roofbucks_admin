@@ -15,4 +15,4 @@ export const loginURL = () => `/auth/login/`;
 
 export const forgotPasswordURL = () => `/auth/request-reset-password-email/`;
 
-export const resetPasswordURL = ({ uid64, token }) => `/auth/password-reset/${uid64}/${token}/`;
+export const resetPasswordURL = () => `/auth/set-new-password/`;
