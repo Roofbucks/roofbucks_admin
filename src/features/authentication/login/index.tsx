@@ -83,7 +83,6 @@ const LoginUI: React.FC<LoginModalProps> = ({
           <button
             onClick={(e) => {
               e.preventDefault();
-              navigate(Routes.forgotPassword)
               forgotPassword();
             }}
             className={styles.forgotPassword}

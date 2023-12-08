@@ -81,7 +81,6 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
           </Button>
           <Button
             onClick={() => {
-              navigate(Routes.home)
               login();
             }}
             type="tertiary"

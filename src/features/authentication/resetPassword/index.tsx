@@ -31,14 +31,23 @@ const resetSchema = yup
       .required("Required")
       .min(8, "Password should be at least 8 characters long")
       .matches(/[A-Z]/, "Password should contain an uppercase character")
+      .matches(
+        /^(?=.*[!@#$%^&*(),.?":{}|<>])/,
+        "Password must contain at least one special character"
+      )
       .matches(/[a-z]/, "Password should contain an lowercase character")
       .matches(/[0-9]/, "Password should contain at least one number")
       .equals([yup.ref("confirmPassword")], "Passwords do not match"),
+    
     confirmPassword: yup
       .string()
       .required("Required")
       .min(8, "Password should be at least 8 characters long")
       .matches(/[A-Z]/, "Password should contain an uppercase character")
+      .matches(
+        /^(?=.*[!@#$%^&*(),.?":{}|<>])/,
+        "Password must contain at least one special character"
+      )
       .matches(/[a-z]/, "Password should contain an lowercase character")
       .matches(/[0-9]/, "Password should contain at least one number")
       .equals([yup.ref("password")], "Passwords do not match"),
@@ -97,6 +106,7 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
             <li>Have atleast one upper case character</li>
             <li>Have atleast one number</li>
             <li>Be atleast 8 characters</li>
+            <li>Have at least one special character</li>
           </ul>
           <Button
             className={styles.continue}
@@ -107,7 +117,6 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
           </Button>
           <Button
             onClick={() => {
-              navigate(Routes.home);
               login();
             }}
             type="tertiary"

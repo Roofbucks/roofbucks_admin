@@ -11,7 +11,7 @@ const Login = () => {
   const login = (data: loginData) => {
     runLogin(loginService(data));
   }
-  const forgot = () => { }
+  const forgot = () => {navigate(Routes.forgotPassword)}
   
   useMemo(() => {
     if (loginResponse?.status === 200) {
