@@ -16,7 +16,6 @@ const ForgotPassword = () => {
 	useMemo(() => {
 		if (recoveryResponse?.status === 200) {
 			alert("Check your email for instructions!");
-			// navigate(Routes.resetPassword);
 		} else if (error) {
 			alert("Sorry, an error occured");
 		}

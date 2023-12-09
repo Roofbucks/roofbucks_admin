@@ -96,8 +96,8 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
             <li>Have atleast one lower case character</li>
             <li>Have atleast one upper case character</li>
             <li>Have atleast one number</li>
+            <li>Have at least one special character</li>
             <li>Be atleast 8 characters</li>
-            <li>Have a special character</li>
           </ul>
           <Button
             className={styles.continue}
