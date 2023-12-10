@@ -7,7 +7,7 @@ import { Button, Input } from "components";
 import { ArrowRight } from "assets";
 import { LogoWithText } from "components";
 import { useNavigate } from "react-router-dom";
-import { Routes } from "router";
+//import { Routes } from "router";
 
 export interface ResetData {
   password: string;
@@ -60,7 +60,7 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
     defaultValues: initialValues,
   });
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ResetData> = (data) => reset(data);
 
@@ -110,7 +110,6 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
           </Button>
           <Button
             onClick={() => {
-              navigate(Routes.home);
               login();
             }}
             type="tertiary"

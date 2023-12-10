@@ -95,3 +95,4 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
 };
 
 export { ForgotPasswordUI };
+

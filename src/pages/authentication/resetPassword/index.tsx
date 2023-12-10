@@ -6,7 +6,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Routes } from "router";
 
 const ResetPassword = () => {
-  const login = () => {};
+  const login = () => {
+    navigate(Routes.home);
+  };
 
   const [searchParams, setSearchParams] = useSearchParams();
   const token = searchParams.get('token');
@@ -22,7 +24,6 @@ const ResetPassword = () => {
 
   useMemo(() => {
     if (ResetResponse?.status === 200) {
-      localStorage.getItem("roofbucksAdminAccess");
       alert("You have successfully reset your password.");
       navigate(Routes.home);
     } else if (error) {
