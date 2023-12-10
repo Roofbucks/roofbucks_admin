@@ -7,7 +7,9 @@ import { Routes } from "router";
 
 
 const ForgotPassword = () => {
-  const login = () => {}
+  const login = () => {
+    navigate(Routes.home)
+  }
 
   const navigate = useNavigate();
   const { run: runforgotPassword, data: forgotPasswordResponse, error } = useApiRequest({});
@@ -18,7 +20,7 @@ const ForgotPassword = () => {
   useMemo(() => {
     if (forgotPasswordResponse?.status === 200) {
       alert("Follow the instructions sent to your email");
-      navigate(Routes.resetPassword);
+      navigate(Routes.home);
     } else if (error) {
       alert("Failed to send instructions for the password reset, please try again later")
     }

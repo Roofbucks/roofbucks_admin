@@ -47,7 +47,7 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
     reset();
   }, [clear]);
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<RecoveryData> = (data) => recovery(data);
 
@@ -81,7 +81,6 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
           </Button>
           <Button
             onClick={() => {
-              navigate(Routes.home)
               login();
             }}
             type="tertiary"

@@ -24,6 +24,10 @@ export const loginService = (data: loginRequestData) => {
   return postRequest(requestData);
 };
 
+/**
+ * forgotpaasword service
+ * @returns axios promise
+ */
 export interface forgotPasswordRequestData {
   email: string;
 }
@@ -36,10 +40,14 @@ export const forgotPasswordService = (data: forgotPasswordRequestData) => {
   return postRequest(requestData);
 };
 
+/**
+ * resetpassword service
+ * @returns axios promise
+ */
 export interface resetPasswordData {
   password: string;
-  token: string | null;
-  uid64: string | null
+  token: string
+  uid64: string
 }
 
 export const resetPasswordService = (data: resetPasswordData) => {
@@ -49,3 +57,4 @@ export const resetPasswordService = (data: resetPasswordData) => {
   };
   return patchRequest(request);
 };
+
