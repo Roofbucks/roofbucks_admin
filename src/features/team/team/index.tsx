@@ -86,7 +86,6 @@ interface TeamUIProps {
     value: string | undefined;
     handleChange: (val) => void;
   };
-
   pagination: {
     handleChange: (page: number) => void;
     totalPages: number;

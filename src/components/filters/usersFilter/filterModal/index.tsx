@@ -39,14 +39,16 @@ interface UsersFilterModalProps {
   show: boolean;
   close: () => void;
   submit: ({ status, accountType }) => void;
-  value: UsersFilterData;
+  status: optionType | undefined;
+  accountType: optionType | undefined;
 }
 
 const UsersFilterModal: React.FC<UsersFilterModalProps> = ({
   show,
   close,
   submit,
-  value,
+  status,
+  accountType,
 }) => {
   const {
     handleSubmit,
@@ -56,34 +58,38 @@ const UsersFilterModal: React.FC<UsersFilterModalProps> = ({
     reset,
   } = useForm<UsersFilterData>({
     resolver: yupResolver(schema),
-    defaultValues: value,
+    defaultValues: initFilterData,
   });
 
   useEffect(() => {
-    reset(value);
-  }, [value]);
+    let data = { ...initFilterData };
+    if (status) data.status = status;
+    if (accountType) data.accountType = accountType;
+    reset(data);
+  }, [status, accountType]);
+
   const statusOptions: optionType[] = [
     {
       label: "Verified",
-      value: "Verified",
+      value: "VERIFIED",
     },
     {
       label: "Unverified",
-      value: "unverified",
+      value: "UNVERIFIED",
     },
     {
       label: "Suspended",
-      value: "suspended",
+      value: "SUSPENDED",
     },
   ];
   const accountOptions: optionType[] = [
     {
       label: "Agent",
-      value: "agent",
+      value: "AGENT",
     },
     {
       label: "Shareholder",
-      value: "shareholder",
+      value: "SHAREHOLDER",
     },
   ];
 
@@ -96,7 +102,8 @@ const UsersFilterModal: React.FC<UsersFilterModalProps> = ({
 
   const handleReset = () => {
     reset(initFilterData);
-    submit({ status: "", accountType: "" });
+    submit(initFilterData);
+    close();
   };
 
   return (
@@ -123,8 +130,8 @@ const UsersFilterModal: React.FC<UsersFilterModalProps> = ({
             placeholder={"Select status"}
             options={statusOptions}
             value={{
-              label: watch("status.label") ?? "",
-              value: watch("status.value") ?? "",
+              label: watch("status").label ?? "",
+              value: watch("status").value ?? "",
             }}
             parentClassName={styles.inputWrap}
             inputClass={styles.select}
@@ -137,12 +144,12 @@ const UsersFilterModal: React.FC<UsersFilterModalProps> = ({
                 ? errors?.accountType?.value?.message?.toString() ?? ""
                 : ""
             }
-            name={`status`}
+            name={`accountType`}
             placeholder={"Select account type"}
             options={accountOptions}
             value={{
-              label: watch("accountType.label") ?? "",
-              value: watch("accountType.value") ?? "",
+              label: watch("accountType").label ?? "",
+              value: watch("accountType").value ?? "",
             }}
             parentClassName={styles.inputWrap}
             inputClass={styles.select}

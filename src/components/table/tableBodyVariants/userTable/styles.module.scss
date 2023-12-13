@@ -32,3 +32,6 @@
 .email {
   text-transform: lowercase;
 }
+.tableBodyRow * {
+  word-break: break-all;
+}

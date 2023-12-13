@@ -10,6 +10,7 @@ import {
 } from "components";
 import styles from "./styles.module.scss";
 import { EmptyStreet } from "assets";
+import { optionType } from "types";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Name" },
@@ -32,9 +33,36 @@ const user: UserTableItem = {
 
 interface UsersProps {
   handleView: (id: string) => void;
+  users: UserTableItem[];
+  search: {
+    value: string;
+    handleChange: (search: string) => void;
+  };
+  accountType: {
+    value: optionType | undefined;
+    handleChange: (val) => void;
+  };
+  status: {
+    value: optionType | undefined;
+    handleChange: (val) => void;
+  };
+  pagination: {
+    handleChange: (page: number) => void;
+    totalPages: number;
+    currentPage: number;
+    totalCount: number;
+    pageLimit: number;
+  };
 }
 
-const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
+const UsersUI: React.FC<UsersProps> = ({
+  handleView,
+  users,
+  pagination,
+  search,
+  status,
+  accountType,
+}) => {
   return (
     <>
       <h1 className={styles.ttl}>
@@ -42,24 +70,26 @@ const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
       </h1>
       <section className={styles.searchFilter}>
         <UsersFilter
-          submit={console.log}
-          value={{
-            status: { label: "", value: "" },
-            accountType: { label: "", value: "" },
+          submit={(data) => {
+            console.log(data);
+            status.handleChange(data.status);
+            accountType.handleChange(data.accountType);
           }}
+          status={status.value}
+          accountType={accountType.value}
         />
         <Search
           className={styles.search}
-          value={""}
+          value={search.value}
           placeholder={"Search"}
-          handleChange={console.log}
+          handleChange={search.handleChange}
         />
       </section>
       <Table
         tableHeaderTitles={tableHeaderTitles}
         tableBody={
           <UserTable
-            tableBodyItems={new Array(10).fill(user)}
+            tableBodyItems={users}
             view={handleView}
             resendMail={console.log}
             tableBodyRowClassName={styles.tableBodyItem}
@@ -71,7 +101,7 @@ const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
           tableHeaderItemClassName: styles.tableHeaderItem,
         }}
         emptyTable={{
-          show: false,
+          show: users.length === 0,
           element: (
             <EmptyTable
               Vector={EmptyStreet}
@@ -81,14 +111,7 @@ const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
           ),
         }}
       />
-              <Pagination
-          currentPage={1}
-          totalPages={3}
-          handleChange={console.log}
-          totalCount={21}
-          pageLimit={10}
-          name={"Users"}
-        />
+      <Pagination {...pagination} name={"Users"} />
     </>
   );
 };
