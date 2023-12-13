@@ -4,9 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input, LogoWithText } from "components";
-import { useNavigate } from "react-router-dom";
-import { Routes } from "router";
-
 
 interface LoginData {
   email: string;
@@ -45,14 +42,10 @@ const LoginUI: React.FC<LoginModalProps> = ({
 
   const onSubmit: SubmitHandler<LoginData> = (data) => login(data);
 
-  const navigate = useNavigate();
-
   return (
     <div className={styles.page}>
       <div className={styles.head}>
-        <LogoWithText
-          type={"dark"}    
-        />
+        <LogoWithText type={"dark"} />
       </div>
       <div className={styles.body}>
         <h1 className={styles.ttl}>Login</h1>
@@ -80,7 +73,6 @@ const LoginUI: React.FC<LoginModalProps> = ({
           <button
             onClick={(e) => {
               e.preventDefault();
-              navigate(Routes.forgotPassword)
               forgotPassword();
             }}
             className={styles.forgotPassword}

@@ -5,8 +5,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input, LogoWithText } from "components";
 import { ArrowRight } from "assets";
-import { useNavigate } from "react-router-dom";
-import { Routes } from "router";
 
 interface RecoveryData {
   email: string;
@@ -17,7 +15,7 @@ const initialValues: RecoveryData = {
 };
 
 export interface RecoveryModalProps {
-  recovery: (data: RecoveryData) => void;
+  recovery: (email: string) => void;
   login: () => void;
   clear: boolean;
 }
@@ -47,9 +45,7 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
     reset();
   }, [clear]);
 
-  const navigate = useNavigate();
-
-  const onSubmit: SubmitHandler<RecoveryData> = (data) => recovery(data);
+  const onSubmit: SubmitHandler<RecoveryData> = (data) => recovery(data.email);
 
   return (
     <div className={styles.page}>
@@ -80,14 +76,7 @@ const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
           >
             Continue
           </Button>
-          <Button
-            onClick={() => {
-              navigate(Routes.home);
-              login();
-            }}
-            type="tertiary"
-            className={styles.back}
-          >
+          <Button onClick={login} type="tertiary" className={styles.back}>
             <ArrowRight /> Back to login
           </Button>
         </form>

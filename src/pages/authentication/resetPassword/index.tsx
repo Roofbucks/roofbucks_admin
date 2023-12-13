@@ -4,7 +4,7 @@ import { ResetPasswordUI } from "features";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useState, useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Routes } from "router";
 
 const ResetPassword = () => {
@@ -15,8 +15,12 @@ const ResetPassword = () => {
     type: true,
   });
   const params = useParams();
+  const [searchParams] = useSearchParams();
 
-  console.log(params);
+  const uid = searchParams.get("uid64");
+  const token = searchParams.get("token");
+
+  console.log(searchParams);
 
   const {
     run: runReset,
@@ -53,13 +57,15 @@ const ResetPassword = () => {
   const showLoader = requestStatus.isPending;
 
   const reset = (data) => {
-    runReset(
-      newPasswordService({
-        uid64: params.uid64 ?? "",
-        token: params.token ?? "",
-        password: data.password,
-      })
-    );
+    uid &&
+      token &&
+      runReset(
+        newPasswordService({
+          uid64: uid,
+          token: token,
+          password: data.password,
+        })
+      );
   };
 
   const login = () => {

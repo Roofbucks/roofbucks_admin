@@ -1,4 +1,3 @@
-import { clear } from "@testing-library/user-event/dist/clear";
 import { resetPasswordService } from "api";
 import { Preloader, Toast } from "components";
 import { ForgotPasswordUI } from "features";
@@ -27,8 +26,13 @@ const ForgotPassword = () => {
   const login = () => {
     navigate(Routes.home);
   };
-  const reset = (data) => {
-    runReset(resetPasswordService(data));
+  const reset = (email) => {
+    runReset(
+      resetPasswordService({
+        email,
+        redirect_url: `${window.location.origin}${Routes.resetPassword}`,
+      })
+    );
   };
 
   useMemo(() => {

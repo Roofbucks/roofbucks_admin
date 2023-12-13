@@ -55,7 +55,7 @@ const UpdateRentModal: React.FC<UpdateRentModalProps> = ({
   return (
     <Modal show={show} close={close}>
       <div className={styles.header}>
-        <h1 className={styles.header__ttl}>Update Rent Percentage</h1>
+        <h1 className={styles.header__ttl}>Update Rent</h1>
 
         <CloseIcon
           className={styles.header__close}

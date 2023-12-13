@@ -27,6 +27,7 @@ export const loginService = (data: loginData) => {
 
 interface resetPasswordData {
   email: string;
+  redirect_url: string;
 }
 /**
  * request password reset service

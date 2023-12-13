@@ -6,8 +6,6 @@ import * as yup from "yup";
 import { Button, Input } from "components";
 import { ArrowRight } from "assets";
 import { LogoWithText } from "components";
-import { useNavigate } from "react-router-dom";
-import { Routes } from "router";
 
 interface ResetData {
   password: string;
@@ -33,14 +31,15 @@ const resetSchema = yup
       .matches(/[A-Z]/, "Password should contain an uppercase character")
       .matches(/[a-z]/, "Password should contain an lowercase character")
       .matches(/[0-9]/, "Password should contain at least one number")
+      .matches(
+        /@#&\$]/,
+        "Password should contain at least special character (e.g. @, #, &, $)"
+      )
       .equals([yup.ref("confirmPassword")], "Passwords do not match"),
     confirmPassword: yup
       .string()
       .required("Required")
-      .min(8, "Password should be at least 8 characters long")
-      .matches(/[A-Z]/, "Password should contain an uppercase character")
-      .matches(/[a-z]/, "Password should contain an lowercase character")
-      .matches(/[0-9]/, "Password should contain at least one number")
+
       .equals([yup.ref("password")], "Passwords do not match"),
   })
   .required();
@@ -57,8 +56,6 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
     resolver: yupResolver(resetSchema),
     defaultValues: initialValues,
   });
-
-  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ResetData> = (data) => reset(data);
 
@@ -95,6 +92,7 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
             Password must:
             <li>Have atleast one lower case character</li>
             <li>Have atleast one upper case character</li>
+            <li>Have atleast one special character (e.g. @, #, &, $)</li>
             <li>Have atleast one number</li>
             <li>Be atleast 8 characters</li>
           </ul>
@@ -105,14 +103,7 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
           >
             Continue
           </Button>
-          <Button
-            onClick={() => {
-              navigate(Routes.home);
-              login();
-            }}
-            type="tertiary"
-            className={styles.back}
-          >
+          <Button onClick={login} type="tertiary" className={styles.back}>
             <ArrowRight /> Back to login
           </Button>
         </form>
