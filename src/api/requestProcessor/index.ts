@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => error
+  (error) => Promise.reject(error)
 );
 
 // Refresh access token if token has expired
@@ -43,7 +43,7 @@ axiosInstance.interceptors.response.use(
         window.location.assign("/login");
       }
     }
-    return error;
+    return Promise.reject(error);
   }
 );
 

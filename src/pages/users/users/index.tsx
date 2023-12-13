@@ -1,4 +1,4 @@
-import { fetchUsersService } from "api/services/users";
+import { fetchUsersService, resendMailService } from "api";
 import { Preloader, Toast, UserTableItem } from "components";
 import { UsersUI } from "features";
 import { getErrorMessage } from "helpers";
@@ -26,9 +26,7 @@ const Users = () => {
   const [status, setStatus] = useState<optionType | undefined>(undefined);
 
   const debouncedSearchTerm = useDebounce(search, 500);
-
   const navigate = useNavigate();
-
   const handleView = (id) => navigate(Routes.user(id));
 
   // API Hooks
@@ -37,6 +35,12 @@ const Users = () => {
     data: fetchResponse,
     requestStatus: fetchStatus,
     error: fetchError,
+  } = useApiRequest({});
+  const {
+    run: runResend,
+    data: resendResponse,
+    requestStatus: resendStatus,
+    error: resendError,
   } = useApiRequest({});
 
   const fetchUsers = (page?) => {
@@ -98,7 +102,37 @@ const Users = () => {
     }));
   };
 
-  const showLoader = fetchStatus.isPending;
+  const handleResend = (email) => {
+    runResend(resendMailService({email}));
+  };
+
+  useMemo(() => {
+    if (resendResponse?.status === 200) {
+      setToast({
+        show: true,
+        text:
+          resendResponse.data.message ??
+          "Successfully resent verification mail!",
+        type: true,
+      });
+
+      setTimeout(() => {
+        setToast({ ...toast, show: false });
+      }, 2500);
+    } else if (resendError) {
+      console.log(resendError)
+      setToast({
+        show: true,
+        text: getErrorMessage({
+          error: resendError,
+          message: "Failed to resend verification mail, please try again later",
+        }),
+        type: false,
+      });
+    }
+  }, [resendResponse, resendError]);
+
+  const showLoader = fetchStatus.isPending || resendStatus.isPending;
 
   return (
     <>
@@ -123,6 +157,7 @@ const Users = () => {
           value: status,
           handleChange: setStatus,
         }}
+        handleResendMail={handleResend}
       />
     </>
   );

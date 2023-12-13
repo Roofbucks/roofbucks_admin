@@ -23,7 +23,7 @@ export interface UserTableItem {
 interface TableBodyProps {
   tableBodyItems: UserTableItem[];
   view: (id) => void;
-  resendMail: (id) => void;
+  resendMail: (email) => void;
   tableBodyItemClassName?: string;
   tableBodyRowClassName?: string;
 }
@@ -35,7 +35,7 @@ const UserTable: React.FC<TableBodyProps> = ({
   tableBodyItemClassName,
   tableBodyRowClassName,
 }) => {
-  const actions = (id, status): ActionItem[] => {
+  const actions = (id, status, email): ActionItem[] => {
     const viewItem = {
       text: (
         <>
@@ -50,7 +50,7 @@ const UserTable: React.FC<TableBodyProps> = ({
           <SendIcon className={styles.dropdownIcon} /> Resend email
         </>
       ),
-      action: () => resendMail(id),
+      action: () => resendMail(email),
     };
 
     const list = [viewItem];
@@ -87,7 +87,9 @@ const UserTable: React.FC<TableBodyProps> = ({
               </p>
             </span>
             <span className={tableBodyItemClassName}>
-              <TableAction actions={actions(item.id, item.status)} />
+              <TableAction
+                actions={actions(item.id, item.status, item.email)}
+              />
             </span>
           </TableBodyRow>
         ))}

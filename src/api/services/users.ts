@@ -4,7 +4,7 @@ USERS SERVICES
 =================================
 */
 
-import { fetchUsersURL, getRequest } from "api";
+import { fetchUsersURL, getRequest, postRequest, resendMailURL } from "api";
 
 interface fetchUsersParams {
   search: string;
@@ -26,4 +26,20 @@ export const fetchUsersService = (params: fetchUsersParams) => {
     },
   };
   return getRequest(requestData);
+};
+
+interface resendMailRequestData {
+  email: string;
+}
+/**
+ * Resend verification service
+ * @returns axios promise
+ */
+
+export const resendMailService = (data: resendMailRequestData) => {
+  const requestData = {
+    url: resendMailURL(),
+    data,
+  };
+  return postRequest(requestData);
 };

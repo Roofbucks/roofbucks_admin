@@ -4,7 +4,7 @@
   display: flex;align-items: flex-start;
 }
 .toast [class*="modal-dialog"] {
-  max-width: 300px;
+  max-width: 250px;
   align-items: flex-start;
 }
 .toast [class*="modal-content"] {

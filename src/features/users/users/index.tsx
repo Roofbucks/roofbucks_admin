@@ -53,6 +53,7 @@ interface UsersProps {
     totalCount: number;
     pageLimit: number;
   };
+  handleResendMail: (email: string) => void;
 }
 
 const UsersUI: React.FC<UsersProps> = ({
@@ -62,6 +63,7 @@ const UsersUI: React.FC<UsersProps> = ({
   search,
   status,
   accountType,
+  handleResendMail,
 }) => {
   return (
     <>
@@ -91,7 +93,7 @@ const UsersUI: React.FC<UsersProps> = ({
           <UserTable
             tableBodyItems={users}
             view={handleView}
-            resendMail={console.log}
+            resendMail={handleResendMail}
             tableBodyRowClassName={styles.tableBodyItem}
           />
         }
