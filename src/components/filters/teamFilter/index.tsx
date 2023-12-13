@@ -5,9 +5,9 @@ import styles from "./styles.module.scss";
 import { optionType } from "types";
 
 interface TeamFilterProps {
-  submit: ({ status, accountType }) => void;
+  submit: (role: string) => void;
   className?: string;
-  role: optionType;
+  role: optionType | undefined;
 }
 
 const TeamFilter: React.FC<TeamFilterProps> = ({
@@ -19,11 +19,14 @@ const TeamFilter: React.FC<TeamFilterProps> = ({
 
   return (
     <>
-      <FilterIconOutline
-        role="button"
-        className={styles.filter}
-        onClick={() => setModal(true)}
-      />
+      <div className={styles.filterWrap}>
+        {role ? <p>1</p> : ""}
+        <FilterIconOutline
+          role="button"
+          className={styles.filter}
+          onClick={() => setModal(true)}
+        />
+      </div>
       <TeamFilterModal
         show={showModal}
         close={() => setModal(false)}

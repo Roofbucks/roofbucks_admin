@@ -19,13 +19,14 @@ import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
 import { optionType } from "types";
 import styles from "./styles.module.scss";
 import * as yup from "yup";
+import { inviteMemberRequestData } from "api/services/team";
+import { useEffect } from "react";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Name" },
   { title: "Email" },
   { title: "Date Added" },
   { title: "Role" },
-  // { title: "Status" },
   { title: "" },
 ];
 
@@ -41,8 +42,8 @@ const members = new Array(10).fill(member);
 
 export const roleOptions: optionType[] = [
   {
-    label: "Admin",
-    value: "admin",
+    label: "Administrator",
+    value: "administrator",
   },
   {
     label: "Member",
@@ -74,9 +75,34 @@ const inviteSchema = yup
   .required();
 
 interface TeamUIProps {
-  handleInvite: (data: Invite[]) => void;
+  handleInvite: (data: inviteMemberRequestData[]) => void;
+  clear: boolean;
+  members: TeamTableItem[];
+  search: {
+    value: string;
+    handleChange: (search: string) => void;
+  };
+  role: {
+    value: string | undefined;
+    handleChange: (val) => void;
+  };
+
+  pagination: {
+    handleChange: (page: number) => void;
+    totalPages: number;
+    currentPage: number;
+    totalCount: number;
+    pageLimit: number;
+  };
 }
-const TeamUI: React.FC<TeamUIProps> = ({ handleInvite }) => {
+const TeamUI: React.FC<TeamUIProps> = ({
+  handleInvite,
+  clear,
+  members,
+  pagination,
+  search,
+  role,
+}) => {
   const {
     register,
     handleSubmit,
@@ -95,13 +121,18 @@ const TeamUI: React.FC<TeamUIProps> = ({ handleInvite }) => {
     name: "invites",
   });
 
+  useEffect(() => {
+    reset({ invites: [{ email: "", role: initOptionType }] });
+  }, [clear]);
+
   const onAppend: SubmitHandler<InviteForm> = () => {
     append({ email: "", role: initOptionType });
   };
 
   const onSubmit: SubmitHandler<InviteForm> = (data) => {
-    handleInvite(data.invites);
-    reset({ invites: [{ email: "", role: initOptionType }] });
+    handleInvite(
+      data.invites.map((item) => ({ email: item.email, role: item.role.value }))
+    );
   };
   return (
     <>
@@ -111,8 +142,10 @@ const TeamUI: React.FC<TeamUIProps> = ({ handleInvite }) => {
       </section>
       <section className={`${styles.infoSec} ${styles.border}`}>
         <div className={styles.descrip}>
-          <p className={styles.descrip__ttl}>Invite Team Members</p>
-          <p className={styles.descrip__txt}>Invite new team members</p>
+          <p className={styles.descrip__ttl}>Add Team Members</p>
+          <p className={styles.descrip__txt}>
+            Expand your team, add new team members
+          </p>
         </div>
         <div className={styles.formWrap}>
           <form className={styles.form}>
@@ -183,17 +216,24 @@ const TeamUI: React.FC<TeamUIProps> = ({ handleInvite }) => {
       <div className={styles.tableHeading}>
         <div>
           <h1 className={styles.tableHeading__ttl}>Team Members</h1>
-          <span className={styles.tableHeading__tag}>{15} member(s)</span>
+          <span className={styles.tableHeading__tag}>
+            {pagination.totalCount} member(s)
+          </span>
         </div>
         <p>Manage your team members</p>
       </div>
       <section className={styles.searchFilter}>
-        <TeamFilter submit={console.log} role={{ label: "", value: "" }} />
+        <TeamFilter
+          submit={role.handleChange}
+          role={
+            role.value ? { label: role.value, value: role.value } : undefined
+          }
+        />
         <Search
           className={styles.search}
-          value={""}
+          value={search.value}
           placeholder={"Search by name or email"}
-          handleChange={console.log}
+          handleChange={search.handleChange}
         />
       </section>
       <Table
@@ -221,14 +261,7 @@ const TeamUI: React.FC<TeamUIProps> = ({ handleInvite }) => {
           ),
         }}
       />
-      <Pagination
-        currentPage={1}
-        totalPages={3}
-        handleChange={console.log}
-        totalCount={21}
-        pageLimit={10}
-        name={"Team Members"}
-      />
+      <Pagination {...pagination} name={"Team Members"} />
     </>
   );
 };

@@ -30,8 +30,8 @@ const schema = yup
 interface TeamFilterModalProps {
   show: boolean;
   close: () => void;
-  submit: (role) => void;
-  role: optionType;
+  submit: (role: string) => void;
+  role: optionType | undefined;
 }
 
 const TeamFilterModal: React.FC<TeamFilterModalProps> = ({
@@ -48,11 +48,11 @@ const TeamFilterModal: React.FC<TeamFilterModalProps> = ({
     reset,
   } = useForm<TeamFilterData>({
     resolver: yupResolver(schema),
-    defaultValues: { role },
+    defaultValues: { role: initOptionType },
   });
 
   useEffect(() => {
-    reset({ role });
+    role && reset({ role });
   }, [role]);
 
   const roleOptions: optionType[] = [
@@ -67,14 +67,15 @@ const TeamFilterModal: React.FC<TeamFilterModalProps> = ({
   ];
 
   const onSubmit: SubmitHandler<TeamFilterData> = (data) => {
-    submit(data.role);
+    submit(data.role.value);
     close();
   };
   const disableSubmit = watch("role")?.label === "";
 
   const handleReset = () => {
     reset(initFilterData);
-    submit(initOptionType);
+    submit("");
+    close();
   };
 
   return (
@@ -113,7 +114,7 @@ const TeamFilterModal: React.FC<TeamFilterModalProps> = ({
             type="primary"
             onClick={handleSubmit(onSubmit)}
           >
-            Apply filters
+            Apply filter
           </Button>
         </div>
       </Modal>
