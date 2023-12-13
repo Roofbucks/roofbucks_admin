@@ -93,6 +93,7 @@ interface TeamUIProps {
     totalCount: number;
     pageLimit: number;
   };
+  handleDelete: ({ id, email }) => void;
 }
 const TeamUI: React.FC<TeamUIProps> = ({
   handleInvite,
@@ -101,6 +102,7 @@ const TeamUI: React.FC<TeamUIProps> = ({
   pagination,
   search,
   role,
+  handleDelete,
 }) => {
   const {
     register,
@@ -211,7 +213,6 @@ const TeamUI: React.FC<TeamUIProps> = ({
           </form>
         </div>
       </section>
-
       <div className={styles.tableHeading}>
         <div>
           <h1 className={styles.tableHeading__ttl}>Team Members</h1>
@@ -240,7 +241,7 @@ const TeamUI: React.FC<TeamUIProps> = ({
         tableBody={
           <TeamTable
             tableBodyItems={members}
-            handleDelete={console.log}
+            handleDelete={handleDelete}
             tableBodyRowClassName={styles.tableBodyItem}
           />
         }

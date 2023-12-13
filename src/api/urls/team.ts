@@ -21,3 +21,12 @@ export const inviteMemberURL = () => `/admin/invite/`;
  */
 
 export const fetchMembersURL = () => `/admin/team/`;
+
+/**
+ * Delete team member url
+ *
+ * @returns url string
+ *
+ */
+
+export const deleteMemberURL = (id) => `/admin/remove/${id}/`;

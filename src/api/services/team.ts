@@ -4,7 +4,14 @@ TEAM SERVICES
 =================================
 */
 
-import { fetchMembersURL, getRequest, inviteMemberURL, postRequest } from "api";
+import {
+  deleteMemberURL,
+  deleteRequest,
+  fetchMembersURL,
+  getRequest,
+  inviteMemberURL,
+  postRequest,
+} from "api";
 
 export interface inviteMemberRequestData {
   email: string;
@@ -42,4 +49,16 @@ export const fetchMembersService = (params: FetchMembersParams) => {
     },
   };
   return getRequest(requestData);
+};
+
+/**
+ * Delete team member service
+ * @returns axios promise
+ */
+
+export const deleteMemberService = (id: string) => {
+  const requestData = {
+    url: deleteMemberURL(id),
+  };
+  return deleteRequest(requestData);
 };

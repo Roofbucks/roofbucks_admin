@@ -1,11 +1,6 @@
-import {
-  TrashIcon,
-} from "assets";
+import { TrashIcon } from "assets";
 import * as React from "react";
-import {
-  TableBody,
-  TableBodyRow,
-} from "../../components";
+import { TableBody, TableBodyRow } from "../../components";
 import styles from "./styles.module.scss";
 
 // User Table Body Item
@@ -20,7 +15,7 @@ export interface TeamTableItem {
 // User Table Body Props
 interface TableBodyProps {
   tableBodyItems: TeamTableItem[];
-  handleDelete: (id) => void;
+  handleDelete: ({ id, email }) => void;
   tableBodyItemClassName?: string;
   tableBodyRowClassName?: string;
 }
@@ -48,7 +43,10 @@ const TeamTable: React.FC<TableBodyProps> = ({
               <p className={`${styles.role} `}>{item.role}</p>
             </span>
             <span className={tableBodyItemClassName}>
-              <TrashIcon onClick={() => handleDelete(item.id)} role="button" />
+              <TrashIcon
+                onClick={() => handleDelete({ id: item.id, email: item.email })}
+                role="button"
+              />
             </span>
           </TableBodyRow>
         ))}

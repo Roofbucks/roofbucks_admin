@@ -1,5 +1,9 @@
-import { fetchMembersService, inviteMemberService } from "api";
-import { Preloader, TeamTableItem, Toast } from "components";
+import {
+  deleteMemberService,
+  fetchMembersService,
+  inviteMemberService,
+} from "api";
+import { ConfirmationModal, Preloader, TeamTableItem, Toast } from "components";
 import { TeamUI } from "features";
 import { getErrorMessage } from "helpers";
 import { useDebounce } from "hooks";
@@ -23,6 +27,11 @@ const Team = () => {
   const [search, setSearch] = useState("");
   const [role, setRole] = useState(undefined);
   const debouncedSearchTerm = useDebounce(search, 500);
+  const [removeMember, setRemoveMember] = useState({
+    id: "",
+    email: "",
+    show: false,
+  });
 
   // API Hooks
   const {
@@ -36,6 +45,12 @@ const Team = () => {
     data: fetchResponse,
     requestStatus: fetchStatus,
     error: fetchError,
+  } = useApiRequest({});
+  const {
+    run: runRemove,
+    data: removeResponse,
+    requestStatus: removeStatus,
+    error: removeError,
   } = useApiRequest({});
 
   const fetchMembers = (page?) => {
@@ -70,6 +85,9 @@ const Team = () => {
       });
       fetchMembers();
       setClear(!clear);
+      setTimeout(() => {
+        setToast({ ...toast, show: false });
+      }, 2500);
     } else if (inviteError) {
       setToast({
         show: true,
@@ -119,7 +137,37 @@ const Team = () => {
     }));
   };
 
-  const showLoader = inviteStatus.isPending || fetchStatus.isPending;
+  const handleDelete = () => {
+    runRemove(deleteMemberService(removeMember.id));
+  };
+
+  useMemo(() => {
+    if (removeResponse?.status === 204) {
+      setRemoveMember({ show: false, id: "", email: "" });
+      setToast({
+        show: true,
+        text: removeResponse.data.message ?? "Member removed successfully!",
+        type: true,
+      });
+
+      setTimeout(() => {
+        setToast({ ...toast, show: false });
+      }, 2500);
+      fetchMembers();
+    } else if (removeError) {
+      setToast({
+        show: true,
+        text: getErrorMessage({
+          error: removeError,
+          message: "Failed to remove member, please try again later",
+        }),
+        type: false,
+      });
+    }
+  }, [removeResponse, removeError]);
+
+  const showLoader =
+    inviteStatus.isPending || fetchStatus.isPending || removeStatus.isPending;
 
   return (
     <>
@@ -127,6 +175,12 @@ const Team = () => {
       <Toast
         {...toast}
         close={() => setToast((prev) => ({ ...prev, show: false }))}
+      />
+      <ConfirmationModal
+        show={removeMember.show}
+        close={() => setRemoveMember((prev) => ({ ...prev, show: false }))}
+        submit={handleDelete}
+        text={`Are you sure you want to remove ${removeMember.email}?`}
       />
       <TeamUI
         handleInvite={handleInvite}
@@ -141,6 +195,9 @@ const Team = () => {
           value: role,
           handleChange: setRole,
         }}
+        handleDelete={({ id, email }) =>
+          setRemoveMember({ id, email, show: true })
+        }
       />
     </>
   );
