@@ -16,6 +16,7 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Amount" },
   { title: "Transaction Type" },
   { title: "User" },
+  { title: "Status" },
   { title: "Date" },
 ];
 

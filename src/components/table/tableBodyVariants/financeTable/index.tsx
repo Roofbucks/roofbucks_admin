@@ -59,16 +59,24 @@ const TransactionTable: React.FC<TableBodyProps> = ({
               {item.type.replaceAll("_", " ")}
             </span>
             <span className={tableBodyItemClassName}>{item.user}</span>
-            <span className={`${tableBodyItemClassName} ${styles[item.status]}`}>{item.status}</span>
+            <span
+              className={`${tableBodyItemClassName} ${styles[item.status]}`}
+            >
+              {item.status}
+            </span>
             <span className={tableBodyItemClassName}>{item.date}</span>
             <span>
-              <Button
-                className={styles.payBtn}
-                onClick={() => handlePayAgent(item.id)}
-                type="tertiary"
-              >
-                Pay agent
-              </Button>
+              {item.type === "deposit" ? (
+                <Button
+                  className={styles.payBtn}
+                  onClick={() => handlePayAgent(item.id)}
+                  type="tertiary"
+                >
+                  Pay agent
+                </Button>
+              ) : (
+                ""
+              )}
             </span>
           </TableBodyRow>
         ))}

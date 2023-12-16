@@ -23,12 +23,9 @@ const Login = () => {
     error,
   } = useApiRequest({});
 
-  const { fetchUser, loading } = useGetUser();
-
   useMemo(() => {
     if (loginResponse?.status === 200) {
       const data = loginResponse.data;
-      console.log(data);
 
       if (!data.is_staff)
         return setToast({
@@ -39,18 +36,12 @@ const Login = () => {
 
       localStorage.setItem("roofbucksAdminAccess", data.tokens.access);
       localStorage.setItem("roofbucksAdminRefresh", data.tokens.refresh);
-      // localStorage.setItem("role", role);
-      // localStorage.setItem("id", id);
-
-      // fetch admin
 
       setToast({
         show: true,
         text: "Login successful",
         type: true,
       });
-      fetchUser();
-
       setTimeout(() => {
         navigate(Routes.users);
       }, 1000);

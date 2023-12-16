@@ -4,7 +4,7 @@
 export interface UserState {
   firstName: string;
   lastName: string;
-  role: "Member" | "Administrator";
+  role: "member" | "administrator";
 }
 
 export type userActions = "UPDATE_USER";

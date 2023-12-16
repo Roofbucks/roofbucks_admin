@@ -59,6 +59,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Overview",
     },
+    isProtected: true,
   },
   {
     path: Routes.users,
@@ -67,6 +68,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Users",
     },
+    isProtected: true,
   },
   {
     path: Routes.user(":id"),
@@ -75,6 +77,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Users",
     },
+    isProtected: true,
   },
   {
     path: Routes.properties,
@@ -83,6 +86,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Properties",
     },
+    isProtected: true,
   },
   {
     path: Routes.listings,
@@ -91,6 +95,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Listings",
     },
+    isProtected: true,
   },
   {
     path: Routes.marketplace,
@@ -99,6 +104,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Marketplace",
     },
+    isProtected: true,
   },
   {
     path: Routes.property(":id"),
@@ -107,6 +113,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Properties",
     },
+    isProtected: true,
   },
   {
     path: Routes.team,
@@ -115,6 +122,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Team",
     },
+    isProtected: true,
   },
   {
     path: Routes.settings,
@@ -123,6 +131,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Settings",
     },
+    isProtected: true,
   },
   {
     path: Routes.finance,
@@ -131,6 +140,7 @@ export const RouteBuilder: RouteBuilderItem[] = [
     props: {
       active: "Finance",
     },
+    isProtected: true,
   },
   {
     path: "*",

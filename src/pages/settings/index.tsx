@@ -16,9 +16,6 @@ const Settings = () => {
 
   const { fetchUser, loading } = useGetUser();
   const { firstName, lastName } = useAppSelector((state) => state.user);
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   // API Hooks
   const {

@@ -21,11 +21,11 @@ export const useGetUser = () => {
       if (response.status === 200) {
         const firstName = response.data.firstname;
         const lastName = response.data.lastname;
-        const role: any = localStorage.getItem("role");
+        const role = response.data.role;
 
         dispatch(
           updateUser({
-            role: role ?? "Member",
+            role: role ?? "member",
             firstName,
             lastName,
           })

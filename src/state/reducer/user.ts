@@ -3,7 +3,7 @@ import { UserState, reduxUserAction } from "state/types";
 const initialState: UserState = {
   firstName: "",
   lastName: "",
-  role: "Member",
+  role: "member",
 };
 
 const userReducer = (state = initialState, action: reduxUserAction) => {

@@ -1,7 +1,8 @@
 import { ErrorBoundary, ScrollToTop } from "helpers";
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { RouteBuilder, Routes as RouteList } from ".";
+import { ProtectedRoute } from "./protectedRoute";
 
 /**
  * MAIN ROUTER COMPONENT
@@ -15,7 +16,6 @@ import { RouteBuilder, Routes as RouteList } from ".";
  */
 
 const MainRouter: React.FC = () => {
-  const hasAccessToken = localStorage.getItem("roofbucksAccess");
 
   return (
     <>
@@ -34,20 +34,17 @@ const MainRouter: React.FC = () => {
               <Element />
             );
 
-            const AccessiblePageComponent =
-              isProtected && !hasAccessToken ? (
-                <Navigate to={RouteList.home} replace />
-              ) : (
-                PageComponent
-              );
-
             return (
               <Route
                 key={idx}
                 path={path}
                 element={
                   <ErrorBoundary key={path}>
-                    {AccessiblePageComponent}
+                    {isProtected ? (
+                      <ProtectedRoute>{PageComponent}</ProtectedRoute>
+                    ) : (
+                      PageComponent
+                    )}
                   </ErrorBoundary>
                 }
                 caseSensitive={caseSensitive}
