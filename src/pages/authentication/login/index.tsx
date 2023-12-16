@@ -2,6 +2,7 @@ import { loginService } from "api";
 import { Preloader, Toast } from "components";
 import { LoginUI } from "features";
 import { getErrorMessage } from "helpers";
+import { useGetUser } from "hooks";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -22,11 +23,19 @@ const Login = () => {
     error,
   } = useApiRequest({});
 
+  const { fetchUser, loading } = useGetUser();
+
   useMemo(() => {
     if (loginResponse?.status === 200) {
       const data = loginResponse.data;
       console.log(data);
-      // const id = data.id;
+
+      if (!data.is_staff)
+        return setToast({
+          show: true,
+          text: "Failed to verify you as an admin",
+          type: false,
+        });
 
       localStorage.setItem("roofbucksAdminAccess", data.tokens.access);
       localStorage.setItem("roofbucksAdminRefresh", data.tokens.refresh);
@@ -40,6 +49,7 @@ const Login = () => {
         text: "Login successful",
         type: true,
       });
+      fetchUser();
 
       setTimeout(() => {
         navigate(Routes.users);

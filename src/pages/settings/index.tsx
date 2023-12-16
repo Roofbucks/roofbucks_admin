@@ -1,9 +1,10 @@
-import { changePasswordService } from "api";
+import { changePasswordService, editNameService } from "api";
 import { Preloader, Toast } from "components";
 import { SettingsUI } from "features";
 import { getErrorMessage } from "helpers";
-import { useApiRequest } from "hooks";
-import { useState, useMemo } from "react";
+import { useApiRequest, useGetUser } from "hooks";
+import { useState, useMemo, useEffect } from "react";
+import { useAppSelector } from "state/hooks";
 
 const Settings = () => {
   // States
@@ -13,12 +14,24 @@ const Settings = () => {
     type: true,
   });
 
+  const { fetchUser, loading } = useGetUser();
+  const { firstName, lastName } = useAppSelector((state) => state.user);
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   // API Hooks
   const {
     run: runPassword,
     data: passwordResponse,
     requestStatus: passwordStatus,
     error: passwordError,
+  } = useApiRequest({});
+  const {
+    run: runProfile,
+    data: profileResponse,
+    requestStatus: profileStatus,
+    error: profileError,
   } = useApiRequest({});
 
   const handlePassword = (data) => runPassword(changePasswordService(data));
@@ -46,7 +59,33 @@ const Settings = () => {
     }
   }, [passwordResponse, passwordError]);
 
-  const showLoader = passwordStatus.isPending;
+  const handleProfile = (data) => runProfile(editNameService(data));
+
+  useMemo(() => {
+    if (profileResponse?.status === 200) {
+      setToast({
+        show: true,
+        text: profileResponse.data.message ?? "Profile updated successfully!",
+        type: true,
+      });
+      fetchUser();
+      setTimeout(() => {
+        setToast({ ...toast, show: false });
+      }, 1500);
+    } else if (profileError) {
+      setToast({
+        show: true,
+        text: getErrorMessage({
+          error: profileError,
+          message: "Failed to edit profile, please try again later",
+        }),
+        type: false,
+      });
+    }
+  }, [profileResponse, profileError]);
+
+  const showLoader =
+    passwordStatus.isPending || profileStatus.isPending || loading;
 
   return (
     <>
@@ -55,7 +94,11 @@ const Settings = () => {
         {...toast}
         close={() => setToast((prev) => ({ ...prev, show: false }))}
       />
-      <SettingsUI handlePassword={handlePassword} reset={false} />
+      <SettingsUI
+        handlePassword={handlePassword}
+        handleProfile={handleProfile}
+        init={{ firstName, lastName }}
+      />
     </>
   );
 };

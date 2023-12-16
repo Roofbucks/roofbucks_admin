@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { Routes } from "router";
 import styles from "./styles.module.css";
 import { Logout } from "./logoutPrompt";
+import { useAppSelector } from "state/hooks";
 
 interface SidebarType {
   active: dashboardPages;
@@ -70,6 +71,7 @@ export interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ active, children }) => {
+  const { firstName, role } = useAppSelector((state) => state.user);
   const SidebarItems: SidebarType[] = [
     // {
     //   active,
@@ -175,8 +177,8 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
         </nav>
         <header className={styles.navBar}>
           <div className={styles.profileSec}>
-            <img src={placeholderAvatar} alt="avatar" />
-            <p>Welcome Back Admin</p>
+            {/* <img src={placeholderAvatar} alt="avatar" /> */}
+            <p>Hello, {firstName} <span>{role}</span></p>
           </div>
         </header>
         <div className={styles.content}>{children}</div>

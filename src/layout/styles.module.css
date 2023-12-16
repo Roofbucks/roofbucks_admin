@@ -71,7 +71,7 @@ button.sidebarType {
   align-items: center;
   position: fixed;
   width: calc(100% - 220px);
-  padding: 10px 2rem;
+  padding: 1rem 2rem;
   border-bottom: 1px solid #d0e3ff;
   z-index: 2;
   background: var(--white);
@@ -90,6 +90,19 @@ button.sidebarType {
   border-radius: 50%;
   object-fit: contain;
   margin-right: 1rem;
+}
+.profileSec {
+  p {
+    text-transform: capitalize;
+    span {
+      color: var(--green);
+      border: 1px solid var(--green);
+      border-radius: 16px;
+      font-size: 12px;
+      padding: 4px 12px;
+      margin-left: 12px;
+    }
+  }
 }
 .content {
   padding: 2rem;

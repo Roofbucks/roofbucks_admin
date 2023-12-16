@@ -65,7 +65,6 @@ const Users = () => {
 
   const users = useMemo<UserTableItem[]>(() => {
     if (fetchResponse?.status === 200) {
-      console.log(fetchResponse);
       setPages((prev) => ({
         ...prev,
         totalPages: fetchResponse.data.pages,
@@ -78,7 +77,7 @@ const Users = () => {
         email: item.email,
         type: item.role.toLowerCase(),
         dateCreated: new Date(item.created_at).toLocaleDateString(),
-        status: item.is_verified ? "verified" : "unverified",
+        status: item.status.toLowerCase(),
         verifiedBusiness: item.business_verified,
       }));
     } else if (fetchError) {

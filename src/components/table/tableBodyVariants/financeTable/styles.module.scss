@@ -22,3 +22,17 @@
 .email {
   text-transform: lowercase;
 }
+.payBtn {
+  color: var(--green);
+  margin-left: auto;
+  display: block;
+}
+.success {
+  color: var(--green);
+}
+.failed {
+  color: var(--red);
+}
+.pending {
+  color: orange;
+}

@@ -27,13 +27,17 @@ const transaction: TransactionTableItem = {
   property: "Mukola House",
   propertyId: "1234",
   user: "Jason Douglas",
+  status: "pending"
 };
 
 const transactions: TransactionTableItem[] = [
-  ...new Array(4).fill(transaction),
-  ...new Array(2).fill({ ...transaction, type: "rent" }),
+  ...new Array(2).fill(transaction),
+  ...new Array(1).fill({ ...transaction, type: "rent" }),
+  ...new Array(1).fill({ ...transaction, type: "deposit_payout" }),
+  ...new Array(1).fill({ ...transaction, type: "rent_payout" }),
   ...new Array(2).fill({ ...transaction, type: "investment" }),
   ...new Array(2).fill({ ...transaction, type: "buy-back" }),
+  ...new Array(1).fill({ ...transaction, type: "buy-back_payout" }),
 ];
 
 const FinanceUI = () => {
@@ -59,6 +63,7 @@ const FinanceUI = () => {
               tableBodyItems={transactions}
               handleViewProperty={console.log}
               tableBodyRowClassName={styles.tableBodyItem}
+              handlePayAgent={console.log}
             />
           }
           customTableClasses={{

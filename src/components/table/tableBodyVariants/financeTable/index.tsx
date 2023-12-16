@@ -2,16 +2,25 @@ import { TrashIcon } from "assets";
 import * as React from "react";
 import { TableBody, TableBodyRow } from "../../components";
 import styles from "./styles.module.scss";
+import { Button } from "components/button";
 
 // User Table Body Item
 export interface TransactionTableItem {
   id: string;
   date: string;
   amount: string;
-  type: "rent" | "deposit" | "investment" | "buy-back";
+  type:
+    | "rent"
+    | "deposit"
+    | "investment"
+    | "buy-back"
+    | "rent_payout"
+    | "deposit_payout"
+    | "buy-back_payout";
   property: string;
   propertyId: string;
   user: string;
+  status: "pending" | "success" | "failed";
 }
 
 // User Table Body Props
@@ -20,6 +29,7 @@ interface TableBodyProps {
   handleViewProperty: (id) => void;
   tableBodyItemClassName?: string;
   tableBodyRowClassName?: string;
+  handlePayAgent: (id) => void;
 }
 
 const TransactionTable: React.FC<TableBodyProps> = ({
@@ -27,6 +37,7 @@ const TransactionTable: React.FC<TableBodyProps> = ({
   tableBodyItemClassName,
   tableBodyRowClassName,
   handleViewProperty,
+  handlePayAgent,
 }) => {
   return (
     <>
@@ -39,14 +50,26 @@ const TransactionTable: React.FC<TableBodyProps> = ({
             <span
               className={tableBodyItemClassName}
               role="button"
-              onClick={handleViewProperty}
+              onClick={() => handleViewProperty(item.propertyId)}
             >
               {item.property}
             </span>
             <span className={`${tableBodyItemClassName}`}>{item.amount}</span>
-            <span className={tableBodyItemClassName}>{item.type}</span>
+            <span className={tableBodyItemClassName}>
+              {item.type.replaceAll("_", " ")}
+            </span>
             <span className={tableBodyItemClassName}>{item.user}</span>
+            <span className={`${tableBodyItemClassName} ${styles[item.status]}`}>{item.status}</span>
             <span className={tableBodyItemClassName}>{item.date}</span>
+            <span>
+              <Button
+                className={styles.payBtn}
+                onClick={() => handlePayAgent(item.id)}
+                type="tertiary"
+              >
+                Pay agent
+              </Button>
+            </span>
           </TableBodyRow>
         ))}
       </TableBody>
