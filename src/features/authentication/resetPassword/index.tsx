@@ -32,7 +32,7 @@ const resetSchema = yup
       .matches(/[a-z]/, "Password should contain an lowercase character")
       .matches(/[0-9]/, "Password should contain at least one number")
       .matches(
-        /@#&\$]/,
+        /@|#|&|\$]/,
         "Password should contain at least special character (e.g. @, #, &, $)"
       )
       .equals([yup.ref("confirmPassword")], "Passwords do not match"),

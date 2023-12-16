@@ -78,7 +78,7 @@ const Users = () => {
         email: item.email,
         type: item.role.toLowerCase(),
         dateCreated: new Date(item.created_at).toLocaleDateString(),
-        status: item.status.toLowerCase(),
+        status: item.is_verified ? "verified" : "unverified",
         verifiedBusiness: item.business_verified,
       }));
     } else if (fetchError) {

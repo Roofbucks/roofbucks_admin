@@ -5,49 +5,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input } from "components";
+import { changePasswordRequestData } from "api";
 
-interface SettingsProps {
+interface SettingsProps extends PasswordFormProps {
   // account: AccountData;
-  submitPassword: (data) => void;
   reset: boolean;
 }
 
-const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
+const SettingsUI: React.FC<SettingsProps> = ({ handlePassword, reset }) => {
   const [view, setView] = React.useState(1);
-
-  const {
-    register: registerAccount,
-    handleSubmit: handleSubmitAccount,
-    formState: { errors: errorsAccount },
-  } = useForm<AccountData>({
-    resolver: yupResolver(accountSchema),
-    defaultValues: initialAccountValues,
-  });
-
-  const {
-    register: registerSecurity,
-    handleSubmit: handleSubmitSecurity,
-    formState: { errors: errorsSecurity },
-    reset: resetSecurity,
-  } = useForm<SecurityData>({
-    resolver: yupResolver(securitySchema),
-    defaultValues: initialSecurityValues,
-  });
-
-  React.useEffect(() => {
-    resetSecurity();
-  }, [reset]);
-
-  const onSubmitAccount: SubmitHandler<AccountData> = (data) => {
-    console.log(data);
-  };
-
-  const onSubmitSecurity: SubmitHandler<SecurityData> = (data) => {
-    submitPassword({
-      current_password: data.currentPassword,
-      new_password: data.newPassword,
-    });
-  };
   return (
     <>
       <h1 className={styles.ttl}>Settings</h1>
@@ -68,7 +34,11 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
         </span>
       </nav>
       <section className={styles.formWrap}>
-        {view === 1 ? <AccountForm /> : <PasswordForm />}
+        {view === 1 ? (
+          <AccountForm />
+        ) : (
+          <PasswordForm handlePassword={handlePassword} />
+        )}
       </section>
     </>
   );
@@ -167,9 +137,9 @@ const passwordSchema = yup
 const securitySchema = yup
   .object({
     currentPassword: passwordSchema,
-    newPassword: passwordSchema.equals(
-      [yup.ref("confirmPassword")],
-      "Passwords do not match"
+    newPassword: passwordSchema.matches(
+      /@|#|&|\$]/,
+      "Password should contain at least special character (e.g. @, #, &, $)"
     ),
     confirmPassword: passwordSchema.equals(
       [yup.ref("newPassword")],
@@ -178,7 +148,10 @@ const securitySchema = yup
   })
   .required();
 
-const PasswordForm = () => {
+interface PasswordFormProps {
+  handlePassword: (data: changePasswordRequestData) => void;
+}
+const PasswordForm: React.FC<PasswordFormProps> = ({ handlePassword }) => {
   const {
     register,
     handleSubmit,
@@ -190,7 +163,11 @@ const PasswordForm = () => {
   });
 
   const onSubmit: SubmitHandler<SecurityData> = (data) => {
-    console.log(data);
+    handlePassword({
+      current_password: data.currentPassword,
+      new_password: data.newPassword,
+    });
+    reset();
   };
 
   return (
