@@ -33,14 +33,75 @@ const property: UserPropertyTableItem = {
   amount: "NGN 200,000",
 };
 
-interface UserProfileProps {
-  handleView: (id: string) => void;
+interface PersonalInfo {
+  avatar: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  type: "agent" | "shareholder";
+  dateOfBirth: string;
+  address: string;
+  city: string;
+  country: string;
+  phoneNumber: string;
+}
+interface PersonalIdentification {
+  idType: string;
+  idNo: string;
+  expiration: string;
+  idFrontPage: string;
+  idBackPage: string;
+  proofOfAddress: string;
+}
+interface BusinessInfo {
+  logo: string;
+  companyName: string;
+  regNo: string;
+  email: string;
+  city: string;
+  country: string;
+  description: string;
+  certOfInc: string;
+}
+interface BillingInfo {
+  bank: string;
+  accountName: string;
+  accountNumber: string;
+  country: string;
 }
 
-const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
+export interface UserProfileData {
+  personal: PersonalInfo;
+  identification: PersonalIdentification;
+  business: BusinessInfo | undefined;
+  billing: BillingInfo;
+}
+
+interface UserProfileProps {
+  handleView: (id: string) => void;
+  user: UserProfileData;
+  properties: UserPropertyTableItem[];
+  pagination: {
+    handleChange: (page: number) => void;
+    totalPages: number;
+    currentPage: number;
+    totalCount: number;
+    pageLimit: number;
+  };
+  handleBack: () => void;
+}
+
+const UserProfileUI: React.FC<UserProfileProps> = ({
+  handleView,
+  user,
+  properties,
+  pagination,
+  handleBack,
+}) => {
+  const { personal, billing, business, identification } = user;
   return (
     <>
-      <Button className={styles.backBtn} type="tertiary" onClick={() => {}}>
+      <Button className={styles.backBtn} type="tertiary" onClick={handleBack}>
         <ArrowRight />
         Back
       </Button>
@@ -53,47 +114,43 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
         </div>
         <div className={styles.section__content}>
           <div className={styles.imageSec}>
-            <img
-              className={styles.image}
-              src={placeholderAvatar}
-              alt="avatar"
-            />
+            <img className={styles.image} src={personal.avatar} alt="avatar" />
             <div>
               <span>First name</span>
-              <p>John Doe</p>
+              <p>{personal.firstName}</p>
             </div>
           </div>
           <div>
             <span>Last name</span>
-            <p>John Doe</p>
+            <p>{personal.lastName}</p>
           </div>
           <div>
             <span>Email</span>
-            <p>JohnDoe@gmail.com</p>
+            <p style={{ textTransform: "lowercase" }}>{personal.email}</p>
           </div>
           <div>
             <span>Account Type</span>
-            <p>Agent</p>
+            <p>{personal.type}</p>
           </div>
           <div>
             <span>Date of Birth</span>
-            <p>01/01/1991</p>
+            <p>{personal.dateOfBirth}</p>
           </div>
           <div>
             <span>Address</span>
-            <p>25 Makoko Road</p>
+            <p>{personal.address}</p>
           </div>
           <div>
             <span>City</span>
-            <p>Lagos</p>
+            <p>{personal.city}</p>
           </div>
           <div>
             <span>Country</span>
-            <p>Nigeria</p>
+            <p>{personal.country}</p>
           </div>
           <div>
             <span>Phone number</span>
-            <p>08199228822</p>
+            <p>{personal.phoneNumber}</p>
           </div>
         </div>
       </section>
@@ -104,15 +161,15 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
         <div className={styles.section__content}>
           <div>
             <span>ID Type</span>
-            <p>John Doe</p>
+            <p>{identification.idType}</p>
           </div>
           <div>
             <span>ID No</span>
-            <p>John Doe</p>
+            <p>{identification.idNo}</p>
           </div>
           <div>
             <span>Expiration Date</span>
-            <p>01/01/1991</p>
+            <p>{identification.expiration}</p>
           </div>
         </div>
 
@@ -120,86 +177,84 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
           <div>
             <DocumentIcon />
             <p>ID Front Page</p>
-            <a>
+            <a href={identification.idFrontPage} target="blank">
               <DownloadIcon />
             </a>
           </div>
           <div>
             <DocumentIcon />
             <p>ID Back Page</p>
-            <a>
+            <a href={identification.idBackPage} target="blank">
               <DownloadIcon />
             </a>
           </div>
           <div>
             <DocumentIcon />
             <p>Proof of Address</p>
-            <a>
+            <a href={identification.proofOfAddress} target="blank">
               <DownloadIcon />
             </a>
           </div>
         </div>
       </section>
-      <section className={styles.section}>
-        <div className={styles.section__heading}>
-          <h1 className={styles.section__ttl}>Business Information</h1>
-          <Button
-            className={styles.actionBtn}
-            type="primary"
-            onClick={() => {}}
-          >
-            Verify business
-          </Button>
-        </div>
-        <div className={styles.section__content}>
-          <div className={styles.imageSec}>
-            <img
-              className={styles.image}
-              src={placeholderAvatar}
-              alt="company logo"
-            />
+      {business ? (
+        <section className={styles.section}>
+          <div className={styles.section__heading}>
+            <h1 className={styles.section__ttl}>Business Information</h1>
+            <Button
+              className={styles.actionBtn}
+              type="primary"
+              onClick={() => {}}
+            >
+              Verify business
+            </Button>
+          </div>
+          <div className={styles.section__content}>
+            <div className={styles.imageSec}>
+              <img
+                className={styles.image}
+                src={business.logo}
+                alt="company logo"
+              />
+              <div>
+                <span>Company Name</span>
+                <p>{business.companyName}</p>
+              </div>
+            </div>
             <div>
-              <span>Company Name</span>
-              <p>John Doe</p>
+              <span>Registration No</span>
+              <p>{business.regNo}</p>
+            </div>
+            <div>
+              <span>Email</span>
+              <p style={{ textTransform: "lowercase" }}>{business.email}</p>
+            </div>
+            <div>
+              <span>City</span>
+              <p>{business.city}</p>
+            </div>
+            <div>
+              <span>Country</span>
+              <p>{business.country}</p>
             </div>
           </div>
-          <div>
-            <span>Registration No</span>
-            <p>John Doe</p>
+          <div className={styles.description}>
+            <span>Description</span>
+            <p>{business.description}</p>
           </div>
-
-          <div>
-            <span>Email</span>
-            <p>info@company.com</p>
+          <div className={styles.section__documents}>
+            <div>
+              <DocumentIcon />
+              <p>Certificate of Incorporation</p>
+              <a href={business.certOfInc} target="blank">
+                <DownloadIcon />
+              </a>
+            </div>
           </div>
-          <div>
-            <span>City</span>
-            <p>Lagos</p>
-          </div>
-          <div>
-            <span>Country</span>
-            <p>Nigeria</p>
-          </div>
-        </div>
-        <div className={styles.description}>
-          <span>Description</span>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci
-            nesciunt iste, quam numquam minima repellendus molestias laboriosam
-            aliquam eaque, error, iusto soluta modi accusantium porro odit
-            natus! Quod, nihil ad!
-          </p>
-        </div>
-        <div className={styles.section__documents}>
-          <div>
-            <DocumentIcon />
-            <p>Certificate of Incorporation</p>
-            <a>
-              <DownloadIcon />
-            </a>
-          </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        ""
+      )}
       <section className={styles.section}>
         <div className={styles.section__heading}>
           <h1 className={styles.section__ttl}>Billing Information</h1>
@@ -207,33 +262,33 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
         <div className={styles.section__content}>
           <div>
             <span>Bank</span>
-            <p>Access Bank</p>
+            <p>{billing.bank}</p>
           </div>
           <div>
             <span>Account name</span>
-            <p>John Doe</p>
+            <p>{billing.accountName}</p>
           </div>
           <div>
             <span>Account number</span>
-            <p>0198777255</p>
+            <p>{billing.accountNumber}</p>
           </div>
           <div>
             <span>Country</span>
-            <p>Nigeria</p>
+            <p>{billing.country}</p>
           </div>
         </div>
       </section>
       <section className={styles.section}>
         <div className={styles.section__heading}>
           <h1 className={styles.section__ttl}>
-            Properties <span>(21)</span>
+            Properties <span>({pagination.totalCount})</span>
           </h1>
         </div>
         <Table
           tableHeaderTitles={tableHeaderTitles}
           tableBody={
             <UserPropertyTable
-              tableBodyItems={new Array(10).fill(property)}
+              tableBodyItems={properties}
               view={handleView}
               tableBodyRowClassName={styles.tableBodyItem}
             />
@@ -244,24 +299,19 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
             tableHeaderItemClassName: styles.tableHeaderItem,
           }}
           emptyTable={{
-            show: false,
+            show: properties.length === 0,
             element: (
               <EmptyTable
                 Vector={EmptyStreet}
-                heading={"No user found"}
-                text={"There are no users at this time"}
+                heading={"No properties found"}
+                text={
+                  "There are no properties associated with this user at this time"
+                }
               />
             ),
           }}
         />
-        <Pagination
-          currentPage={1}
-          totalPages={3}
-          handleChange={console.log}
-          totalCount={21}
-          pageLimit={10}
-          name={"Properties"}
-        />
+        <Pagination {...pagination} name={"Properties"} />
       </section>
     </>
   );

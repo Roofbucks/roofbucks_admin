@@ -40,7 +40,7 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <section className={styles.pagination}>
       <p>
-        {start} - {end} of {totalCount} {name}
+        {totalCount === 0 ? 0 : start} - {end} of {totalCount} {name}
       </p>
       <div className={styles.inputBox}>
         <input

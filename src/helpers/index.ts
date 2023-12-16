@@ -1,4 +1,5 @@
 export * from "./errorBoundary";
 export * from "./scrollToTop";
 export * from "./doc";
-export * from "./getErrorMessage"
+export * from "./getErrorMessage";
+export * from "./date";

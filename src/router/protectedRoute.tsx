@@ -18,7 +18,6 @@ const ProtectedRoute: React.FC<{ children: any }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { fetchUser, loading } = useGetUser();
   const accessToken = localStorage.getItem("roofbucksAdminAccess");
-  console.log(accessToken);
 
   const checkUser = () => {
     if (!accessToken || accessToken === "undefined") {

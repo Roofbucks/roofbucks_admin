@@ -102,7 +102,6 @@ const Team = () => {
 
   const members = useMemo<TeamTableItem[]>(() => {
     if (fetchResponse?.status === 200) {
-      console.log(fetchResponse);
       setPages((prev) => ({
         ...prev,
         totalPages: fetchResponse.data.pages,

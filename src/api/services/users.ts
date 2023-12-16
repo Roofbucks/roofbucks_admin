@@ -4,7 +4,14 @@ USERS SERVICES
 =================================
 */
 
-import { fetchUsersURL, getRequest, postRequest, resendMailURL } from "api";
+import {
+  fetchUserPropertiesURL,
+  fetchUserURL,
+  fetchUsersURL,
+  getRequest,
+  postRequest,
+  resendMailURL,
+} from "api";
 
 interface fetchUsersParams {
   search: string;
@@ -42,4 +49,39 @@ export const resendMailService = (data: resendMailRequestData) => {
     data,
   };
   return postRequest(requestData);
+};
+
+/**
+ * Fetch user service
+ * @returns axios promise
+ */
+
+export const fetchUserService = (id: string) => {
+  const requestData = {
+    url: fetchUserURL(id),
+  };
+  return getRequest(requestData);
+};
+
+interface fetchUserPropertiesParams {
+  page: number;
+  limit: number;
+}
+
+/**
+ * Fetch user service
+ * @returns axios promise
+ */
+
+export const fetchUserPropertiesService = (
+  id: string,
+  params: fetchUserPropertiesParams
+) => {
+  const requestData = {
+    url: fetchUserPropertiesURL(id),
+    config: {
+      params,
+    },
+  };
+  return getRequest(requestData);
 };

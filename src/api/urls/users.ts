@@ -21,3 +21,21 @@ export const fetchUsersURL = () => `/admin/get_users/`;
  */
 
 export const resendMailURL = () => `/admin/resend_mail/`;
+
+/**
+ * Fetch user url
+ *
+ * @returns url string
+ *
+ */
+
+export const fetchUserURL = (id) => `/admin/get_user/${id}/`;
+
+/**
+ * Fetch user properties url
+ *
+ * @returns url string
+ *
+ */
+
+export const fetchUserPropertiesURL = (id) => `/admin/get_user_properties/${id}/`;

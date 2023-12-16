@@ -119,7 +119,6 @@ const Users = () => {
         setToast({ ...toast, show: false });
       }, 2500);
     } else if (resendError) {
-      console.log(resendError)
       setToast({
         show: true,
         text: getErrorMessage({

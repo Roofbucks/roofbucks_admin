@@ -1,7 +1,7 @@
 import { EyeIconOutline } from "assets";
 import * as React from "react";
 import { TableBody, TableBodyRow } from "../../components";
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 
 // Test Table Body Item
 export interface UserPropertyTableItem {
