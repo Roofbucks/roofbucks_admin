@@ -20,21 +20,22 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
-const user: UserTableItem = {
-  id: "123",
-  name: "New user",
-  email: "user@user.com",
-  status: "verified",
-  type: "agent",
-  dateCreated: "12/08/2023",
-  verifiedBusiness: true,
-};
+// const user: UserTableItem = {
+//   id: "123",
+//   name: "New user",
+//   email: "user@user.com",
+//   status: "verified",
+//   type: "agent",
+//   dateCreated: "12/08/2023",
+//   verifiedBusiness: true,
+// };
 
 interface UsersProps {
   handleView: (id: string) => void;
+  users: UserTableItem[];
 }
 
-const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
+const UsersUI: React.FC<UsersProps> = ({ handleView, users }) => {
   return (
     <>
       <h1 className={styles.ttl}>
@@ -59,7 +60,7 @@ const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
         tableHeaderTitles={tableHeaderTitles}
         tableBody={
           <UserTable
-            tableBodyItems={new Array(10).fill(user)}
+            tableBodyItems={users || []}
             view={handleView}
             resendMail={console.log}
             tableBodyRowClassName={styles.tableBodyItem}
