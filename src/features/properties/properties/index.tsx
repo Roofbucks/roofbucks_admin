@@ -11,6 +11,7 @@ import {
   PropertiesFilter,
 } from "components";
 import { useState } from "react";
+import { optionType } from "types";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "ID" },
@@ -33,65 +34,89 @@ const Property: PropertyTableItem = {
 
 interface PropertiesProps {
   handleView: (id: string) => void;
+  properties: PropertyTableItem[];
+  tab: {
+    value: string;
+    handleChange: (tab: string) => void;
+  };
+  count: {
+    all: number;
+    edited: number;
+  };
+  search: {
+    value: string;
+    handleChange: (search: string) => void;
+  };
+  pagination: {
+    handleChange: (page: number) => void;
+    totalPages: number;
+    currentPage: number;
+    totalCount: number;
+    pageLimit: number;
+  };
+  status: {
+    value: optionType | undefined;
+    handleChange: (val) => void;
+  };
+  date: {
+    value: { start; end } | undefined;
+    handleChange: (val: { start: string; end: string }) => void;
+  };
 }
 
-const PropertiesUI: React.FC<PropertiesProps> = ({ handleView }) => {
-  const [tab, setTab] = useState("properties");
-
+const PropertiesUI: React.FC<PropertiesProps> = ({
+  handleView,
+  properties,
+  tab,
+  count,
+  search,
+  pagination,
+  date,
+  status,
+}) => {
   return (
     <>
-      <h1 className={styles.ttl}>
-        Properties <span>(58)</span>
-      </h1>
+      <h1 className={styles.ttl}>Properties</h1>
       <section className={styles.tabs}>
         <span
           role="button"
-          onClick={() => setTab("properties")}
-          className={tab === "properties" ? styles.active : ""}
+          onClick={() => tab.handleChange("properties")}
+          className={tab.value === "properties" ? styles.active : ""}
         >
-          Properties (45)
+          Properties ({count.all})
         </span>
         <span
           role="button"
-          onClick={() => setTab("edited")}
-          className={tab === "edited" ? styles.active : ""}
+          onClick={() => tab.handleChange("edited")}
+          className={tab.value === "edited" ? styles.active : ""}
         >
-          Edited Properties (15)
+          Edited Properties ({count.edited})
         </span>
       </section>
       <section className={styles.searchFilter}>
         <PropertiesFilter
-          submit={console.log}
+          submit={(data) => {
+            status.handleChange(data.status);
+            date.handleChange({ start: data.startDate, end: data.endDate });
+          }}
           value={{
-            status: { label: "", value: "" },
-            startDate: "",
-            endDate: "",
+            status: status.value ?? { label: "", value: "" },
+            startDate: date.value ? date.value?.start : "",
+            endDate: date.value ? date.value?.end : "",
           }}
         />
         <Search
           className={styles.search}
-          value={""}
+          value={search.value}
           placeholder={"Search by id, property or agent"}
-          handleChange={console.log}
+          handleChange={search.handleChange}
         />
       </section>
       <Table
         tableHeaderTitles={tableHeaderTitles}
         tableBody={
           <PropertyTable
-            tableBodyItems={[
-              ...new Array(4).fill(Property),
-              ...new Array(4).fill({
-                ...Property,
-                isEdited: false,
-                status: "approved",
-              }),
-              ...new Array(2).fill({
-                ...Property,
-                isEdited: false,
-                status: "rejected",
-              }),
-            ]}
+            tableBodyItems={properties}
             view={handleView}
             tableBodyRowClassName={styles.tableBodyItem}
           />
@@ -102,24 +127,17 @@ const PropertiesUI: React.FC<PropertiesProps> = ({ handleView }) => {
           tableHeaderItemClassName: styles.tableHeaderItem,
         }}
         emptyTable={{
-          show: false,
+          show: properties.length === 0,
           element: (
             <EmptyTable
               Vector={EmptyStreet}
-              heading={"No user found"}
-              text={"There are no users at this time"}
+              heading={"No properties found"}
+              text={"No properties found"}
             />
           ),
         }}
       />
-      <Pagination
-        currentPage={1}
-        totalPages={3}
-        handleChange={console.log}
-        totalCount={21}
-        pageLimit={10}
-        name={"Properties"}
-      />
+      <Pagination {...pagination} name={"Properties"} />
     </>
   );
 };

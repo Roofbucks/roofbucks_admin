@@ -16,13 +16,21 @@ const PropertiesFilter: React.FC<PropertiesFilterProps> = ({
 }) => {
   const [showModal, setModal] = useState(false);
 
+  let count = 0;
+  if (value.status && value.status?.value !== "") count++;
+  if (value.startDate && value.startDate !== "") count++;
+  if (value.endDate && value.endDate !== "") count++;
+
   return (
     <>
-      <FilterIconOutline
-        role="button"
-        className={styles.filter}
-        onClick={() => setModal(true)}
-      />
+      <div className={styles.filterWrap}>
+        {count > 0 ? <p>{count}</p> : ""}
+        <FilterIconOutline
+          role="button"
+          className={styles.filter}
+          onClick={() => setModal(true)}
+        />
+      </div>
       <PropertiesFilterModal
         show={showModal}
         close={() => setModal(false)}

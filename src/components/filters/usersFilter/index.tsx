@@ -1,6 +1,6 @@
 import { FilterIconOutline } from "assets";
 import { useState } from "react";
-import { UsersFilterModal, UsersFilterData } from "./filterModal";
+import { UsersFilterModal } from "./filterModal";
 import styles from "./styles.module.scss";
 import { optionType } from "types";
 

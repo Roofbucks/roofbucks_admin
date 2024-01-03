@@ -35,7 +35,7 @@ const PropertyTable: React.FC<TableBodyProps> = ({
             key={`body ${index}`}
             customClassName={`${styles.tableBodyRow} ${tableBodyRowClassName}`}
           >
-            <span className={tableBodyItemClassName}>
+            <span className={`${tableBodyItemClassName} ${styles.idWrap}`}>
               <p className={styles.propertyID}>{item.propertyID}</p>
             </span>
             <span className={tableBodyItemClassName}>

@@ -20,8 +20,8 @@ interface optionType2 {
 
 export interface PropertiesFilterData {
   status: optionType2;
-  startDate: string;
-  endDate: string;
+  startDate: string | undefined;
+  endDate: string | undefined;
 }
 
 const initFilterData: PropertiesFilterData = {
@@ -36,10 +36,11 @@ const optionTypeSchema = yup.object({
 });
 
 const schema = yup
-  .object({
+  .object()
+  .shape({
     status: optionTypeSchema,
-    startDate: yup.string().required("Required"),
-    endDate: yup.string().required("Required"),
+    startDate: yup.string(),
+    endDate: yup.string(),
   })
   .required();
 
@@ -71,28 +72,19 @@ const PropertiesFilterModal: React.FC<PropertiesFilterModalProps> = ({
   useEffect(() => {
     reset(value);
   }, [value]);
+
   const statusOptions: optionType[] = [
     {
-      label: "Verified",
-      value: "Verified",
+      label: "Approved",
+      value: "APPROVED",
     },
     {
-      label: "Unverified",
-      value: "unverified",
+      label: "Pending",
+      value: "PENDING",
     },
     {
-      label: "Suspended",
-      value: "suspended",
-    },
-  ];
-  const accountOptions: optionType[] = [
-    {
-      label: "Agent",
-      value: "agent",
-    },
-    {
-      label: "Shareholder",
-      value: "shareholder",
+      label: "Rejected",
+      value: "REJECTED",
     },
   ];
 
@@ -107,7 +99,8 @@ const PropertiesFilterModal: React.FC<PropertiesFilterModalProps> = ({
 
   const handleReset = () => {
     reset(initFilterData);
-    submit({ status: "", startDate: "", endDate: "" });
+    submit(initFilterData);
+    close();
   };
 
   return (

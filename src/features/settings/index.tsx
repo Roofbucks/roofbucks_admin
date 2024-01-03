@@ -152,7 +152,7 @@ const passwordSchema = yup
 
 const securitySchema = yup
   .object({
-    currentPassword: passwordSchema,
+    currentPassword: yup.string().required("Required"),
     newPassword: passwordSchema.matches(
       /@|#|&|\$]/,
       "Password should contain at least special character (e.g. @, #, &, $)"

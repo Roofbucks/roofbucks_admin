@@ -13,6 +13,12 @@
     margin-left: 2px;
   }
 }
+.box1::after {
+  content: "";
+}
+.box1::before {
+  content: "";
+}
 .ttl::before {
   content: "";
   background: var(--green);

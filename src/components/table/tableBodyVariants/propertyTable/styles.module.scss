@@ -69,3 +69,12 @@
   overflow: hidden;
   white-space: nowrap;
 }
+.tableBodyRow {
+  overflow: hidden;
+}
+.idWrap {
+  overflow: hidden;
+}
+.tableBodyRow * {
+  word-break: break-all;
+}
