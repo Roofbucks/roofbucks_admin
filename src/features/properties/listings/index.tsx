@@ -12,7 +12,7 @@ import {
   ListingApplicationTableItem,
   ListingApplicationTable,
 } from "components";
-import { useState } from "react";
+import { optionType } from "types";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "ID" },
@@ -33,78 +33,92 @@ const applicationTableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
-const Properties: PropertyTableItem = {
-  propertyID: "123",
-  propertyName: "New house",
-  agent: "John Doe",
-  status: "pending",
-  date: "12/08/2023",
-  amount: "NGN 200,000",
-};
-
-const application: ListingApplicationTableItem = {
-  id: "123",
-  property: "Munriola Park",
-  propertyID: "1ebthbb1241",
-  agent: "John Doe",
-  name: "marilyn Monroe",
-  email: "marilymonroe@gmail.com",
-  location: "Lagos, Nigeria",
-  percentage: "50%",
-  date: "12/12/2023",
-};
-
 interface PropertiesProps {
   handleViewProperty: (id: string) => void;
   handleViewApplication: (id: string) => void;
+  properties: PropertyTableItem[];
+  applications: ListingApplicationTableItem[];
+  tab: {
+    value: string;
+    handleChange: (tab: string) => void;
+  };
+  count: {
+    all: number;
+    applications: number;
+  };
+  search: {
+    value: string;
+    handleChange: (search: string) => void;
+  };
+  pagination: {
+    handleChange: (page: number) => void;
+    totalPages: number;
+    currentPage: number;
+    totalCount: number;
+    pageLimit: number;
+  };
+  date: {
+    value: { start; end } | undefined;
+    handleChange: (val: { start: string; end: string }) => void;
+  };
 }
 
 const ListingsUI: React.FC<PropertiesProps> = ({
   handleViewProperty,
   handleViewApplication,
+  properties,
+  tab,
+  count,
+  search,
+  pagination,
+  date,
+  applications,
 }) => {
-  const [tab, setTab] = useState("properties");
   return (
     <>
       <h1 className={styles.ttl}>Property Listings</h1>
       <section className={styles.tabs}>
         <span
           role="button"
-          onClick={() => setTab("properties")}
-          className={tab === "properties" ? styles.active : ""}
+          onClick={() => tab.handleChange("properties")}
+          className={tab.value === "properties" ? styles.active : ""}
         >
-          Properties (45)
+          Properties ({count.all})
         </span>
         <span
           role="button"
-          onClick={() => setTab("applications")}
-          className={tab === "applications" ? styles.active : ""}
+          onClick={() => tab.handleChange("applications")}
+          className={tab.value === "applications" ? styles.active : ""}
         >
-          Applications (15)
+          Applications ({count.applications})
         </span>
       </section>
       <section className={styles.searchFilter}>
         <PropertiesFilter
-          submit={console.log}
+          statusOptions={[]}
+          hideStatus
+          submit={(data) => {
+            date.handleChange({ start: data.startDate, end: data.endDate });
+          }}
           value={{
             status: { label: "", value: "" },
-            startDate: "",
-            endDate: "",
+            startDate: date.value ? date.value?.start : "",
+            endDate: date.value ? date.value?.end : "",
           }}
         />
         <Search
           className={styles.search}
-          value={""}
-          placeholder={"Search by id, property or agent"}
-          handleChange={console.log}
+          value={search.value}
+          placeholder={"Search by property or agent"}
+          handleChange={search.handleChange}
         />
       </section>
-      {tab === "properties" ? (
+      {tab.value === "properties" ? (
         <Table
           tableHeaderTitles={tableHeaderTitles}
           tableBody={
             <PropertyTable
-              tableBodyItems={new Array(10).fill(Properties)}
+              tableBodyItems={properties}
               view={handleViewProperty}
               tableBodyRowClassName={styles.tableBodyItem}
             />
@@ -115,12 +129,12 @@ const ListingsUI: React.FC<PropertiesProps> = ({
             tableHeaderItemClassName: styles.tableHeaderItem,
           }}
           emptyTable={{
-            show: false,
+            show: properties.length === 0,
             element: (
               <EmptyTable
                 Vector={EmptyStreet}
-                heading={"No user found"}
-                text={"There are no users at this time"}
+                heading={"No listings found"}
+                text={""}
               />
             ),
           }}
@@ -130,7 +144,7 @@ const ListingsUI: React.FC<PropertiesProps> = ({
           tableHeaderTitles={applicationTableHeaderTitles}
           tableBody={
             <ListingApplicationTable
-              tableBodyItems={new Array(10).fill(application)}
+              tableBodyItems={applications}
               view={handleViewApplication}
               tableBodyRowClassName={`${styles.tableBodyItem} ${styles.application}`}
             />
@@ -141,24 +155,20 @@ const ListingsUI: React.FC<PropertiesProps> = ({
             tableHeaderItemClassName: styles.tableHeaderItem,
           }}
           emptyTable={{
-            show: false,
+            show: applications.length === 0,
             element: (
               <EmptyTable
                 Vector={EmptyStreet}
-                heading={"No user found"}
-                text={"There are no users at this time"}
+                heading={"No applications found"}
+                text=""
               />
             ),
           }}
         />
       )}
       <Pagination
-        currentPage={1}
-        totalPages={3}
-        handleChange={console.log}
-        totalCount={21}
-        pageLimit={10}
-        name={"Listings"}
+        {...pagination}
+        name={tab.value === "properties" ? "Listings" : "Applications"}
       />
     </>
   );

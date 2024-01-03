@@ -22,7 +22,6 @@ const Properties = () => {
     type: true,
   });
   const [status, setStatus] = useState<optionType | undefined>(undefined);
-  // const [stage, setStage] = useState<any>("");
   const [date, setDate] = useState({ start: "", end: "" });
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState("properties");
@@ -77,7 +76,6 @@ const Properties = () => {
 
   const properties = useMemo<PropertyTableItem[]>(() => {
     if (fetchResponse?.status === 200) {
-      console.log(fetchResponse);
       setPages((prev) => ({
         ...prev,
         totalPages: fetchResponse.data.pages,
@@ -135,7 +133,7 @@ const Properties = () => {
   }, [fetchEditResponse, fetchEditError]);
 
   const handlePages = (page: number) => {
-    fetchProperties(page);
+    tab === "properties" ? fetchProperties(page) : fetchEditedProperties(page);
     setPages((prev) => ({
       ...prev,
       currentPage: page,
@@ -145,6 +143,18 @@ const Properties = () => {
   const handleDate = (data: { start: string; end: string }) => {
     setDate(data);
     fetchProperties(1, data);
+  };
+
+  const handleTab = (tab) => {
+    setTab(tab);
+    setDate({ start: "", end: "" });
+    setPages((prev) => ({
+      ...prev,
+      currentPage: 1,
+    }));
+    tab === "properties"
+      ? fetchProperties(1, { start: "", end: "" })
+      : fetchEditedProperties(1);
   };
 
   const loading = fetchStatus.isPending || fetchEditStatus.isPending;
@@ -161,7 +171,7 @@ const Properties = () => {
         properties={tab === "properties" ? properties : editedProperties}
         tab={{
           value: tab,
-          handleChange: setTab,
+          handleChange: handleTab,
         }}
         count={{
           all: fetchResponse?.data?.total ?? 0,

@@ -17,7 +17,7 @@ interface fetchPropertiesParams {
   page: number;
   limit: number;
   stage: "WAITING" | "LISTING" | "MARKETPLACE" | "SOLD" | "";
-  status: "verified" | "unverified" | "suspended" | "rejected";
+  status: "verified" | "unverified" | "suspended" | "rejected" | "";
   start_date: string;
   end_date: string;
 }
@@ -41,7 +41,7 @@ interface fetchApplicationsParams {
   page: number;
   limit: number;
   user_type: "HOME_OWNER" | "INVESTOR";
-  status: "pending" | "rejected" | "approved";
+  status: "pending" | "rejected" | "approved" | "";
   start_date: string;
   end_date: string;
 }

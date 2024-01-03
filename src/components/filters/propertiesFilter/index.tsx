@@ -2,17 +2,22 @@ import { FilterIconOutline } from "assets";
 import { useState } from "react";
 import { PropertiesFilterModal, PropertiesFilterData } from "./filterModal";
 import styles from "./styles.module.scss";
+import { optionType } from "types";
 
 interface PropertiesFilterProps {
   submit: ({ status, startDate, endDate }) => void;
   className?: string;
   value: PropertiesFilterData;
+  hideStatus?: boolean;
+  statusOptions: optionType[];
 }
 
 const PropertiesFilter: React.FC<PropertiesFilterProps> = ({
   className = "",
   value,
   submit,
+  hideStatus,
+  statusOptions,
 }) => {
   const [showModal, setModal] = useState(false);
 
@@ -36,6 +41,8 @@ const PropertiesFilter: React.FC<PropertiesFilterProps> = ({
         close={() => setModal(false)}
         submit={submit}
         value={value}
+        hideStatus={hideStatus}
+        statusOptions={statusOptions}
       />
     </>
   );

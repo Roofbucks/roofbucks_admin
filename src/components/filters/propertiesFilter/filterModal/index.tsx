@@ -49,6 +49,8 @@ interface PropertiesFilterModalProps {
   close: () => void;
   submit: ({ status, startDate, endDate }) => void;
   value: PropertiesFilterData;
+  hideStatus?: boolean;
+  statusOptions: optionType[];
 }
 
 const PropertiesFilterModal: React.FC<PropertiesFilterModalProps> = ({
@@ -56,6 +58,8 @@ const PropertiesFilterModal: React.FC<PropertiesFilterModalProps> = ({
   close,
   submit,
   value,
+  hideStatus,
+  statusOptions,
 }) => {
   const {
     handleSubmit,
@@ -72,21 +76,6 @@ const PropertiesFilterModal: React.FC<PropertiesFilterModalProps> = ({
   useEffect(() => {
     reset(value);
   }, [value]);
-
-  const statusOptions: optionType[] = [
-    {
-      label: "Approved",
-      value: "APPROVED",
-    },
-    {
-      label: "Pending",
-      value: "PENDING",
-    },
-    {
-      label: "Rejected",
-      value: "REJECTED",
-    },
-  ];
 
   const onSubmit: SubmitHandler<PropertiesFilterData> = (data) => {
     submit(data);
@@ -116,24 +105,28 @@ const PropertiesFilterModal: React.FC<PropertiesFilterModalProps> = ({
           <CloseIcon role="button" onClick={close} />
         </div>
         <form className={styles.form}>
-          <CustomSelect
-            onChange={(val) => setValue(`status`, val)}
-            validatorMessage={
-              errors?.status
-                ? errors?.status?.value?.message?.toString() ?? ""
-                : ""
-            }
-            name={`status`}
-            placeholder={"Select status"}
-            options={statusOptions}
-            value={{
-              label: watch("status.label") ?? "",
-              value: watch("status.value") ?? "",
-            }}
-            parentClassName={styles.inputWrap}
-            inputClass={styles.select}
-            label="Status"
-          />
+          {hideStatus ? (
+            ""
+          ) : (
+            <CustomSelect
+              onChange={(val) => setValue(`status`, val)}
+              validatorMessage={
+                errors?.status
+                  ? errors?.status?.value?.message?.toString() ?? ""
+                  : ""
+              }
+              name={`status`}
+              placeholder={"Select status"}
+              options={statusOptions}
+              value={{
+                label: watch("status.label") ?? "",
+                value: watch("status.value") ?? "",
+              }}
+              parentClassName={styles.inputWrap}
+              inputClass={styles.select}
+              label="Status"
+            />
+          )}
           <Input
             label="Start Date"
             placeholder={"Enter a start date"}

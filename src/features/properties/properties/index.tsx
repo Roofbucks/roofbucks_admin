@@ -74,6 +74,21 @@ const PropertiesUI: React.FC<PropertiesProps> = ({
   date,
   status,
 }) => {
+  const statusOptions: optionType[] = [
+    {
+      label: "Approved",
+      value: "APPROVED",
+    },
+    {
+      label: "Pending",
+      value: "PENDING",
+    },
+    {
+      label: "Rejected",
+      value: "REJECTED",
+    },
+  ];
+
   return (
     <>
       <h1 className={styles.ttl}>Properties</h1>
@@ -95,6 +110,7 @@ const PropertiesUI: React.FC<PropertiesProps> = ({
       </section>
       <section className={styles.searchFilter}>
         <PropertiesFilter
+          statusOptions={statusOptions}
           submit={(data) => {
             status.handleChange(data.status);
             date.handleChange({ start: data.startDate, end: data.endDate });
@@ -132,7 +148,7 @@ const PropertiesUI: React.FC<PropertiesProps> = ({
             <EmptyTable
               Vector={EmptyStreet}
               heading={"No properties found"}
-              text={"No properties found"}
+              text={""}
             />
           ),
         }}
