@@ -30,3 +30,12 @@ export const fetchEditedPropertiesURL = () => `/admin/list_property_change_appli
  */
 
 export const fetchApplicationsURL = () => `/admin/list_applications/`;
+
+/**
+ * Fetch one listing/marketplace application URL
+ *
+ * @returns url string
+ *
+ */
+
+export const fetchApplicationURL = (id) => `/admin/get_application/${id}`;

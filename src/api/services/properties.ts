@@ -5,6 +5,7 @@ PROPERTIES SERVICES
 */
 
 import {
+  fetchApplicationURL,
   fetchApplicationsURL,
   fetchEditedPropertiesURL,
   fetchPropertiesURL,
@@ -77,6 +78,18 @@ export const fetchEditedPropertiesService = (
     config: {
       params,
     },
+  };
+  return getRequest(requestData);
+};
+
+/**
+ * Fetch one listing/marketplace application service
+ * @returns axios promise
+ */
+
+export const fetchApplicationService = (id: string) => {
+  const requestData = {
+    url: fetchApplicationURL(id),
   };
   return getRequest(requestData);
 };

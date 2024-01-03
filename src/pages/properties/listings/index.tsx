@@ -16,7 +16,10 @@ import { getDateTime, getErrorMessage } from "helpers";
 
 const Listings = () => {
   // States
-  const [show, setShow] = useState(false);
+  const [showApplication, setShowApplication] = useState({
+    show: false,
+    id: "",
+  });
   const [pages, setPages] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -33,11 +36,9 @@ const Listings = () => {
   const [tab, setTab] = useState("properties");
 
   const navigate = useNavigate();
-  const handleView = (id) => navigate(Routes.property(id));
   const debouncedSearchTerm = useDebounce(search, 500);
-
   const handleViewProperty = (id) => navigate(Routes.property(id));
-  const handleViewApplication = (id) => setShow(true);
+  const handleViewApplication = (id) => setShowApplication({ show: true, id });
 
   // API Hooks
   const {
@@ -127,7 +128,7 @@ const Listings = () => {
       }));
 
       return fetchApplicationsResponse.data.results.map((item) => ({
-        id: "123",
+        id: item.id,
         property: item.property,
         propertyID: "1ebthbb1241",
         agent: item.agent,
@@ -186,9 +187,11 @@ const Listings = () => {
         close={() => setToast((prev) => ({ ...prev, show: false }))}
       />
       <ListingApplication
-        show={show}
-        close={() => setShow(false)}
-        callback={console.log}
+        {...showApplication}
+        close={() => setShowApplication({ show: false, id: "" })}
+        callback={() => {
+          fetchApplications(1);
+        }}
       />
       <ListingsUI
         handleViewProperty={handleViewProperty}

@@ -34,9 +34,7 @@ const Marketplace = () => {
   const [tab, setTab] = useState("properties");
 
   const navigate = useNavigate();
-  const handleView = (id) => navigate(Routes.property(id));
   const debouncedSearchTerm = useDebounce(search, 500);
-
   const handleViewProperty = (id) => navigate(Routes.property(id));
   const handleViewApplication = (id) => setShow(true);
 
@@ -128,7 +126,7 @@ const Marketplace = () => {
       }));
 
       return fetchApplicationsResponse.data.results.map((item) => ({
-        id: "123",
+        id: item.id,
         property: item.property,
         propertyID: "1ebthbb1241",
         agent: item.agent,

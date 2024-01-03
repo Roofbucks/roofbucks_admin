@@ -4,17 +4,42 @@ import { ArrowRight, CloseIcon } from "assets";
 import { Link } from "react-router-dom";
 import { Routes } from "router";
 
+export interface ListingApplicationData {
+  property: {
+    id: string;
+    name: string;
+    agent: string;
+    cost: string;
+    completionStatus: string;
+  };
+  applicant: {
+    id: string;
+    name: string;
+    email: string;
+    socialMedia: string;
+    location: string;
+    reason: string;
+    percentage: number;
+    amount: string;
+    duration: string;
+    longTermOwnership: string;
+  };
+}
+
 interface ListingApplicationUIProps {
   discard: () => void;
   show: boolean;
   close: () => void;
+  application: ListingApplicationData;
 }
 
 const ListingApplicationUI: React.FC<ListingApplicationUIProps> = ({
   show,
   close,
   discard,
+  application,
 }) => {
+  const { property, applicant } = application;
   return (
     <>
       <Modal

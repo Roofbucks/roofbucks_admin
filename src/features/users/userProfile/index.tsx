@@ -25,14 +25,6 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
-const property: UserPropertyTableItem = {
-  propertyID: "123",
-  propertyName: "New house",
-  status: "pending",
-  date: "12/08/2023",
-  amount: "NGN 200,000",
-};
-
 interface PersonalInfo {
   avatar: string;
   firstName: string;
@@ -49,9 +41,9 @@ interface PersonalIdentification {
   idType: string;
   idNo: string;
   expiration: string;
-  idFrontPage: string;
-  idBackPage: string;
-  proofOfAddress: string;
+  idFrontPage: string | undefined;
+  idBackPage: string | undefined;
+  proofOfAddress: string | undefined;
 }
 interface BusinessInfo {
   logo: string;
@@ -61,7 +53,7 @@ interface BusinessInfo {
   city: string;
   country: string;
   description: string;
-  certOfInc: string;
+  certOfInc: string | undefined;
 }
 interface BillingInfo {
   bank: string;
@@ -173,35 +165,40 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
           </div>
         </div>
 
-        <div className={styles.section__documents}>
-          <div>
-            <DocumentIcon />
-            <p>ID Front Page</p>
-            <a href={identification.idFrontPage} target="blank">
-              <DownloadIcon />
-            </a>
+        {identification.idBackPage ? (
+          <div className={styles.section__documents}>
+            <div>
+              <DocumentIcon />
+              <p>ID Front Page</p>
+              <a href={identification.idFrontPage} target="blank">
+                <DownloadIcon />
+              </a>
+            </div>
+            <div>
+              <DocumentIcon />
+              <p>ID Back Page</p>
+              <a href={identification.idBackPage} target="blank">
+                <DownloadIcon />
+              </a>
+            </div>
+            <div>
+              <DocumentIcon />
+              <p>Proof of Address</p>
+              <a href={identification.proofOfAddress} target="blank">
+                <DownloadIcon />
+              </a>
+            </div>
           </div>
-          <div>
-            <DocumentIcon />
-            <p>ID Back Page</p>
-            <a href={identification.idBackPage} target="blank">
-              <DownloadIcon />
-            </a>
-          </div>
-          <div>
-            <DocumentIcon />
-            <p>Proof of Address</p>
-            <a href={identification.proofOfAddress} target="blank">
-              <DownloadIcon />
-            </a>
-          </div>
-        </div>
+        ) : (
+          ""
+        )}
       </section>
       {business ? (
         <section className={styles.section}>
           <div className={styles.section__heading}>
             <h1 className={styles.section__ttl}>Business Information</h1>
             <Button
+              disabled={!business.certOfInc}
               className={styles.actionBtn}
               type="primary"
               onClick={() => {}}
@@ -242,15 +239,19 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
             <span>Description</span>
             <p>{business.description}</p>
           </div>
-          <div className={styles.section__documents}>
-            <div>
-              <DocumentIcon />
-              <p>Certificate of Incorporation</p>
-              <a href={business.certOfInc} target="blank">
-                <DownloadIcon />
-              </a>
+          {business.certOfInc ? (
+            <div className={styles.section__documents}>
+              <div>
+                <DocumentIcon />
+                <p>Certificate of Incorporation</p>
+                <a href={business.certOfInc} target="blank">
+                  <DownloadIcon />
+                </a>
+              </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
         </section>
       ) : (
         ""
