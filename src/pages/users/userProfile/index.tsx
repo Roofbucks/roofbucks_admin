@@ -1,4 +1,8 @@
-import { fetchUserPropertiesService, fetchUserService } from "api";
+import {
+  approveCompanyService,
+  fetchUserPropertiesService,
+  fetchUserService,
+} from "api";
 import { Preloader, Toast, UserPropertyTableItem } from "components";
 import { UserProfileData, UserProfileUI } from "features";
 import { getErrorMessage } from "helpers";
@@ -36,6 +40,12 @@ const UserProfile = () => {
     requestStatus: propertiesStatus,
     error: propertiesError,
   } = useApiRequest({});
+  const {
+    run: runApproveBusiness,
+    data: approveBusinessResponse,
+    requestStatus: approveBusinessStatus,
+    error: approveBusinessError,
+  } = useApiRequest({});
 
   const fetchUser = () =>
     params.id && runFetchUser(fetchUserService(params.id));
@@ -60,7 +70,7 @@ const UserProfile = () => {
         personal: {
           firstName: data.firstname,
           lastName: data.lastname,
-          avatar: "",
+          avatar: data.display_photo,
           email: data.email,
           type: data.role.toLowerCase(),
           dateOfBirth: data.date_of_birth,
@@ -75,8 +85,12 @@ const UserProfile = () => {
             .toLowerCase(),
           idNo: data.identity_document_number,
           expiration: data.identity_document_expiry_date,
-          idFrontPage: "",
-          idBackPage: "",
+          idFrontPage: data.identity_document_album
+            ? data.identity_document_album[0].document
+            : undefined,
+          idBackPage: data.identity_document_album
+            ? data.identity_document_album[1].document
+            : undefined,
           proofOfAddress: "",
         },
         business:
@@ -90,13 +104,23 @@ const UserProfile = () => {
                 description: data.business_info.description,
                 country: data.business_info.country,
                 certOfInc: data.business_info.certificate_of_incorporation,
+                isVerified: data.business_info.is_verified,
+                id: data.business_info.id,
               }
             : undefined,
         billing: {
-          bank: "",
-          accountName: "",
-          accountNumber: "",
-          country: "",
+          bank: data.bank_information[0]
+            ? data.bank_information[0].bank_name
+            : undefined,
+          accountName: data.bank_information[0]
+            ? data.bank_information[0].account_name
+            : undefined,
+          accountNumber: data.bank_information[0]
+            ? data.bank_information[0].account_number
+            : undefined,
+          country: data.bank_information[0]
+            ? data.bank_information[0].country
+            : undefined,
         },
       };
     } else if (fetchUserError) {
@@ -117,16 +141,16 @@ const UserProfile = () => {
       const data = propertiesResponse.data;
       setPages((prev) => ({
         ...prev,
-        totalPages: propertiesResponse.data.pages,
-        totalCount: propertiesResponse.data.total,
+        totalPages: data.pages,
+        totalCount: data.total,
       }));
 
-      return propertiesResponse.data.results.map((item) => ({
+      return data.results.map((item) => ({
         propertyID: item.id,
         propertyName: item.name,
         status: item.moderation_status.toLowerCase(),
         date: new Date(item.created_at).toLocaleDateString(),
-        amount: `NGN ${item.total_property_cost}`
+        amount: `NGN ${item.total_property_cost}`,
       }));
     } else if (propertiesError) {
       setToast({
@@ -143,6 +167,27 @@ const UserProfile = () => {
 
   const handleView = (id) => navigate(Routes.property(id));
 
+  const handleApproveBusiness = () => {
+    user?.business?.id &&
+      runApproveBusiness(approveCompanyService(user.business.id));
+  };
+
+  useMemo(() => {
+    if (approveBusinessResponse?.status === 200) {
+      fetchUser();
+    } else if (approveBusinessError) {
+      setToast({
+        show: true,
+        text: getErrorMessage({
+          error: approveBusinessError,
+          message: "Failed to approve business, please try again later",
+        }),
+        type: false,
+      });
+    }
+    return [];
+  }, [approveBusinessResponse, approveBusinessError]);
+
   const handlePages = (page: number) => {
     fetchProperties(page);
     setPages((prev) => ({
@@ -151,7 +196,10 @@ const UserProfile = () => {
     }));
   };
 
-  const showLoader = fetchUserStatus.isPending || propertiesStatus.isPending;
+  const showLoader =
+    fetchUserStatus.isPending ||
+    propertiesStatus.isPending ||
+    approveBusinessStatus.isPending;
 
   return (
     <>
@@ -167,6 +215,7 @@ const UserProfile = () => {
           properties={properties}
           pagination={{ ...pages, handleChange: handlePages }}
           handleBack={() => navigate(-1)}
+          handleApproveBusiness={handleApproveBusiness}
         />
       ) : (
         ""

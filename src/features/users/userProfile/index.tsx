@@ -54,6 +54,8 @@ interface BusinessInfo {
   country: string;
   description: string;
   certOfInc: string | undefined;
+  isVerified: boolean;
+  id: string;
 }
 interface BillingInfo {
   bank: string;
@@ -81,6 +83,7 @@ interface UserProfileProps {
     pageLimit: number;
   };
   handleBack: () => void;
+  handleApproveBusiness: () => void;
 }
 
 const UserProfileUI: React.FC<UserProfileProps> = ({
@@ -89,6 +92,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
   properties,
   pagination,
   handleBack,
+  handleApproveBusiness,
 }) => {
   const { personal, billing, business, identification } = user;
   return (
@@ -170,7 +174,11 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
             <div>
               <DocumentIcon />
               <p>ID Front Page</p>
-              <a href={identification.idFrontPage} target="blank">
+              <a
+                download={`${identification.idType}_1`}
+                href={identification.idFrontPage}
+                target="blank"
+              >
                 <DownloadIcon />
               </a>
             </div>
@@ -197,14 +205,18 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
         <section className={styles.section}>
           <div className={styles.section__heading}>
             <h1 className={styles.section__ttl}>Business Information</h1>
-            <Button
-              disabled={!business.certOfInc}
-              className={styles.actionBtn}
-              type="primary"
-              onClick={() => {}}
-            >
-              Verify business
-            </Button>
+            {business.isVerified ? (
+              <p className={styles.isVerified}>Verified</p>
+            ) : (
+              <Button
+                disabled={!business.certOfInc}
+                className={styles.actionBtn}
+                type="primary"
+                onClick={handleApproveBusiness}
+              >
+                Approve business
+              </Button>
+            )}
           </div>
           <div className={styles.section__content}>
             <div className={styles.imageSec}>

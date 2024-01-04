@@ -5,6 +5,7 @@ USERS SERVICES
 */
 
 import {
+  approveCompanyURL,
   fetchUserPropertiesURL,
   fetchUserURL,
   fetchUsersURL,
@@ -82,6 +83,18 @@ export const fetchUserPropertiesService = (
     config: {
       params,
     },
+  };
+  return getRequest(requestData);
+};
+
+/**
+ * Approve company service
+ * @returns axios promise
+ */
+
+export const approveCompanyService = (id: string) => {
+  const requestData = {
+    url: approveCompanyURL(id),
   };
   return getRequest(requestData);
 };

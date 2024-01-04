@@ -38,4 +38,14 @@ export const fetchUserURL = (id) => `/admin/get_user/${id}/`;
  *
  */
 
-export const fetchUserPropertiesURL = (id) => `/admin/get_user_properties/${id}/`;
+export const fetchUserPropertiesURL = (id) =>
+  `/admin/get_user_properties/${id}/`;
+
+/**
+ * Approve company url
+ *
+ * @returns url string
+ *
+ */
+
+export const approveCompanyURL = (id) => `/admin/approve_company/${id}/`;
