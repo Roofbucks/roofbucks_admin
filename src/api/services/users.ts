@@ -12,6 +12,8 @@ import {
   getRequest,
   postRequest,
   resendMailURL,
+  suspendUserURL,
+  unsuspendUserURL,
 } from "api";
 
 interface fetchUsersParams {
@@ -97,4 +99,30 @@ export const approveCompanyService = (id: string) => {
     url: approveCompanyURL(id),
   };
   return getRequest(requestData);
+};
+
+/**
+ * Suspend user service
+ * @returns axios promise
+ */
+
+export const suspendUserService = (email: string) => {
+  const requestData = {
+    url: suspendUserURL(),
+    data: { email },
+  };
+  return postRequest(requestData);
+};
+
+/**
+ * Unsuspend user service
+ * @returns axios promise
+ */
+
+export const unsuspendUserService = (email: string) => {
+  const requestData = {
+    url: unsuspendUserURL(),
+    data: { email },
+  };
+  return postRequest(requestData);
 };

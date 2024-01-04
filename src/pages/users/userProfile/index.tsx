@@ -2,6 +2,8 @@ import {
   approveCompanyService,
   fetchUserPropertiesService,
   fetchUserService,
+  suspendUserService,
+  unsuspendUserService,
 } from "api";
 import { Preloader, Toast, UserPropertyTableItem } from "components";
 import { UserProfileData, UserProfileUI } from "features";
@@ -46,6 +48,18 @@ const UserProfile = () => {
     requestStatus: approveBusinessStatus,
     error: approveBusinessError,
   } = useApiRequest({});
+  const {
+    run: runSuspend,
+    data: suspendResponse,
+    requestStatus: suspendStatus,
+    error: suspendError,
+  } = useApiRequest({});
+  const {
+    run: runUnsuspend,
+    data: unsuspendResponse,
+    requestStatus: unsuspendStatus,
+    error: unsuspendError,
+  } = useApiRequest({});
 
   const fetchUser = () =>
     params.id && runFetchUser(fetchUserService(params.id));
@@ -78,6 +92,7 @@ const UserProfile = () => {
           city: data.city,
           country: data.country,
           phoneNumber: data.phone,
+          status: data.status.toLowerCase(),
         },
         identification: {
           idType: data.identity_document_type
@@ -175,6 +190,19 @@ const UserProfile = () => {
   useMemo(() => {
     if (approveBusinessResponse?.status === 200) {
       fetchUser();
+      setToast({
+        show: true,
+        text: "Approval successful!",
+        type: true,
+      });
+
+      setTimeout(() => {
+        setToast({
+          show: false,
+          text: "",
+          type: true,
+        });
+      }, 2000);
     } else if (approveBusinessError) {
       setToast({
         show: true,
@@ -188,6 +216,74 @@ const UserProfile = () => {
     return [];
   }, [approveBusinessResponse, approveBusinessError]);
 
+  const handleSuspendUser = () => {
+    user?.personal.email &&
+      runSuspend(suspendUserService(user?.personal.email));
+  };
+
+  const handleUnsuspendUser = () => {
+    user?.personal.email &&
+      runUnsuspend(unsuspendUserService(user?.personal.email));
+  };
+
+  useMemo(() => {
+    if (suspendResponse?.status === 204) {
+      fetchUser();
+      setToast({
+        show: true,
+        text: "Account suspension successful!",
+        type: true,
+      });
+
+      setTimeout(() => {
+        setToast({
+          show: false,
+          text: "",
+          type: true,
+        });
+      }, 2000);
+    } else if (suspendError) {
+      setToast({
+        show: true,
+        text: getErrorMessage({
+          error: suspendError,
+          message: "Failed to suspend account, please try again later",
+        }),
+        type: false,
+      });
+    }
+    return [];
+  }, [suspendResponse, suspendError]);
+
+  useMemo(() => {
+    if (unsuspendResponse?.status === 204) {
+      fetchUser();
+      setToast({
+        show: true,
+        text: "Successfully unsuspended account!",
+        type: true,
+      });
+
+      setTimeout(() => {
+        setToast({
+          show: false,
+          text: "",
+          type: true,
+        });
+      }, 2000);
+    } else if (unsuspendError) {
+      setToast({
+        show: true,
+        text: getErrorMessage({
+          error: unsuspendError,
+          message: "Failed to unsuspend account, please try again later",
+        }),
+        type: false,
+      });
+    }
+    return [];
+  }, [unsuspendResponse, unsuspendError]);
+
   const handlePages = (page: number) => {
     fetchProperties(page);
     setPages((prev) => ({
@@ -199,7 +295,9 @@ const UserProfile = () => {
   const showLoader =
     fetchUserStatus.isPending ||
     propertiesStatus.isPending ||
-    approveBusinessStatus.isPending;
+    approveBusinessStatus.isPending ||
+    suspendStatus.isPending ||
+    unsuspendStatus.isPending;
 
   return (
     <>
@@ -216,6 +314,8 @@ const UserProfile = () => {
           pagination={{ ...pages, handleChange: handlePages }}
           handleBack={() => navigate(-1)}
           handleApproveBusiness={handleApproveBusiness}
+          handleSuspendUser={handleSuspendUser}
+          handleUnsuspendUser={handleUnsuspendUser}
         />
       ) : (
         ""

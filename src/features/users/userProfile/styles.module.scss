@@ -129,4 +129,17 @@ div.tableBodyItem {
   padding: 4px 16px;
   font-size: 13px;
   background: var(--green-bg);
+  text-transform: capitalize;
+}
+.unverified {
+  color: var(--red);
+  border-radius: 12px;
+  padding: 4px 16px;
+  font-size: 13px;
+  background: #ffcbcb;
+  text-transform: capitalize;
+}
+.personalStatus {
+  margin-left: 1rem;
+  margin-right: auto;
 }

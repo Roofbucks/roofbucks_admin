@@ -1,5 +1,7 @@
+.dialog {
+  z-index: 1800;
+}
 .toast {
-  z-index: 1500;
   margin-top: 0;
   display: flex;
   align-items: flex-start;

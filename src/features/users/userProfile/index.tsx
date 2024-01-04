@@ -36,6 +36,7 @@ interface PersonalInfo {
   city: string;
   country: string;
   phoneNumber: string;
+  status: "verified" | "unverified" | "suspended";
 }
 interface PersonalIdentification {
   idType: string;
@@ -84,6 +85,8 @@ interface UserProfileProps {
   };
   handleBack: () => void;
   handleApproveBusiness: () => void;
+  handleSuspendUser: () => void;
+  handleUnsuspendUser: () => void;
 }
 
 const UserProfileUI: React.FC<UserProfileProps> = ({
@@ -93,8 +96,11 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
   pagination,
   handleBack,
   handleApproveBusiness,
+  handleSuspendUser,
+  handleUnsuspendUser,
 }) => {
   const { personal, billing, business, identification } = user;
+
   return (
     <>
       <Button className={styles.backBtn} type="tertiary" onClick={handleBack}>
@@ -103,10 +109,33 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
       </Button>
       <section className={styles.section}>
         <div className={styles.section__heading}>
-          <h1 className={styles.section__ttl}>Personal Information</h1>
-          <Button className={styles.suspend} type="primary" onClick={() => {}}>
-            Suspend account
-          </Button>
+          <h1 className={styles.section__ttl}>Personal Information</h1>{" "}
+          <p
+            className={`${styles.personalStatus} ${
+              personal.status === "verified"
+                ? styles.isVerified
+                : styles.unverified
+            }`}
+          >
+            {personal.status}
+          </p>
+          {personal.status !== "unverified" ? (
+            <Button
+              className={styles.suspend}
+              type="primary"
+              onClick={() => {
+                personal.status === "verified"
+                  ? handleSuspendUser()
+                  : handleUnsuspendUser();
+              }}
+            >
+              {personal.status === "verified"
+                ? "Suspend account"
+                : "Unsuspend account"}
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
         <div className={styles.section__content}>
           <div className={styles.imageSec}>

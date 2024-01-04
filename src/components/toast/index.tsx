@@ -17,6 +17,7 @@ const Toast: React.FC<ToastProps> = ({ text, close, show, type }) => {
   return (
     <>
       <Modal
+        dialogClassName={styles.dialog}
         contentClassName={`${styles.toast} ${!type ? styles.toastRed : ""}`}
         show={show}
         close={close}

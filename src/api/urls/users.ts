@@ -49,3 +49,21 @@ export const fetchUserPropertiesURL = (id) =>
  */
 
 export const approveCompanyURL = (id) => `/admin/approve_company/${id}/`;
+
+/**
+ * Suspend user url
+ *
+ * @returns url string
+ *
+ */
+
+export const suspendUserURL = () => `/admin/suspend_user/`;
+
+/**
+ * Unsuspend user url
+ *
+ * @returns url string
+ *
+ */
+
+export const unsuspendUserURL = () => `/admin/unsuspend_user/`;
