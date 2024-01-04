@@ -18,6 +18,8 @@ const Users = () => {
 
 	const fetchData = () => {
 		runUsersList(usersService());
+	};
+	useMemo(() => {
 		if (response && response.data) {
 			const users = response.data.results;
 			console.log(users);
@@ -36,8 +38,7 @@ const Users = () => {
 		} else {
 			console.log(error);
 		}
-	};
-
+	}, []);
 	useEffect(() => {
 		fetchData();
 	}, []);
