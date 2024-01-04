@@ -10,13 +10,17 @@ const Login = () => {
 	const { run: runLogin, data: response, error } = useApiRequest({});
 	useMemo(() => {
 		if (response?.status === 200) {
-			
 			navigate(Routes.overview);
+			localStorage.setItem("roofbucksAdminAccess", response.data.tokens.access);
+			localStorage.setItem(
+				"roofbucksAdminRefresh",
+				response.data.tokens.refresh
+			);
 		} else if (error) {
-			alert("Sorry, there is an error somewhere")
+			alert("Sorry, there is an error somewhere");
 		}
 	}, [response, navigate, error]);
-
+	console.log(response);
 	const login = (data: LoginRequestData) => {
 		runLogin(loginService(data));
 	};

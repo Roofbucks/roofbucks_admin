@@ -3,8 +3,8 @@ import {
 	patchRequest,
 	postRequest,
 	resetPasswordURL,
+	loginURL
 } from "api";
-import { loginURL } from "api";
 
 /*
 =================================

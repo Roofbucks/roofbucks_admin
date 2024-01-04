@@ -12,8 +12,8 @@ export const axiosInstanceUnauth = axios.create({
 // axios request interceptor
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Get Access Token from local storage
     const accessToken = localStorage.getItem("roofbucksAdminAccess");
+    // Get Access Token from local storage
     if (accessToken && config.headers) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
