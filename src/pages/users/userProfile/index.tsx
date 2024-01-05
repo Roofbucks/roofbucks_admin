@@ -106,7 +106,7 @@ const UserProfile = () => {
           idBackPage: data.identity_document_album
             ? data.identity_document_album[1].document
             : undefined,
-          proofOfAddress: "",
+          proofOfAddress: data.proof_of_address_document,
         },
         business:
           data.role === "AGENT"

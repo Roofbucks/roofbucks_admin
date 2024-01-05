@@ -54,14 +54,15 @@ interface PropertiesProps {
     totalCount: number;
     pageLimit: number;
   };
-  status: {
-    value: optionType | undefined;
-    handleChange: (val) => void;
-  };
-  date: {
-    value: { start; end } | undefined;
-    handleChange: (val: { start: string; end: string }) => void;
-  };
+  status: optionType | undefined;
+  date: { start; end } | undefined;
+  handleFilter: ({
+    status,
+    date,
+  }: {
+    status: optionType;
+    date: { start: string; end: string };
+  }) => void;
 }
 
 const PropertiesUI: React.FC<PropertiesProps> = ({
@@ -73,19 +74,20 @@ const PropertiesUI: React.FC<PropertiesProps> = ({
   pagination,
   date,
   status,
+  handleFilter,
 }) => {
   const statusOptions: optionType[] = [
     {
       label: "Approved",
-      value: "APPROVED",
+      value: "Approved",
     },
     {
       label: "Pending",
-      value: "PENDING",
+      value: "Pending",
     },
     {
       label: "Rejected",
-      value: "REJECTED",
+      value: "Rejected",
     },
   ];
 
@@ -109,22 +111,28 @@ const PropertiesUI: React.FC<PropertiesProps> = ({
         </span>
       </section>
       <section className={styles.searchFilter}>
-        <PropertiesFilter
-          statusOptions={statusOptions}
-          submit={(data) => {
-            status.handleChange(data.status);
-            date.handleChange({ start: data.startDate, end: data.endDate });
-          }}
-          value={{
-            status: status.value ?? { label: "", value: "" },
-            startDate: date.value ? date.value?.start : "",
-            endDate: date.value ? date.value?.end : "",
-          }}
-        />
+        {tab.value === "properties" ? (
+          <PropertiesFilter
+            statusOptions={statusOptions}
+            submit={(data) => {
+              handleFilter({
+                status: data.status,
+                date: { start: data.startDate, end: data.endDate },
+              });
+            }}
+            value={{
+              status: status ?? { label: "", value: "" },
+              startDate: date ? date?.start : "",
+              endDate: date ? date?.end : "",
+            }}
+          />
+        ) : (
+          ""
+        )}
         <Search
           className={styles.search}
           value={search.value}
-          placeholder={"Search by id, property or agent"}
+          placeholder={"Search by id or property"}
           handleChange={search.handleChange}
         />
       </section>

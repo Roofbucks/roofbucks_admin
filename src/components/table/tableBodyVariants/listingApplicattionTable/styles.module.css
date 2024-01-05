@@ -28,8 +28,12 @@
   text-transform: lowercase;
   margin-top: 4px;
   display: block;
-  color: var(--green)
+  color: var(--green);
+  text-overflow: ellipsis;
 }
 .property {
   font-weight: 600;
+}
+.tableBodyRow * {
+  overflow: hidden;
 }

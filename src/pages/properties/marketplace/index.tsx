@@ -128,14 +128,14 @@ const Marketplace = () => {
       return fetchApplicationsResponse.data.results.map((item) => ({
         id: item.id,
         property: item.property,
-        propertyID: "1ebthbb1241",
+        propertyID: item.property_id,
         agent: item.agent,
         name: item.applicant,
-        email: "marilymonroe@gmail.com",
+        email: item.email,
         location: `${item.state}, ${item.country}`,
         // percentage: `${item.percentage_ownership}%`,
         date: getDateTime(item.created_at).date,
-        focus: "Cashflow",
+        focus: item.investment_focus,
       }));
     } else if (fetchApplicationsError) {
       setToast({

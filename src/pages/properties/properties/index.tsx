@@ -1,5 +1,10 @@
 import { fetchEditedPropertiesService, fetchPropertiesService } from "api";
-import { Preloader, PropertyTableItem, Toast } from "components";
+import {
+  Preloader,
+  PropertyTableItem,
+  Toast,
+  initOptionType,
+} from "components";
 import { PropertiesUI } from "features";
 import { getDateTime, getErrorMessage } from "helpers";
 import { useApiRequest, useDebounce } from "hooks";
@@ -44,13 +49,13 @@ const Properties = () => {
     error: fetchEditError,
   } = useApiRequest({});
 
-  const fetchProperties = (page?, dates?) =>
+  const fetchProperties = (page?, dates?, propertyStatus?) =>
     runFetch(
       fetchPropertiesService({
         page: page ?? pages.currentPage,
         limit: pages.pageLimit,
         search,
-        status: status?.value,
+        status: propertyStatus?.value ?? status?.value,
         stage: "",
         start_date: dates?.start ?? date.start,
         end_date: dates?.end ?? date.end,
@@ -72,7 +77,7 @@ const Properties = () => {
       ...prev,
       currentPage: 1,
     }));
-  }, [debouncedSearchTerm, status, tab]);
+  }, [debouncedSearchTerm]);
 
   const properties = useMemo<PropertyTableItem[]>(() => {
     if (fetchResponse?.status === 200) {
@@ -140,21 +145,27 @@ const Properties = () => {
     }));
   };
 
-  const handleDate = (data: { start: string; end: string }) => {
-    setDate(data);
-    fetchProperties(1, data);
-  };
-
   const handleTab = (tab) => {
     setTab(tab);
+    setStatus(initOptionType);
     setDate({ start: "", end: "" });
     setPages((prev) => ({
       ...prev,
       currentPage: 1,
     }));
     tab === "properties"
-      ? fetchProperties(1, { start: "", end: "" })
+      ? fetchProperties(1, { start: "", end: "" }, initOptionType)
       : fetchEditedProperties(1);
+  };
+
+  const handleFilter = ({ status, date }) => {
+    setStatus(status);
+    setDate(date);
+    setPages((prev) => ({
+      ...prev,
+      currentPage: 1,
+    }));
+    fetchProperties(1, date, status);
   };
 
   const loading = fetchStatus.isPending || fetchEditStatus.isPending;
@@ -182,14 +193,9 @@ const Properties = () => {
           value: search,
           handleChange: setSearch,
         }}
-        status={{
-          value: status,
-          handleChange: setStatus,
-        }}
-        date={{
-          value: date,
-          handleChange: handleDate,
-        }}
+        status={status}
+        date={date}
+        handleFilter={handleFilter}
       />
     </>
   );
