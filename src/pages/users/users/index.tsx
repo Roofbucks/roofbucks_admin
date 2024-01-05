@@ -19,6 +19,10 @@ const Users = () => {
 	const fetchData = () => {
 		runUsersList(usersService());
 	};
+	useEffect(() => {
+		fetchData();
+		console.log("Page loaded");
+	}, []);
 	useMemo(() => {
 		if (response && response.data) {
 			const users = response.data.results;
@@ -38,10 +42,7 @@ const Users = () => {
 		} else {
 			console.log(error);
 		}
-	}, []);
-	useEffect(() => {
-		fetchData();
-	}, []);
+	}, [response, error]);
 
 	const handleView = (id) => navigate(Routes.user(id));
 
