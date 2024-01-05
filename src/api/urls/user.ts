@@ -11,4 +11,4 @@ USER URLS
  *
  */
 
-export const userURL = () => `/user/agent_list/`;
+export const userURL = () => `/admin/get_users/`

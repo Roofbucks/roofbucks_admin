@@ -1,4 +1,5 @@
 import { userService } from "api";
+import { UserTableItem } from "components";
 import { UsersUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
@@ -6,39 +7,80 @@ import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
-  const { run: runUserData, data: userData, error } = useApiRequest({});
-
-  const handleView = (id) => {
-    navigate(Routes.user(id));
+  interface filterOptionType {
+    label?: any;
+    value?: any;
   }
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await runUserData(userService());
-        // Assuming the response contains an array of user data
-        setUsers(response.data || []);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+  interface FilterData {
+    status: filterOptionType;
+    accountType: filterOptionType;
+  }
 
-    fetchUsers();
-  }, [runUserData]);
- 
+  const [users, setUsers] = useState([]);
+  const [filter, setFilter] = useState<FilterData>({
+    status: { label: "", value: "" },
+    accountType: { label: "", value: "" },
+  });
+
+  const navigate = useNavigate();
+  const { run: runUserData, data: userDataResponse, error } = useApiRequest({});
+
+  useEffect(() => {
+    runUserData(userService());
+  }, []);
+
   useMemo(() => {
-    if (userData?.status === 200) {
-      alert("You have successfully retrieved usersData.");
+    if (userDataResponse?.status === 200) {
+      const userData = userDataResponse.data.results;
+      console.log(userData)
+
+      const filteredList = userData
+        .filter((item) => {
+          const accountTypeMatch =
+            !filter.accountType.value ||
+            item.role.toLowerCase() === filter.accountType.value.toLowerCase();
+
+          const statusMatch =
+            !filter.status.value || item.status.toLowerCase() === filter.status.value.toLowerCase();
+
+          return accountTypeMatch && statusMatch;
+        })
+        .map((item) => ({
+          id: item.id,
+          name: `${item.firstname} ${item.lastname}`,
+          email: item.email,
+          type: item.role.toLowerCase(),
+          dateCreated: item.created_at.substring(0, 10),
+          status: item.status.toLowerCase(),
+          // Include any additional details you need here
+        }));
+
+      setUsers(filteredList);
     } else if (error) {
       alert("Failed to get usersData, please try again later.");
     }
-  }, [userData, error]);
+  }, [userDataResponse, error, filter]);
+
+  const handleView = (id) => {
+    navigate(Routes.user(id));
+  };
+
+  const handleFilter = (data: any) => {
+    console.log("this is the data", data);
+    setFilter({
+      status: data.status,
+      accountType: data.accountType,
+    });
+  };
 
   return (
     <>
-      <UsersUI handleView={handleView} users={users} />
+      <UsersUI
+        handleView={handleView}
+        users={users}
+        handleFilter={handleFilter}
+      />
     </>
   );
 };
