@@ -34,9 +34,14 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
 interface UsersProps {
 	handleView: (id: string) => void;
 	userList: UserTableItem[];
+	handleFilter: (data: any) => void;
 }
 
-const UsersUI: React.FC<UsersProps> = ({ handleView, userList }) => {
+const UsersUI: React.FC<UsersProps> = ({
+	handleView,
+	userList,
+	handleFilter,
+}) => {
 	const [value, setValue] = useState("");
 	const [searchUserList, setSearchUserList] = useState<UserTableItem[]>([]);
 	useEffect(() => {
@@ -65,7 +70,7 @@ const UsersUI: React.FC<UsersProps> = ({ handleView, userList }) => {
 			</h1>
 			<section className={styles.searchFilter}>
 				<UsersFilter
-					submit={console.log}
+					submit={handleFilter}
 					value={{
 						status: { label: "", value: "" },
 						accountType: { label: "", value: "" },
