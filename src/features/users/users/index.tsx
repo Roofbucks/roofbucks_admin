@@ -48,7 +48,10 @@ const UsersUI: React.FC<UsersProps> = ({ handleView, userList }) => {
 				console.log("no user found");
 			}
 			return prev.filter((user) => {
-				return user.name.toLowerCase().includes(e.toLowerCase());
+				return (
+					user.name.toLowerCase().includes(e.toLowerCase()) ||
+					user.email.toLowerCase().includes(e.toLowerCase())
+				);
 			});
 		});
 		if (e === "") {

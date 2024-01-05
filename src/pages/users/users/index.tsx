@@ -32,7 +32,7 @@ const Users = () => {
 					email: user.email,
 					status: user.status,
 					type: user.role,
-					dateCreated: user.created_at,
+					dateCreated: user.created_at.slice(0,10),
 				};
 			});
 			setUserList(actualUserList);
