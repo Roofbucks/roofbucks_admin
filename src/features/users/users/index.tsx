@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   EmptyTable,
   Pagination,
@@ -11,6 +12,12 @@ import {
 import styles from "./styles.module.scss";
 import { EmptyStreet } from "assets";
 
+interface UsersProps {
+  handleView: (id: string) => void;
+  handleFilter: (data) => void;
+  userList: UserTableItem[];
+}
+
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Name" },
   { title: "Email" },
@@ -20,21 +27,31 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
-const user: UserTableItem = {
-  id: "123",
-  name: "New user",
-  email: "user@user.com",
-  status: "verified",
-  type: "agent",
-  dateCreated: "12/08/2023",
-  verifiedBusiness: true,
-};
+const UsersUI: React.FC<UsersProps> = ({ handleView, userList, handleFilter }) => {
+  const [searchValue, setSearchValue] = useState("");
+  const [searchUserList, setSearchUserList] = useState<UserTableItem[]>(userList);
 
-interface UsersProps {
-  handleView: (id: string) => void;
-}
+  useEffect(() => {
+    setSearchUserList(userList);
+  }, [userList]);
 
-const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
+  const filterMembers = (inputValue: string) => {
+    if (inputValue === "") {
+      setSearchUserList(userList);
+    } else {
+      setSearchUserList((prev) => {
+        const filteredUsers = prev.filter((user) =>
+          user.name.toLowerCase().includes(inputValue.toLowerCase())
+        );
+        if (filteredUsers.length === 0) {
+          console.log("No user found");
+        }
+        return filteredUsers;
+      });
+    }
+  };
+
+
   return (
     <>
       <h1 className={styles.ttl}>
@@ -42,7 +59,7 @@ const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
       </h1>
       <section className={styles.searchFilter}>
         <UsersFilter
-          submit={console.log}
+          submit={handleFilter}
           value={{
             status: { label: "", value: "" },
             accountType: { label: "", value: "" },
@@ -50,16 +67,19 @@ const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
         />
         <Search
           className={styles.search}
-          value={""}
+          value={searchValue}
           placeholder={"Search"}
-          handleChange={console.log}
+          handleChange={(e) => {
+            setSearchValue(e);
+            filterMembers(e);
+          }}
         />
       </section>
       <Table
         tableHeaderTitles={tableHeaderTitles}
         tableBody={
           <UserTable
-            tableBodyItems={new Array(10).fill(user)}
+            tableBodyItems={searchUserList}
             view={handleView}
             resendMail={console.log}
             tableBodyRowClassName={styles.tableBodyItem}
@@ -71,7 +91,7 @@ const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
           tableHeaderItemClassName: styles.tableHeaderItem,
         }}
         emptyTable={{
-          show: false,
+          show: searchUserList.length === 0,
           element: (
             <EmptyTable
               Vector={EmptyStreet}
@@ -81,14 +101,14 @@ const UsersUI: React.FC<UsersProps> = ({ handleView }) => {
           ),
         }}
       />
-              <Pagination
-          currentPage={1}
-          totalPages={3}
-          handleChange={console.log}
-          totalCount={21}
-          pageLimit={10}
-          name={"Users"}
-        />
+      <Pagination
+        currentPage={1}
+        totalPages={3}
+        handleChange={() => {}}
+        totalCount={22}
+        pageLimit={10}
+        name={"Users"}
+      />
     </>
   );
 };

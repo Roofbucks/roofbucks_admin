@@ -1,35 +1,35 @@
+import { loginService, loginRequestData } from "api";
 import { LoginUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
-import { loginRequestData, loginService } from "api";
-import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 import { Routes } from "router";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { run: runLogin, data: loginResponse, error } = useApiRequest({});
-  const login = (data: loginRequestData) => {
-    runLogin(loginService(data));
-  }
-  const forgot = () => { }
-  
-  useMemo(() => {
-    if (loginResponse?.status === 200) {
-      alert("Login Successful");
-      navigate(Routes.users)
-    } else if (error) {
-      alert("Sorry, an error occured");
-    }
-  }, [loginResponse, error, navigate])
-
-  return (
-    <>
-      <LoginUI
-        login={login}
-        forgotPassword={forgot}
-      />
-    </>
-  );
+	const navigate = useNavigate();
+	const { run: runLogin, data: response, error } = useApiRequest({});
+	useMemo(() => {
+		if (response?.status === 200) {
+			navigate(Routes.overview);
+			localStorage.setItem("roofbucksAdminAccess", response.data.tokens.access);
+			localStorage.setItem(
+				"roofbucksAdminRefresh",
+				response.data.tokens.refresh
+			);
+		} else if (error) {
+			alert("Sorry, there is an error somewhere");
+		}
+	}, [response, navigate, error]);
+	console.log(response);
+	const login = (data: loginRequestData) => {
+		runLogin(loginService(data));
+	};
+	const forgot = () => {};
+	return (
+		<>
+			<LoginUI login={login} forgotPassword={forgot} />
+		</>
+	);
 };
 
 export { Login };

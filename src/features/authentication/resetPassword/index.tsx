@@ -6,7 +6,8 @@ import * as yup from "yup";
 import { Button, Input } from "components";
 import { ArrowRight } from "assets";
 import { LogoWithText } from "components";
-import { useNavigate } from "react-router-dom";
+//import { Routes } from "router";
+//import { useNavigate } from "react-router-dom";
 //import { Routes } from "router";
 
 export interface ResetData {
@@ -99,6 +100,7 @@ const ResetPasswordUI: React.FC<ResetModalProps> = ({
             <li>Have atleast one upper case character</li>
             <li>Have atleast one special symbol</li>
             <li>Have atleast one number</li>
+            <li>Have at least one special character</li>
             <li>Be atleast 8 characters</li>
           </ul>
           <Button

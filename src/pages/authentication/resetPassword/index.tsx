@@ -1,8 +1,8 @@
 import { resetPasswordService } from "api";
 import { ResetData, ResetPasswordUI } from "features";
-import { useApiRequest } from "hooks/useApiRequest";
-import { useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useMemo } from "react";
+import { useApiRequest } from "hooks/useApiRequest";
 import { Routes } from "router";
 
 const ResetPassword = () => {

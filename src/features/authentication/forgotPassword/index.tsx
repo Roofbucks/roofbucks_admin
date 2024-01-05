@@ -5,8 +5,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input, LogoWithText } from "components";
 import { ArrowRight } from "assets";
-import { useNavigate } from "react-router-dom";
-import { Routes } from "router";
+// import { useNavigate } from "react-router-dom";
+// import { Routes } from "router";
 
 interface RecoveryData {
   email: string;

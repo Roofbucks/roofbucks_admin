@@ -9,39 +9,42 @@ import { Routes } from "router";
 
 
 interface LoginData {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 }
 
 const initialValues: LoginData = {
-  email: "",
-  password: "",
+	email: "",
+	password: "",
 };
 
 export interface LoginModalProps {
-  login: (data: LoginData) => void;
-  forgotPassword: () => void;
+	login: (data: LoginData) => void;
+	forgotPassword: () => void;
 }
 
 const loginSchema = yup
-  .object({
-    email: yup.string().required("Required").email("Enter a valid email"),
-    password: yup.string().required("Required"),
-  })
-  .required();
+	.object({
+		email: yup
+			.string()
+			.required("Required")
+			.email("Enter a valid email"),
+		password: yup.string().required("Required"),
+	})
+	.required();
 
 const LoginUI: React.FC<LoginModalProps> = ({
-  login,
-  forgotPassword,
+	login,
+	forgotPassword,
 }: LoginModalProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginData>({
-    resolver: yupResolver(loginSchema),
-    defaultValues: initialValues,
-  });
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<LoginData>({
+		resolver: yupResolver(loginSchema),
+		defaultValues: initialValues,
+	});
 
   const onSubmit: SubmitHandler<LoginData> = (data) => login(data);
 
