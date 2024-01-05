@@ -5,7 +5,7 @@ import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
-import { optionType } from "types";
+
 
 const Users = () => {
 	interface filterOptionType {
