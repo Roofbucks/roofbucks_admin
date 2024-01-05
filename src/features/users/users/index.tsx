@@ -10,7 +10,7 @@ import {
 } from "components";
 import styles from "./styles.module.scss";
 import { EmptyStreet } from "assets";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
 	{ title: "Name" },
@@ -38,6 +38,23 @@ interface UsersProps {
 
 const UsersUI: React.FC<UsersProps> = ({ handleView, userList }) => {
 	const [value, setValue] = useState("");
+	const [searchUserList, setSearchUserList] = useState<UserTableItem[]>([]);
+	useEffect(() => {
+		setSearchUserList(userList);
+	}, [userList]);
+	const filterMembers = (e) => {
+		setSearchUserList((prev) => {
+			if (prev.length) {
+				console.log("no user found");
+			}
+			return prev.filter((user) => {
+				return user.name.toLowerCase().includes(e.toLowerCase());
+			});
+		});
+		if (e === "") {
+			setSearchUserList(userList);
+		}
+	};
 	return (
 		<>
 			<h1 className={styles.ttl}>
@@ -55,14 +72,17 @@ const UsersUI: React.FC<UsersProps> = ({ handleView, userList }) => {
 					className={styles.search}
 					value={value}
 					placeholder={"Search"}
-					handleChange={(e) => setValue(e)}
+					handleChange={(e) => {
+						setValue(e);
+						filterMembers(e);
+					}}
 				/>
 			</section>
 			<Table
 				tableHeaderTitles={tableHeaderTitles}
 				tableBody={
 					<UserTable
-						tableBodyItems={userList}
+						tableBodyItems={searchUserList}
 						view={handleView}
 						resendMail={console.log}
 						tableBodyRowClassName={styles.tableBodyItem}

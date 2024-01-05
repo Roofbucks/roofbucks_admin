@@ -21,12 +21,10 @@ const Users = () => {
 	};
 	useEffect(() => {
 		fetchData();
-		console.log("Page loaded");
 	}, []);
 	useMemo(() => {
-		if (response && response.data) {
+		if (response?.status === 200) {
 			const users = response.data.results;
-			console.log(users);
 			const actualUserList = users.map((user) => {
 				return {
 					id: user.id,
@@ -38,9 +36,9 @@ const Users = () => {
 				};
 			});
 			setUserList(actualUserList);
-			console.log(userList);
+			console.log("page loaded")
 		} else {
-			console.log(error);
+			console.log("error occurred");
 		}
 	}, [response, error]);
 
