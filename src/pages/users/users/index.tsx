@@ -17,6 +17,11 @@ const Users = () => {
     accountType: filterOptionType;
   }
 
+  const [pages, setPages] = useState({
+    total: 0,
+    count: 20,
+    current: 1
+  });
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState<FilterData>({
     status: { label: "", value: "" },
@@ -33,14 +38,11 @@ const Users = () => {
   useMemo(() => {
     if (userDataResponse?.status === 200) {
       const userData = userDataResponse.data.results;
-      console.log(userData)
-
       const filteredList = userData
         .filter((item) => {
           const accountTypeMatch =
             !filter.accountType.value ||
             item.role.toLowerCase() === filter.accountType.value.toLowerCase();
-
           const statusMatch =
             !filter.status.value || item.status.toLowerCase() === filter.status.value.toLowerCase();
 
@@ -53,10 +55,14 @@ const Users = () => {
           type: item.role.toLowerCase(),
           dateCreated: item.created_at.substring(0, 10),
           status: item.status.toLowerCase(),
-          // Include any additional details you need here
         }));
 
       setUsers(filteredList);
+      console.log(userData);
+      setPages((prev) => ({
+        ...prev,
+        total: Math.ceil((filteredList.length) / pages.count) // Calculate total pages
+      }));
     } else if (error) {
       alert("Failed to get usersData, please try again later.");
     }
@@ -64,6 +70,14 @@ const Users = () => {
 
   const handleView = (id) => {
     navigate(Routes.user(id));
+  };
+
+  const handlePages = (page) => {
+    runUserData(userService());
+    setPages((prev) => ({
+      ...prev,
+      current: page
+    }));
   };
 
   const handleFilter = (data: any) => {
@@ -80,6 +94,12 @@ const Users = () => {
         handleView={handleView}
         users={users}
         handleFilter={handleFilter}
+        pagination={{
+          handleChange: handlePages,
+          total: pages.total,
+          current: pages.current,
+          count: pages.count
+        }}
       />
     </>
   );

@@ -24,10 +24,16 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
 interface UsersProps {
 	handleView: (id: string) => void;
   users: UserTableItem[];
-  handleFilter: (data) => void;
+	handleFilter: (data) => void;
+	pagination: {
+    handleChange: (page) => void;
+    total: number;
+    current: number;
+    count: number;
+  };
 }
 
-const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter }) => {
+const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter, pagination }) => {
   const [searchUsers, setSearchUsers] = useState<UserTableItem[]>([]);
   const [val, setVal] = useState("");
 	useEffect(() => {
@@ -95,11 +101,11 @@ const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter }) => {
 				}}
 			/>
 			<Pagination
-				currentPage={1}
-				totalPages={3}
-				handleChange={() => {}}
-				totalCount={22}
-				pageLimit={10}
+				currentPage={pagination.current}
+				totalPages={pagination.total}
+				handleChange={pagination.handleChange}
+				totalCount={20}
+				pageLimit={20}
 				name={"Users"}
 			/>
 		</>

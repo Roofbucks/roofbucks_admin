@@ -7,19 +7,22 @@ import { Routes } from "router";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const { run: runLogin, data: loginResponse, error } = useApiRequest({});
   const login = (data: loginData) => {
     runLogin(loginService(data));
   }
+
   const forgot = () => {navigate(Routes.forgotPassword)}
   
   useMemo(() => {
     if (loginResponse?.status === 200) {
-      localStorage.setItem("roofbucksAdminAccess", loginResponse.tokens);
+      localStorage.setItem("roofbucksAdminAccess", loginResponse.data.tokens.access);
+      localStorage.setItem("roofbucksAdminRefresh", loginResponse.data.tokens.refresh);
       alert("Login Successful");
       navigate(Routes.users)
     } else if (error) {
-      alert(loginResponse.error);
+      alert("Sorry, an error occured.");
     }
   }, [loginResponse, error, navigate])
 
