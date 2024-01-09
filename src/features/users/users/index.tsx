@@ -10,7 +10,7 @@ import {
 } from "components";
 import styles from "./styles.module.scss";
 import { EmptyStreet } from "assets";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
 	{ title: "Name" },
@@ -25,31 +25,18 @@ interface UsersProps {
 	handleView: (id: string) => void;
   users: UserTableItem[];
 	handleFilter: (data) => void;
+	handleSearch: (data: any) => void;
 	pagination: {
     handleChange: (page) => void;
     total: number;
     current: number;
-    count: number;
-  };
+		count: number;
+		limit: number;
+	};
 }
 
-const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter, pagination }) => {
-  const [searchUsers, setSearchUsers] = useState<UserTableItem[]>([]);
+const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter, pagination, handleSearch}) => {
   const [val, setVal] = useState("");
-	useEffect(() => {
-		setSearchUsers(users);
-  }, [users]);
-
-  const searchClients = (e) => {
-		setSearchUsers((prev) => {
-			return prev.filter((user) => {
-				return user.name.toLowerCase().includes(e.toLowerCase());
-			});
-		});
-		if (e === "") {
-			setSearchUsers(users);
-		}
-  };
 
 	return (
 		<>
@@ -69,7 +56,7 @@ const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter, pagina
 					value={val}
 					placeholder={"Search"}
 					handleChange={(e) => {
-            searchClients(e);
+						handleSearch(e)
             setVal(e);
 					}}
 				/>
@@ -78,7 +65,7 @@ const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter, pagina
 				tableHeaderTitles={tableHeaderTitles}
 				tableBody={
 					<UserTable
-						tableBodyItems={searchUsers}
+						tableBodyItems={users}
 						view={handleView}
 						resendMail={console.log}
 						tableBodyRowClassName={styles.tableBodyItem}
@@ -104,8 +91,8 @@ const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter, pagina
 				currentPage={pagination.current}
 				totalPages={pagination.total}
 				handleChange={pagination.handleChange}
-				totalCount={20}
-				pageLimit={20}
+				totalCount={pagination.count}
+				pageLimit={pagination.limit}
 				name={"Users"}
 			/>
 		</>

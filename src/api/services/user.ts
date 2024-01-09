@@ -11,9 +11,16 @@ import { userURL, getRequest} from "api";
  * @returns axios promise
  */
 
-export const userService = () => {
+export interface userData {
+  search: string;
+  page: number;
+  limit?: number;
+}
+
+export const userService = (data: userData) => {
   const request = {
     url: userURL(),
+    data
   };
   return getRequest(request);
 };

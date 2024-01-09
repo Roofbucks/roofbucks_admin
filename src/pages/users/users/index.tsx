@@ -1,83 +1,98 @@
-import { userService } from "api";
+// import { userService } from "api";
+import axios from "axios";
 import { UserTableItem } from "components";
 import { UsersUI } from "features";
-import { useApiRequest } from "hooks/useApiRequest";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 
+interface filterOptionType {
+  label?: any;
+  value?: any;
+}
+
+interface FilterData {
+  status: filterOptionType;
+  accountType: filterOptionType;
+}
+
 const Users = () => {
-  interface filterOptionType {
-    label?: any;
-    value?: any;
-  }
+  const getRequest = async (request) => {
+    const { url, config } = request;
 
-  interface FilterData {
-    status: filterOptionType;
-    accountType: filterOptionType;
-  }
+    const accessToken = localStorage.getItem("roofbucksAdminAccess");
+    const headers = config ? { ...config.headers } : {};
 
-  const [pages, setPages] = useState({
-    total: 0,
-    count: 20,
-    current: 1
-  });
+    if (accessToken) {
+      headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    const apiUrl = process.env.REACT_APP_API_BASE_URL + url;
+
+      const response = await axios.get(apiUrl, { ...config, headers });
+      return response;
+  };
+
+  const [totalPages, setTotalPages] = useState(2);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState(1);
   const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(null);
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<FilterData>({
     status: { label: "", value: "" },
     accountType: { label: "", value: "" },
   });
 
-  const navigate = useNavigate();
-  const { run: runUserData, data: userDataResponse, error } = useApiRequest({});
-
   useEffect(() => {
-    runUserData(userService());
-  }, []);
+    const fetchData = async () => {
+      let url = `/admin/get_users/?page=${currentPage}`;
 
-  useMemo(() => {
-    if (userDataResponse?.status === 200) {
-      const userData = userDataResponse.data.results;
-      const filteredList = userData
-        .filter((item) => {
-          const accountTypeMatch =
-            !filter.accountType.value ||
-            item.role.toLowerCase() === filter.accountType.value.toLowerCase();
-          const statusMatch =
-            !filter.status.value || item.status.toLowerCase() === filter.status.value.toLowerCase();
+      if (searchTerm) {
+        url += `&search=${searchTerm}`;
+      } else if (filter.accountType.value) {
+        url += `&role=${filter.accountType.value.toUpperCase()}`;
+      } else if (filter.status.value) {
+        url += `&status=${filter.status.value.toUpperCase()}`;
+      } else if (filter.accountType.value && filter.status.value) {
+        url += `&status=${filter.status.value.toUpperCase()}&role=${filter.accountType.value.toUpperCase()}`
+      }
+  
+      const request = {
+        url: url,
+      };
+  
+      const userDataResponse = await getRequest(request);
+  
+      if (userDataResponse?.status === 200) {
+        const userData = userDataResponse.data.results;
+        console.log(userData)
+        setTotalUsers(userDataResponse?.data.total);
+        setTotalPages(userDataResponse?.data.pages);
+        setPageLimit(userDataResponse?.data.limit);
+  
+        const userList = userData
+          .map((item) => ({
+            id: item.id,
+            name: `${item.firstname} ${item.lastname}`,
+            email: item.email,
+            type: item.role.toLowerCase(),
+            dateCreated: item.created_at.substring(0, 10),
+            status: item.status.toLowerCase(),
+          }));
+        setUsers(userList);
+      } else {
+        console.log("there was an error");
+      }
+    };
+  
+    fetchData();
+  }, [currentPage, searchTerm, filter.accountType.value, filter.status.value]);
+  
 
-          return accountTypeMatch && statusMatch;
-        })
-        .map((item) => ({
-          id: item.id,
-          name: `${item.firstname} ${item.lastname}`,
-          email: item.email,
-          type: item.role.toLowerCase(),
-          dateCreated: item.created_at.substring(0, 10),
-          status: item.status.toLowerCase(),
-        }));
-
-      setUsers(filteredList);
-      console.log(userData);
-      setPages((prev) => ({
-        ...prev,
-        total: Math.ceil((filteredList.length) / pages.count) // Calculate total pages
-      }));
-    } else if (error) {
-      alert("Failed to get usersData, please try again later.");
-    }
-  }, [userDataResponse, error, filter]);
-
-  const handleView = (id) => {
-    navigate(Routes.user(id));
-  };
-
-  const handlePages = (page) => {
-    runUserData(userService());
-    setPages((prev) => ({
-      ...prev,
-      current: page
-    }));
+  const handlePages = (currentPage) => {
+    setCurrentPage(currentPage++);
   };
 
   const handleFilter = (data: any) => {
@@ -88,17 +103,28 @@ const Users = () => {
     });
   };
 
+  const handleSearch = (e: any) => {
+    setSearchTerm(e)
+    console.log(e)
+  };
+
+  const handleView = (id) => {
+    navigate(Routes.user(id));
+  };
+
   return (
     <>
       <UsersUI
         handleView={handleView}
         users={users}
         handleFilter={handleFilter}
+        handleSearch={handleSearch}
         pagination={{
           handleChange: handlePages,
-          total: pages.total,
-          current: pages.current,
-          count: pages.count
+          total: totalPages,
+          current: currentPage,
+          count: totalUsers,
+          limit: pageLimit,
         }}
       />
     </>
