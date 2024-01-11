@@ -19,6 +19,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   return (
     <>
       <Modal
+        dialogClassName={styles.dialog}
         contentClassName={styles.modal}
         position={"centered"}
         close={close}

@@ -6,6 +6,8 @@ PROPERTIES SERVICES
 
 import {
   approvePropertyURL,
+  deleteRequest,
+  discardApplicationURL,
   fetchApplicationURL,
   fetchApplicationsURL,
   fetchEditedPropertiesURL,
@@ -132,4 +134,16 @@ export const rejectPropertyService = (id: string, reason: string) => {
     data: { reason },
   };
   return postRequest(requestData);
+};
+
+/**
+ * Discard listing/marketplace application service
+ * @returns axios promise
+ */
+
+export const discardApplicationService = (id: string) => {
+  const requestData = {
+    url: discardApplicationURL(id),
+  };
+  return getRequest(requestData);
 };

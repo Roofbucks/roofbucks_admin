@@ -17,7 +17,10 @@ import { optionType } from "types";
 
 const Marketplace = () => {
   // States
-  const [show, setShow] = useState(false);
+  const [showApplication, setShowApplication] = useState({
+    show: false,
+    id: "",
+  });
   const [pages, setPages] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -36,7 +39,7 @@ const Marketplace = () => {
   const navigate = useNavigate();
   const debouncedSearchTerm = useDebounce(search, 500);
   const handleViewProperty = (id) => navigate(Routes.property(id));
-  const handleViewApplication = (id) => setShow(true);
+  const handleViewApplication = (id) => setShowApplication({ show: true, id });
 
   // API Hooks
   const {
@@ -177,7 +180,7 @@ const Marketplace = () => {
   };
 
   const loading = fetchStatus.isPending || fetchApplicationsStatus.isPending;
-
+console.log(showApplication)
   return (
     <>
       <Preloader loading={loading} />
@@ -185,7 +188,13 @@ const Marketplace = () => {
         {...toast}
         close={() => setToast((prev) => ({ ...prev, show: false }))}
       />
-      <MarketplaceApplication show={show} close={() => setShow(false)} />
+      <MarketplaceApplication
+        {...showApplication}
+        close={() => setShowApplication({ show: false, id: "" })}
+        callback={() => {
+          fetchApplications(1);
+        }}
+      />
       <MarketplaceUI
         handleViewProperty={handleViewProperty}
         handleViewApplication={handleViewApplication}

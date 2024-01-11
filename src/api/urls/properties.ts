@@ -67,3 +67,12 @@ export const approvePropertyURL = (id) => `/admin/approve_property/${id}/`;
  */
 
 export const rejectPropertyURL = (id) => `/admin/reject_property/${id}/`;
+
+/**
+ * Discard listing/marketplace application URL
+ *
+ * @returns url string
+ *
+ */
+
+export const discardApplicationURL = (id) => `/admin/delete_application/${id}/`;

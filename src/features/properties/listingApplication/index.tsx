@@ -46,7 +46,7 @@ const ListingApplicationUI: React.FC<ListingApplicationUIProps> = ({
         contentClassName={styles.modal}
         position="centered"
         show={show}
-        close={close}
+        close={() => {}}
       >
         <CloseIcon onClick={close} role="button" className={styles.closeBtn} />
         <h1 className={styles.ttl}>Listing Application</h1>

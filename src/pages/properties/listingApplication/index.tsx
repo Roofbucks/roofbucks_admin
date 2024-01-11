@@ -1,5 +1,5 @@
-import { fetchApplicationService } from "api";
-import { Preloader, Toast } from "components";
+import { discardApplicationService, fetchApplicationService } from "api";
+import { ConfirmationModal, Preloader, Toast } from "components";
 import { ListingApplicationData, ListingApplicationUI } from "features";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
@@ -19,6 +19,7 @@ const ListingApplication: React.FC<Props> = ({ show, close, callback, id }) => {
     text: "",
     type: true,
   });
+  const [discard, setDiscard] = useState(false);
 
   // API Hooks
   const {
@@ -27,8 +28,15 @@ const ListingApplication: React.FC<Props> = ({ show, close, callback, id }) => {
     requestStatus: fetchStatus,
     error: fetchError,
   } = useApiRequest({});
+  const {
+    run: runDiscard,
+    data: discardResponse,
+    requestStatus: discardStatus,
+    error: discardError,
+  } = useApiRequest({});
 
   const fetchApplication = () => runFetch(fetchApplicationService(id));
+  const handleDiscard = () => runDiscard(discardApplicationService(id));
 
   useEffect(() => {
     show && fetchApplication();
@@ -73,7 +81,33 @@ const ListingApplication: React.FC<Props> = ({ show, close, callback, id }) => {
     return undefined;
   }, [fetchResponse, fetchError]);
 
-  const loading = fetchStatus.isPending;
+  useMemo(() => {
+    if (discardResponse?.status === 204) {
+      setToast({
+        show: true,
+        text:
+          discardResponse.data?.message ?? "Successfully discarded application",
+        type: false,
+      });
+      callback();
+      setDiscard(false)
+      setTimeout(() => {
+        close();
+        setToast({...toast, show: false})
+      }, 1000);
+    } else if (discardError) {
+      setToast({
+        show: true,
+        text: getErrorMessage({
+          error: discardError,
+          message: "Failed to discard application, please try again later",
+        }),
+        type: false,
+      });
+    }
+  }, [discardResponse, discardError]);
+
+  const loading = fetchStatus.isPending || discardStatus.isPending;
 
   return (
     <>
@@ -82,10 +116,16 @@ const ListingApplication: React.FC<Props> = ({ show, close, callback, id }) => {
         {...toast}
         close={() => setToast((prev) => ({ ...prev, show: false }))}
       />
+      <ConfirmationModal
+        show={discard}
+        close={() => setDiscard(false)}
+        text={`Are you sure you want to discard this application?`}
+        submit={handleDiscard}
+      />
       {application && (
         <ListingApplicationUI
           application={application}
-          discard={console.log}
+          discard={() => setDiscard(true)}
           show={show}
           close={close}
         />

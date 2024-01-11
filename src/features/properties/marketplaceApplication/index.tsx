@@ -21,7 +21,7 @@ const MarketplaceApplicationUI: React.FC<MarketplaceApplicationUIProps> = ({
         contentClassName={styles.modal}
         position="centered"
         show={show}
-        close={close}
+        close={() => {}}
       >
         <CloseIcon onClick={close} role="button" className={styles.closeBtn} />
         <h1 className={styles.ttl}>Marketplace Application</h1>
