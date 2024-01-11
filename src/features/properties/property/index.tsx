@@ -9,6 +9,47 @@ import { Button } from "components";
 import { Link } from "react-router-dom";
 import { Routes } from "router";
 
+interface PropertyData {
+  id: string;
+  name: string;
+  type: string;
+  completionStatus: string;
+  completionPercentage: string;
+  completionPercent: string;
+  yearBuilt: string;
+  noOfBedrooms: string;
+  noOfToilets: string;
+  totalCost: string;
+  description: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  indoorAmenities: string[];
+  outdoorAmenities: string[];
+  otherAmenities: string;
+  erfSize: string;
+  diningArea: string;
+  floorSize: string;
+  crossRoads: {
+    address1: string;
+    address2: string;
+  };
+  landmarks: {
+    address1: string;
+    address2: string;
+  };
+  media: string[];
+  surveyPlan: string | undefined;
+  purchaseReceipt: string | undefined;
+  excision: string | undefined;
+  gazette: string | undefined;
+  deedOfAssignment: string | undefined;
+  certificateOfOccupancy: string | undefined;
+  otherDocs: { name: string; file: string }[];
+}
+
 interface PropertyProps {
   goBack: () => void;
   handleApprove: () => void;

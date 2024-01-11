@@ -5,12 +5,15 @@ PROPERTIES SERVICES
 */
 
 import {
+  approvePropertyURL,
   fetchApplicationURL,
   fetchApplicationsURL,
   fetchEditedPropertiesURL,
   fetchPropertiesURL,
+  fetchPropertyURL,
   getRequest,
   postRequest,
+  rejectPropertyURL,
 } from "api";
 
 interface fetchPropertiesParams {
@@ -92,4 +95,41 @@ export const fetchApplicationService = (id: string) => {
     url: fetchApplicationURL(id),
   };
   return getRequest(requestData);
+};
+
+/**
+ * Fetch single property service
+ * @returns axios promise
+ */
+
+export const fetchPropertyService = (id: string) => {
+  const requestData = {
+    url: fetchPropertyURL(id),
+  };
+  return getRequest(requestData);
+};
+
+/**
+ * Approve property service
+ * @returns axios promise
+ */
+
+export const approvePropertyService = (id: string) => {
+  const requestData = {
+    url: approvePropertyURL(id),
+  };
+  return getRequest(requestData);
+};
+
+/**
+ * Reject property service
+ * @returns axios promise
+ */
+
+export const rejectPropertyService = (id: string, reason: string) => {
+  const requestData = {
+    url: rejectPropertyURL(id),
+    data: { reason },
+  };
+  return postRequest(requestData);
 };

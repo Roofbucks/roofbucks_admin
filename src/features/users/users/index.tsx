@@ -68,7 +68,7 @@ const UsersUI: React.FC<UsersProps> = ({
   return (
     <>
       <h1 className={styles.ttl}>
-        Users <span>(58)</span>
+        Users <span>({pagination.totalCount})</span>
       </h1>
       <section className={styles.searchFilter}>
         <UsersFilter
