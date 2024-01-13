@@ -16,6 +16,15 @@ interface UsersProps {
   handleView: (id: string) => void;
   handleFilter: (data) => void;
   userList: UserTableItem[];
+  handleSearch:(e : any) => void;
+  pagination: {
+    handleChange: (currentPage: any) => void;
+    total: number;
+    current: number;
+    count: number;
+    limit: number;
+  }
+  searchUsers: UserTableItem[];
 }
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
@@ -27,7 +36,7 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
-const UsersUI: React.FC<UsersProps> = ({ handleView, userList, handleFilter }) => {
+const UsersUI: React.FC<UsersProps> = ({ handleView, userList, handleFilter, handleSearch }) => {
   const [searchValue, setSearchValue] = useState("");
   const [searchUserList, setSearchUserList] = useState<UserTableItem[]>(userList);
 

@@ -1,4 +1,4 @@
-import { resetPasswordService } from "api";
+import { resetPasswordService, resetPasswordData } from "api";
 import { ResetData, ResetPasswordUI } from "features";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMemo } from "react";
