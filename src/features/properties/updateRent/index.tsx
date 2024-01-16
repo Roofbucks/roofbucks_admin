@@ -26,7 +26,7 @@ const schema = yup
 interface UpdateRentModalProps {
   show: boolean;
   close: () => void;
-  submit: (data: RentData) => void;
+  submit: (rent: number) => void;
   value: number;
 }
 
@@ -50,7 +50,8 @@ const UpdateRentModal: React.FC<UpdateRentModalProps> = ({
     reset({ rent: `${value}` });
   }, [value]);
 
-  const onSubmit: SubmitHandler<RentData> = (data) => submit(data);
+  const onSubmit: SubmitHandler<RentData> = (data) =>
+    submit(parseInt(data.rent));
 
   return (
     <Modal show={show} close={close}>

@@ -8,7 +8,7 @@ import { UpdateRent } from "../updateRent";
 import { useApiRequest } from "hooks";
 import { fetchPropertyService } from "api";
 import { getErrorMessage } from "helpers";
-import { Preloader } from "components";
+import { Preloader, Toast } from "components";
 
 const Property = () => {
   const [approve, setApprove] = useState(false);
@@ -137,10 +137,43 @@ const Property = () => {
   return (
     <>
       <Preloader loading={showLoader} />
-      <ApproveProperty show={approve} close={() => setApprove(false)} />
-      <RejectProperty show={reject} close={() => setReject(false)} />
-      <AddMarketValue show={marketValue} close={() => setMarketValue(false)} />
-      <UpdateRent show={rent} close={() => setRent(false)} />
+      <Toast
+        {...toast}
+        close={() => setToast((prev) => ({ ...prev, show: false }))}
+      />
+      {propertyID ? (
+        <>
+          <ApproveProperty
+            show={approve}
+            close={() => setApprove(false)}
+            propertyID={propertyID}
+            callback={fetchProperty}
+          />
+          <RejectProperty
+            show={reject}
+            close={() => setReject(false)}
+            propertyID={propertyID}
+            callback={fetchProperty}
+          />
+          <UpdateRent
+            propertyID={propertyID}
+            callback={fetchProperty}
+            show={rent}
+            close={() => setRent(false)}
+            rent={0}
+          />
+          <AddMarketValue
+            propertyID={propertyID}
+            callback={fetchProperty}
+            show={marketValue}
+            close={() => setMarketValue(false)}
+            currentValue={0}
+          />
+        </>
+      ) : (
+        ""
+      )}
+
       {property ? (
         <PropertyUI
           goBack={goBack}

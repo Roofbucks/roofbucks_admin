@@ -26,7 +26,7 @@ const schema = yup
 interface AddMarketValueModalProps {
   show: boolean;
   close: () => void;
-  submit: (data: ApproveData) => void;
+  submit: (value: number) => void;
   value: number | undefined;
   currency: string;
 }
@@ -52,7 +52,8 @@ const AddMarketValueModal: React.FC<AddMarketValueModalProps> = ({
     value && reset({ cost: `${value}` });
   }, [value]);
 
-  const onSubmit: SubmitHandler<ApproveData> = (data) => submit(data);
+  const onSubmit: SubmitHandler<ApproveData> = (data) =>
+    submit(parseInt(data.cost));
 
   return (
     <Modal show={show} close={close}>

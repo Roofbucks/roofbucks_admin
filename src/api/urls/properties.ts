@@ -76,3 +76,21 @@ export const rejectPropertyURL = (id) => `/admin/reject_property/${id}/`;
  */
 
 export const discardApplicationURL = (id) => `/admin/delete_application/${id}/`;
+
+/**
+ * Set market value of a property URL
+ *
+ * @returns url string
+ *
+ */
+
+export const setMarketValueURL = (id) => `/admin/set_market_value/${id}/`;
+
+/**
+ * Set rent per annum for a property URL
+ *
+ * @returns url string
+ *
+ */
+
+export const setRentURL = (id) => `/admin/set_rent_amount/${id}/`;

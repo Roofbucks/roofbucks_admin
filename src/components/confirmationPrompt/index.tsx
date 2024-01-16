@@ -2,11 +2,12 @@ import { Modal } from "components/modal";
 import styles from "./styles.module.scss";
 import { CloseIcon } from "assets";
 import { Button } from "components";
+import { ReactNode } from "react";
 
 interface ConfirmationModalProps {
   show: boolean;
   close: () => void;
-  text: string;
+  text: string | ReactNode;
   submit: () => void;
 }
 

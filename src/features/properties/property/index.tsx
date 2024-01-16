@@ -130,7 +130,7 @@ const PropertyUI: React.FC<PropertyProps> = ({
           </h1>
           <div>
             {/* Only show for approved property */}
-            {property.status === "approved" ? (
+            {property.status !== "rejected" ? (
               <Button
                 className={styles.actionBtn}
                 type="tertiary"
@@ -142,17 +142,17 @@ const PropertyUI: React.FC<PropertyProps> = ({
               ""
             )}
             {/* Only show for properties that have investors */}
-            {/* {investors.length > 0 ? ( */}
-            <Button
-              className={styles.actionBtn}
-              type="primary"
-              onClick={handleMarketValue}
-            >
-              Update market value
-            </Button>
-            {/* ) : (
+            {property.status !== "rejected" ? (
+              <Button
+                className={styles.actionBtn}
+                type="primary"
+                onClick={handleMarketValue}
+              >
+                Update market value
+              </Button>
+            ) : (
               ""
-            )} */}
+            )}
 
             {/* Only show for pending property */}
             {property.status === "pending" ? (

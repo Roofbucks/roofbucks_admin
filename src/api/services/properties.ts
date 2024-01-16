@@ -16,6 +16,8 @@ import {
   getRequest,
   postRequest,
   rejectPropertyURL,
+  setMarketValueURL,
+  setRentURL,
 } from "api";
 
 interface fetchPropertiesParams {
@@ -146,4 +148,30 @@ export const discardApplicationService = (id: string) => {
     url: discardApplicationURL(id),
   };
   return getRequest(requestData);
+};
+
+/**
+ * Set market value of a property service
+ * @returns axios promise
+ */
+
+export const setMarketValueService = (id: string, value: number) => {
+  const requestData = {
+    url: setMarketValueURL(id),
+    data: { value },
+  };
+  return postRequest(requestData);
+};
+
+/**
+ * Set rent per annum for a property service
+ * @returns axios promise
+ */
+
+export const setRentService = (id: string, value: number) => {
+  const requestData = {
+    url: setRentURL(id),
+    data: { value },
+  };
+  return postRequest(requestData);
 };
