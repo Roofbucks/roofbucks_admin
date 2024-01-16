@@ -71,15 +71,15 @@ const UsersFilterModal: React.FC<UsersFilterModalProps> = ({
   const statusOptions: optionType[] = [
     {
       label: "Verified",
-      value: "VERIFIED",
+      value: "verified",
     },
     {
       label: "Unverified",
-      value: "UNVERIFIED",
+      value: "unverified",
     },
     {
       label: "Suspended",
-      value: "SUSPENDED",
+      value: "suspended",
     },
   ];
   const accountOptions: optionType[] = [
