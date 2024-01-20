@@ -1,5 +1,6 @@
 import { userService } from "api";
 import { UserTableItem } from "components";
+import debounce from 'lodash/debounce';
 import { UsersUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
@@ -39,33 +40,20 @@ const Users = () => {
       setTotalPages(userDataResponse?.data.pages);
       setPageLimit(userDataResponse?.data.limit);
 
-      const filteredList = userData
-        .filter((item) => {
-          const accountTypeMatch =
-            !filter.accountType.value ||
-            item.role.toLowerCase() === filter.accountType.value.toLowerCase();
-          const statusMatch =
-            !filter.status.value ||
-            item.status.toLowerCase() === filter.status.value.toLowerCase();
-          // const searchMatch = item.name
-          //   ?.toLowerCase()
-          //   .includes(searchTerm?.toLowerCase());
-
-          return accountTypeMatch && statusMatch
-        })
-        .map((item) => ({
-          id: item.id,
-          name: `${item.firstname} ${item.lastname}`,
-          email: item.email,
-          type: item.role.toLowerCase(),
-          dateCreated: item.created_at.substring(0, 10),
-          status: item.status.toLowerCase(),
-        }));
-      setUsers(filteredList);
-    } else if (error) {
-      alert("Failed to get usersData, please try again later.");
-    }
-  }, [userDataResponse, error, filter]);
+      const userList = userData
+      .map((item) => ({
+        id: item.id,
+        name: `${item.firstname} ${item.lastname}`,
+        email: item.email,
+        type: item.role.toLowerCase(),
+        dateCreated: item.created_at.substring(0, 10),
+        status: item.status.toLowerCase(),
+      }));
+    setUsers(userList);
+  } else {
+    console.log("there was an error");
+  }
+  }, [userDataResponse]);
 
   const handlePages = (currentPage) => {
     setCurrentPage(currentPage++)
@@ -77,17 +65,17 @@ const Users = () => {
       status: data.status,
       accountType: data.accountType,
     });
+    setCurrentPage(1)
   };
 
-  const handleSearch = (e) => {
-    setSearchUsers((prev) => {
-      return prev.filter((user) => {
-        return user.name.toLowerCase().includes(e.toLowerCase());
-      });
-    });
-    if (e === "") {
-      setSearchUsers(users);
-    }
+  const debouncedHandleSearch = debounce((searchTerm: any) => {
+    setSearchTerm(searchTerm);
+    setCurrentPage(1);
+    console.log(searchTerm);
+  }, 3000);
+  
+  const handleSearch = (e: any) => {
+    debouncedHandleSearch(e);
   };
 
   useEffect(() => {

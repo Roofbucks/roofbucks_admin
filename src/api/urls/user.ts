@@ -11,4 +11,4 @@ USER URLS
  *
  */
 
-export const userURL = () => `/admin/get_users/`
+export const userURL = ({currentPage}) => `/admin/get_users/?page=${currentPage}`

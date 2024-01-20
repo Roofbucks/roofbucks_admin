@@ -1,6 +1,6 @@
 // import { userService } from "api";
 import axios from "axios";
-import { UserTableItem } from "components";
+import debounce from 'lodash/debounce';
 import { UsersUI } from "features";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -96,16 +96,21 @@ const Users = () => {
   };
 
   const handleFilter = (data: any) => {
-    console.log("this is the data", data);
     setFilter({
       status: data.status,
       accountType: data.accountType,
     });
+    setCurrentPage(1)
   };
 
+  const debouncedHandleSearch = debounce((searchTerm: any) => {
+    setSearchTerm(searchTerm);
+    setCurrentPage(1);
+    console.log(searchTerm);
+  }, 3000);
+  
   const handleSearch = (e: any) => {
-    setSearchTerm(e)
-    console.log(e)
+    debouncedHandleSearch(e);
   };
 
   const handleView = (id) => {

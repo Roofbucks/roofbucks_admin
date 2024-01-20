@@ -19,7 +19,7 @@ export interface userData {
 
 export const userService = (data: userData) => {
   const request = {
-    url: userURL(),
+    url: userURL({currentPage: data.page}),
     data
   };
   return getRequest(request);
