@@ -10,7 +10,7 @@ import {
 } from "components";
 import styles from "./styles.module.scss";
 import { EmptyStreet } from "assets";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
 	{ title: "Name" },
@@ -21,28 +21,33 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
 	{ title: "" },
 ];
 
+// const user: UserTableItem = {
+// 	id: "123",
+// 	name: "New user",
+// 	email: "user@user.com",
+// 	status: "verified",
+// 	type: "agent",
+// 	dateCreated: "12/08/2023",
+// 	verifiedBusiness: true,
+// };
+
 interface UsersProps {
 	handleView: (id: string) => void;
-	users: UserTableItem[];
-	handleFilter: (data) => void;
-	handleSearch: (data: any) => void;
-	pagination: {
-		handleChange: (page) => void;
-		total: number;
-		current: number;
-		count: number;
-		limit: number;
-	};
+	userList: UserTableItem[];
+	handleFilter: (data: any) => void;
+	searchUsers: any;
+	pagination: any;
+	handleSearch: any;
 }
 
 const UsersUI: React.FC<UsersProps> = ({
 	handleView,
-	users,
-	handleFilter,
+	searchUsers,
 	pagination,
 	handleSearch,
+	handleFilter,
 }) => {
-	const [val, setVal] = useState("");
+	const [value, setValue] = useState("");
 
 	return (
 		<>
@@ -59,11 +64,11 @@ const UsersUI: React.FC<UsersProps> = ({
 				/>
 				<Search
 					className={styles.search}
-					value={val}
+					value={value}
 					placeholder={"Search"}
 					handleChange={(e) => {
+						setValue(e);
 						handleSearch(e);
-						setVal(e);
 					}}
 				/>
 			</section>
@@ -71,7 +76,7 @@ const UsersUI: React.FC<UsersProps> = ({
 				tableHeaderTitles={tableHeaderTitles}
 				tableBody={
 					<UserTable
-						tableBodyItems={users}
+						tableBodyItems={searchUsers}
 						view={handleView}
 						resendMail={console.log}
 						tableBodyRowClassName={styles.tableBodyItem}

@@ -78,12 +78,12 @@ const UsersFilterModal: React.FC<UsersFilterModalProps> = ({
   ];
   const accountOptions: optionType[] = [
     {
-      label: "Agent",
-      value: "agent",
+      label: "agent",
+      value: "AGENT",
     },
     {
-      label: "Shareholder",
-      value: "shareholder",
+      label: "shareholder",
+      value: "SHAREHOLDER",
     },
   ];
 

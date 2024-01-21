@@ -1,88 +1,123 @@
-import { usersService } from "api";
-import { UserTableItem } from "components";
+import axios from "axios";
 import { UsersUI } from "features";
-import { useApiRequest } from "hooks/useApiRequest";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 
+interface filterOptionType {
+	label?: any;
+	value?: any;
+}
+
+interface FilterData {
+	status: filterOptionType;
+	accountType: filterOptionType;
+}
 
 const Users = () => {
-	interface filterOptionType {
-		label?: any;
-		value?: any;
-	}
-
-	interface FilterData {
-		status: filterOptionType;
-		accountType: filterOptionType;
-	}
-	const [userList, setUserList] = useState([]);
-	const [filter, setFilter] = useState<FilterData>({
+	const [users, setUsers] = useState([]);
+	const [search, setSearch] = useState("");
+	const [filterUsers, setFilterUsers] = useState<FilterData>({
 		status: { label: "", value: "" },
 		accountType: { label: "", value: "" },
 	});
-	const navigate = useNavigate();
-	const {
-		run: runUsersList,
-		data: response,
-		error,
-		requestStatus,
-	} = useApiRequest({});
+	const [pageData, setPageData] = useState({
+		pageTotal: 1,
+		usersDataTotal: 0,
+		currentPage: 1,
+		pageLimit: 10,
+	});
+	console.log(pageData);
 
-	const fetchData = () => {
-		runUsersList(usersService());
-	};
 	useEffect(() => {
-		fetchData();
-	}, []);
-	useMemo(() => {
-		if (response?.status === 200) {
-			const users = response.data.results;
-			const filteredList = users
-				.filter((item) => {
-					const accountTypeMatch =
-						!filter.accountType.value ||
-						item.role.toLowerCase() === filter.accountType.value.toLowerCase();
-
-					const statusMatch =
-						!filter.status.value ||
-						item.status.toLowerCase() === filter.status.value.toLowerCase();
-
-					return accountTypeMatch && statusMatch;
+		const fetchUsers = () => {
+			axios
+				.get("/admin/get_users/", {
+					baseURL: process.env.REACT_APP_API_BASE_URL,
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem(
+							"roofbucksAdminAccess"
+						)}`,
+					},
+					params: {
+						search: search,
+						page: pageData.currentPage,
+						limit: 10,
+						role: filterUsers.accountType.value,
+						status: filterUsers.status.value,
+					},
 				})
-				.map((user) => {
-					return {
+				.then((res) => {
+					const pageInfo = res.data;
+					console.log(pageInfo);
+					const userData = res.data.results;
+					setPageData((prev) => ({
+						...prev,
+						usersDataTotal: pageInfo.total,
+						pageTotal: pageInfo.pages,
+						pageLimit: pageInfo.limit,
+					}));
+
+					const userList = userData.map((user) => ({
 						id: user.id,
 						name: `${user.firstname} ${user.lastname}`,
 						email: user.email,
-						status: user.status,
-						type: user.role,
-						dateCreated: user.created_at.slice(0, 10),
-					};
-				});
-			setUserList(filteredList);
-			console.log("page loaded");
-		} else {
-			console.log("error occurred");
-		}
-	}, [response, error, filter]);
+						type: user.role.toLowerCase(),
+						dateCreated: new Date(user.created_at).toLocaleDateString(),
+						status: user.status.toLowerCase(),
+						verifiedBusiness: user.business_verified,
+					}));
+					setUsers(userList);
+				})
+				.catch((err) => console.log(err))
+				.finally(() => console.log("done"));
+		};
+		fetchUsers();
+	}, [
+		search,
+		filterUsers.accountType.value,
+		filterUsers.status.value,
+		pageData.currentPage,
+	]);
 
-	const handleView = (id) => navigate(Routes.user(id));
-	const handleFilter = (data) => {
-		console.log("this is the data", data);
-		setFilter({
+	const navigate = useNavigate();
+
+	const handlePages = (page) => {
+		setPageData((prev) => ({
+			...prev,
+			currentPage: page < pageData.pageTotal ? (page += 1) : (page -= 1),
+		}));
+	};
+
+	const handleFilter = (data: any) => {
+		setFilterUsers({
 			status: data.status,
 			accountType: data.accountType,
 		});
+	};
+
+	const handleSearch = (e: any) => {
+		setSearch(e);
+	};
+
+	const handleView = (id) => {
+		navigate(Routes.user(id));
 	};
 
 	return (
 		<>
 			<UsersUI
 				handleView={handleView}
-				userList={userList}
+				users={users}
 				handleFilter={handleFilter}
+				handleSearch={handleSearch}
+				pagination={{
+					handleChange: () => handlePages(pageData.currentPage),
+					total: pageData.pageTotal,
+					current: pageData.currentPage,
+					count: pageData.usersDataTotal,
+					limit: pageData.pageLimit,
+				}}
 			/>
 		</>
 	);
