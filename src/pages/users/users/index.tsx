@@ -90,6 +90,10 @@ const Users = () => {
 	};
 
 	const handleFilter = (data: any) => {
+		setPageData((prev) => ({
+			...prev,
+			currentPage: 1,
+		}));
 		setFilterUsers({
 			status: data.status,
 			accountType: data.accountType,
@@ -97,6 +101,10 @@ const Users = () => {
 	};
 
 	const handleSearch = (e: any) => {
+		setPageData((prev) => ({
+			...prev,
+			currentPage: 1,
+		}));
 		setSearch(e);
 	};
 
