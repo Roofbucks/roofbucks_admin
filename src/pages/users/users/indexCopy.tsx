@@ -18,7 +18,7 @@ interface FilterData {
 }
 
 const Users = () => {
-  const { run: runUserData, data: userDataResponse, error } = useApiRequest({});
+  const { run: runUserData, data: userDataResponse } = useApiRequest({});
   const [totalPages, setTotalPages] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,7 +60,6 @@ const Users = () => {
   };
 
   const handleFilter = (data: any) => {
-    console.log("this is the data", data);
     setFilter({
       status: data.status,
       accountType: data.accountType,
@@ -80,7 +79,7 @@ const Users = () => {
 
   useEffect(() => {
     setSearchUsers(users);
-    runUserData(userService({ search: searchTerm, page: currentPage }));
+    runUserData(userService({ search: searchTerm, page: currentPage, filter: filter }));
   }, [currentPage]);
   useEffect(() => {
     setSearchUsers(users);

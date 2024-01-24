@@ -1,4 +1,3 @@
-// import { userService } from "api";
 import axios from "axios";
 import debounce from 'lodash/debounce';
 import { UsersUI } from "features";
@@ -17,22 +16,6 @@ interface FilterData {
 }
 
 const Users = () => {
-  const getRequest = async (request) => {
-    const { url, config } = request;
-
-    const accessToken = localStorage.getItem("roofbucksAdminAccess");
-    const headers = config ? { ...config.headers } : {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
-    const apiUrl = process.env.REACT_APP_API_BASE_URL + url;
-
-      const response = await axios.get(apiUrl, { ...config, headers });
-      return response;
-  };
-
   const [totalPages, setTotalPages] = useState(2);
   const [totalUsers, setTotalUsers] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,45 +29,42 @@ const Users = () => {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      let url = `/admin/get_users/?page=${currentPage}`;
+    const fetchData = () => {
+      axios
+        .get ("/admin/get_users/",{
+          baseURL: process.env.REACT_APP_API_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "roofbucksAdminAccess"
+            )}`,
+          },
+          params: {
+            search: searchTerm,
+            page: currentPage,
+            limit: 10,
+            role: filter.accountType.value.toUpperCase(),
+            status: filter.status.value.toLowerCase(),
+          },
+        })
+				.then((response) => {
+					const userResults = response.data.results;
+          setTotalUsers(response.data.total);
+          setTotalPages(response.data.pages);
+          setPageLimit(response.data.limit);
 
-      if (searchTerm) {
-        url += `&search=${searchTerm}`;
-      } else if (filter.accountType.value) {
-        url += `&role=${filter.accountType.value.toUpperCase()}`;
-      } else if (filter.status.value) {
-        url += `&status=${filter.status.value.toUpperCase()}`;
-      } else if (filter.accountType.value && filter.status.value) {
-        url += `&status=${filter.status.value.toUpperCase()}&role=${filter.accountType.value.toUpperCase()}`
-      }
-  
-      const request = {
-        url: url,
-      };
-  
-      const userDataResponse = await getRequest(request);
-  
-      if (userDataResponse?.status === 200) {
-        const userData = userDataResponse.data.results;
-        console.log(userData)
-        setTotalUsers(userDataResponse?.data.total);
-        setTotalPages(userDataResponse?.data.pages);
-        setPageLimit(userDataResponse?.data.limit);
-  
-        const userList = userData
-          .map((item) => ({
-            id: item.id,
-            name: `${item.firstname} ${item.lastname}`,
-            email: item.email,
-            type: item.role.toLowerCase(),
-            dateCreated: item.created_at.substring(0, 10),
-            status: item.status.toLowerCase(),
-          }));
-        setUsers(userList);
-      } else {
-        console.log("there was an error");
-      }
+					const userList = userResults.map((user) => ({
+						id: user.id,
+						name: `${user.firstname} ${user.lastname}`,
+						email: user.email,
+						type: user.role.toLowerCase(),
+						dateCreated: new Date(user.created_at).toLocaleDateString(),
+						status: user.status.toLowerCase(),
+						verifiedBusiness: user.business_verified,
+					}));
+					setUsers(userList);
+				})
+        .catch((error) => console.log(error))
+				.finally(() => console.log("fetched data"));
     };
   
     fetchData();
