@@ -83,6 +83,8 @@ export interface PropertyData {
     id: string;
     percentage: number;
   }[];
+  rent: number
+  marketValue: number
 }
 
 interface PropertyProps {

@@ -52,7 +52,7 @@ const ListingApplication: React.FC<Props> = ({ show, close, callback, id }) => {
           id: data.property_id,
           name: data.property_name,
           agent: data.agent_name,
-          cost: `NGN ${data.total_cost}`,
+          cost: data.total_cost,
           completionStatus: data.completion_status.toLowerCase(),
         },
         applicant: {
@@ -63,9 +63,7 @@ const ListingApplication: React.FC<Props> = ({ show, close, callback, id }) => {
           location: `${data.applicant_city}, ${data.applicant_country}`,
           percentage: data.percentage_ownership,
           amount: `NGN ${(data.total_cost * data.percentage_ownership) / 100}`,
-          duration: "",
-          longTermOwnership: "",
-          reason: "",
+          reason: data.reason_for_purchase,
         },
       };
     } else if (fetchError) {
@@ -90,10 +88,10 @@ const ListingApplication: React.FC<Props> = ({ show, close, callback, id }) => {
         type: false,
       });
       callback();
-      setDiscard(false)
+      setDiscard(false);
       setTimeout(() => {
         close();
-        setToast({...toast, show: false})
+        setToast({ ...toast, show: false });
       }, 1000);
     } else if (discardError) {
       setToast({

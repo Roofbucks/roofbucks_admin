@@ -52,7 +52,7 @@ const Property = () => {
         completionPercentage: data.percentage_completed,
         completionCost: `NGN ${data.completion_cost}`,
         completionDate: data.completion_date,
-        yearBuilt: "",
+        yearBuilt: data.date_built,
         noOfBedrooms: data.number_of_bedrooms,
         noOfToilets: data.number_of_toilets,
         totalCost: `NGN ${data.total_property_cost}`,
@@ -61,7 +61,7 @@ const Property = () => {
         city: data.city,
         state: data.state,
         zipCode: data.zip_code,
-        country: "",
+        country: data.country,
         amenities: data.amenities,
         erfSize: `${data.ERF_size} SQM`,
         diningArea: `${data.dining_area} seats`,
@@ -94,15 +94,15 @@ const Property = () => {
         },
         homeBuyer: data.house_owner
           ? {
-              firstName: data.house_owner.firstname,
-              lastName: data.house_owner.lastname,
-              email: data.house_owner.email,
-              phone: data.house_owner.phone,
-              address: data.house_owner.address,
-              city: data.house_owner.city,
-              country: data.house_owner.country,
-              id: data.house_owner.id,
-              percentage: 0,
+              firstName: data.house_owner.user.firstname,
+              lastName: data.house_owner.user.lastname,
+              email: data.house_owner.user.email,
+              phone: data.house_owner.user.phone,
+              address: data.house_owner.user.address,
+              city: data.house_owner.user.city,
+              country: data.house_owner.user.country,
+              id: data.house_owner.user.id,
+              percentage: data.house_owner.percentage,
             }
           : undefined,
         investors: data.investors.map((item) => ({
@@ -116,6 +116,8 @@ const Property = () => {
           id: item.id,
           percentage: 0,
         })),
+        rent: data.rent_amount,
+        marketValue: data.market_value,
       };
     } else if (fetchError) {
       setToast({
@@ -160,14 +162,14 @@ const Property = () => {
             callback={fetchProperty}
             show={rent}
             close={() => setRent(false)}
-            rent={0}
+            rent={property?.rent ?? 0}
           />
           <AddMarketValue
             propertyID={propertyID}
             callback={fetchProperty}
             show={marketValue}
             close={() => setMarketValue(false)}
-            currentValue={0}
+            currentValue={property?.marketValue ?? 0}
           />
         </>
       ) : (
