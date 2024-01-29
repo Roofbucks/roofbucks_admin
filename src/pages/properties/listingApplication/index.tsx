@@ -59,10 +59,10 @@ const ListingApplication: React.FC<Props> = ({ show, close, callback, id }) => {
           id: data.id,
           name: data.applicant_name,
           email: data.applicant_email,
-          socialMedia: "",
+          socialMedia: data.percentage,
           location: `${data.applicant_city}, ${data.applicant_country}`,
           percentage: data.percentage_ownership,
-          amount: `NGN ${(data.total_cost * data.percentage_ownership) / 100}`,
+          amount: (data.total_cost * data.percentage_ownership) / 100,
           reason: data.reason_for_purchase,
         },
       };

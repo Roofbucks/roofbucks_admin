@@ -130,7 +130,7 @@ const PropertyUI: React.FC<PropertyProps> = ({
               {property.status}
             </span>
           </h1>
-          <div>
+          <div className={styles.btnSec} >
             {/* Only show for approved property */}
             {property.status !== "rejected" ? (
               <Button

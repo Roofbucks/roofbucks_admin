@@ -1,5 +1,6 @@
 import { refreshTokenService } from "api/services";
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
+import { Routes } from "router";
 
 // Create and axios instance
 const axiosInstance = axios.create({
@@ -40,7 +41,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } else {
         localStorage.clear();
-        window.location.assign("/login");
+        window.location.assign(Routes.home);
       }
     }
     return Promise.reject(error);

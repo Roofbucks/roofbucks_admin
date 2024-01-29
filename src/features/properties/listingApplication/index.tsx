@@ -20,7 +20,7 @@ export interface ListingApplicationData {
     location: string;
     reason: string;
     percentage: number;
-    amount: string;
+    amount: number;
   };
 }
 
@@ -114,7 +114,7 @@ const ListingApplicationUI: React.FC<ListingApplicationUIProps> = ({
             </div>
             <div>
               <span>Amount</span>
-              <p>NGN {applicant.percentage * property.cost}</p>
+              <p>NGN {applicant.amount}</p>
             </div>
           </div>
         </section>

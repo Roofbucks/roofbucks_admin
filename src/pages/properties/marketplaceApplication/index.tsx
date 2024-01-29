@@ -1,6 +1,6 @@
 import { fetchApplicationService, discardApplicationService } from "api";
 import { Preloader, Toast, ConfirmationModal } from "components";
-import { MarketplaceApplicationUI } from "features";
+import { MarketplaceApplicationData, MarketplaceApplicationUI } from "features";
 import { getErrorMessage } from "helpers";
 import { useApiRequest } from "hooks";
 import { useEffect, useMemo, useState } from "react";
@@ -42,12 +42,12 @@ const MarketplaceApplication: React.FC<Props> = ({
 
   const fetchApplication = () => runFetch(fetchApplicationService(id));
   const handleDiscard = () => runDiscard(discardApplicationService(id));
-console.log(id)
+  console.log(id);
   useEffect(() => {
     show && fetchApplication();
   }, [id, show]);
 
-  const application = useMemo(() => {
+  const application = useMemo<MarketplaceApplicationData | undefined>(() => {
     if (fetchResponse?.status === 200) {
       console.log(fetchResponse);
       const data = fetchResponse.data;
@@ -57,20 +57,21 @@ console.log(id)
           id: data.property_id,
           name: data.property_name,
           agent: data.agent_name,
-          cost: `NGN ${data.total_cost}`,
+          cost: data.total_cost,
           completionStatus: data.completion_status.toLowerCase(),
         },
         applicant: {
           id: data.id,
           name: data.applicant_name,
           email: data.applicant_email,
-          socialMedia: "",
+          socialMedia: data.percentage,
           location: `${data.applicant_city}, ${data.applicant_country}`,
           percentage: data.percentage_ownership,
-          amount: `NGN ${(data.total_cost * data.percentage_ownership) / 100}`,
-          duration: "",
-          longTermOwnership: "",
-          reason: "",
+          amount: (data.total_cost * data.percentage_ownership) / 100,
+          focus: "",
+          investorType: "",
+          timeline: "",
+          roi: data.expected_ROI,
         },
       };
     } else if (fetchError) {
@@ -127,11 +128,16 @@ console.log(id)
         text={`Are you sure you want to discard this application?`}
         submit={handleDiscard}
       />
-      <MarketplaceApplicationUI
-        discard={() => setDiscard(true)}
-        show={show}
-        close={close}
-      />
+      {application ? (
+        <MarketplaceApplicationUI
+          discard={() => setDiscard(true)}
+          show={show}
+          close={close}
+          application={application}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };

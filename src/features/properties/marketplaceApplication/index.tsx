@@ -4,17 +4,43 @@ import { ArrowRight, CloseIcon } from "assets";
 import { Link } from "react-router-dom";
 import { Routes } from "router";
 
+export interface MarketplaceApplicationData {
+  property: {
+    id: string;
+    name: string;
+    agent: string;
+    cost: number;
+    completionStatus: string;
+  };
+  applicant: {
+    id: string;
+    name: string;
+    email: string;
+    socialMedia: string;
+    location: string;
+    percentage: number;
+    amount: number;
+    roi: number;
+    investorType: string;
+    timeline: string;
+    focus: string;
+  };
+}
+
 interface MarketplaceApplicationUIProps {
   discard: () => void;
   show: boolean;
   close: () => void;
+  application: MarketplaceApplicationData;
 }
 
 const MarketplaceApplicationUI: React.FC<MarketplaceApplicationUIProps> = ({
   show,
   close,
   discard,
+  application,
 }) => {
+  const { property, applicant } = application;
   return (
     <>
       <Modal
@@ -25,14 +51,14 @@ const MarketplaceApplicationUI: React.FC<MarketplaceApplicationUIProps> = ({
       >
         <CloseIcon onClick={close} role="button" className={styles.closeBtn} />
         <h1 className={styles.ttl}>Marketplace Application</h1>
-        <p className={styles.id}>ID: 12344</p>
+        {/* <p className={styles.id}>ID: 12344</p> */}
         <section className={styles.section}>
           <div className={styles.section__heading}>
             <h2 className={styles.section__ttl}>Property Information</h2>
             <Link
               className={styles.viewBtn}
               target="_blank"
-              to={Routes.property("123")}
+              to={Routes.property(property.id)}
               type="tertiary"
             >
               View property <ArrowRight />
@@ -41,23 +67,23 @@ const MarketplaceApplicationUI: React.FC<MarketplaceApplicationUIProps> = ({
           <div className={styles.section__content}>
             <div>
               <span>Property ID</span>
-              <p>12345678</p>
+              <p>{property.id}</p>
             </div>
             <div>
               <span>Property Name</span>
-              <p>Mukola House</p>
+              <p>{property.name}</p>
             </div>
             <div>
               <span>Agent Name</span>
-              <p>John Musaw</p>
+              <p>{property.agent}</p>
             </div>
             <div>
               <span>Completion Status</span>
-              <p>Completed</p>
+              <p>{property.completionStatus}</p>
             </div>
             <div>
               <span>Total Cost</span>
-              <p>NGN 500,000,000</p>
+              <p>NGN {property.cost}</p>
             </div>
           </div>
         </section>
@@ -68,40 +94,40 @@ const MarketplaceApplicationUI: React.FC<MarketplaceApplicationUIProps> = ({
           <div className={styles.section__content}>
             <div>
               <span>Name</span>
-              <p>Mukola Tones </p>
-              <a href="">Social media</a>
+              <p>{applicant.name} </p>
+              <a href={applicant.socialMedia}>Social media</a>
             </div>
             <div>
               <span>Email</span>
-              <a>mukolatones@gmail.com</a>
+              <a href={`mailto:${applicant.email}`}>{applicant.email}</a>
             </div>
             <div>
               <span>Location</span>
-              <p>Laagos, Nigeria</p>
+              <p>{applicant.location}</p>
             </div>
             <div>
               <span>Timeline</span>
-              <p>hthrhtt</p>
+              <p>{applicant.timeline}</p>
             </div>
             <div>
               <span>Focus</span>
-              <p>hthrhtt</p>
+              <p>{applicant.focus}</p>
             </div>
             <div>
               <span>ROI</span>
-              <p>12%</p>
+              <p>{applicant.roi}%</p>
             </div>
             <div>
               <span>Investing As:</span>
-              <p>Individual</p>
+              <p>{applicant.investorType}</p>
             </div>
             <div>
-              <span>Long Term Ownership</span>
-              <p>10</p>
+              <span>Percentage</span>
+              <p>{applicant.percentage}%</p>
             </div>
             <div>
-              <span>Website</span>
-              <a>https://website.com</a>
+              <span>Amount</span>
+              <p>NGN {applicant.amount}</p>
             </div>
           </div>
         </section>
