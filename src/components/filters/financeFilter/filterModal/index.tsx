@@ -5,40 +5,54 @@ import { optionType } from "types";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
-import {
-  Button,
-  CustomSelect,
-  initOptionType,
-  optionTypeSchema,
-} from "components";
+import { Button, CustomSelect, Input, initOptionType } from "components";
 import { useEffect } from "react";
 
+interface optionType2 {
+  label?: any;
+  value?: any;
+}
+
 export interface FinanceFilterData {
-  type: optionType;
+  type: optionType2;
+  status: optionType2;
+  startDate: string | undefined;
+  endDate: string | undefined;
 }
 
 const initFilterData: FinanceFilterData = {
   type: initOptionType,
+  status: initOptionType,
+  startDate: "",
+  endDate: "",
 };
+
+const optionTypeSchema = yup.object({
+  label: yup.string(),
+  value: yup.string(),
+});
 
 const schema = yup
   .object({
-    type: optionTypeSchema(""),
+    type: optionTypeSchema,
+    status: optionTypeSchema,
+    startDate: yup.string(),
+    endDate: yup.string(),
   })
   .required();
 
 interface FinanceFilterModalProps {
   show: boolean;
   close: () => void;
-  submit: (type) => void;
-  type: optionType;
+  submit: ({ status, startDate, endDate, type }) => void;
+  value: FinanceFilterData;
 }
 
 const FinanceFilterModal: React.FC<FinanceFilterModalProps> = ({
   show,
   close,
   submit,
-  type,
+  value,
 }) => {
   const {
     handleSubmit,
@@ -46,43 +60,76 @@ const FinanceFilterModal: React.FC<FinanceFilterModalProps> = ({
     formState: { errors },
     watch,
     reset,
+    register,
   } = useForm<FinanceFilterData>({
     resolver: yupResolver(schema),
-    defaultValues: { type },
+    defaultValues: initFilterData,
   });
 
   useEffect(() => {
-    reset({ type });
-  }, [type]);
+    reset(value);
+  }, [value]);
 
   const typeOptions: optionType[] = [
     {
       label: "Rent",
-      value: "Rent",
+      value: "RENT",
     },
     {
       label: "Deposit",
-      value: "Deposit",
+      value: "DEPOSIT",
     },
     {
       label: "Investment",
-      value: "Investment",
+      value: "INVESTMENT",
     },
     {
       label: "Buy back",
-      value: "Buy back",
+      value: "BUY-BACK",
+    },
+    {
+      label: "Deposit payout",
+      value: "DEPOSIT-PAYOUT",
+    },
+    {
+      label: "Rent payout",
+      value: "RENT-PAYOUT",
+    },
+    {
+      label: "Buy back payout",
+      value: "BUY-BACK-PAYOUT",
+    },
+  ];
+
+  const statusOptions: optionType[] = [
+    {
+      label: "Pending",
+      value: "PENDING",
+    },
+    {
+      label: "Success",
+      value: "SUCCESS",
+    },
+    {
+      label: "Failed",
+      value: "FAILED",
     },
   ];
 
   const onSubmit: SubmitHandler<FinanceFilterData> = (data) => {
-    submit(data.type);
+    submit(data);
     close();
   };
-  const disableSubmit = watch("type")?.label === "";
+  const disableSubmit =
+    watch("type")?.label === "" &&
+    watch("status")?.label === "" &&
+    watch("endDate") === "" &&
+    watch("startDate") === "";
 
   const handleReset = () => {
     reset(initFilterData);
-    submit(initOptionType);
+    submit(initFilterData);
+    close();
   };
 
   return (
@@ -106,10 +153,47 @@ const FinanceFilterModal: React.FC<FinanceFilterModalProps> = ({
             name={`type`}
             placeholder={"Select transaction type"}
             options={typeOptions}
-            value={watch("type")}
+            value={{
+              label: watch("type.label") ?? "",
+              value: watch("type.value") ?? "",
+            }}
             parentClassName={styles.inputWrap}
             inputClass={styles.select}
             label="Transaction Type"
+          />
+          <CustomSelect
+            onChange={(val) => setValue(`status`, val)}
+            validatorMessage={
+              errors?.status
+                ? errors?.status?.value?.message?.toString() ?? ""
+                : ""
+            }
+            name={`status`}
+            placeholder={"Select status"}
+            options={statusOptions}
+            value={{
+              label: watch("status.label") ?? "",
+              value: watch("status.value") ?? "",
+            }}
+            parentClassName={styles.inputWrap}
+            inputClass={styles.select}
+            label="Status"
+          />
+          <Input
+            label="Start Date"
+            placeholder={"Enter a start date"}
+            name={"startDate"}
+            validatorMessage={errors?.startDate?.message}
+            register={register}
+            type="date"
+          />
+          <Input
+            label="End Date"
+            placeholder={"Enter an end date"}
+            name={"endDate"}
+            validatorMessage={errors?.endDate?.message}
+            register={register}
+            type="date"
           />
         </form>
         <div className={styles.footer}>

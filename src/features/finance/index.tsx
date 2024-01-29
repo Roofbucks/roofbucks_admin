@@ -10,6 +10,7 @@ import {
 } from "components";
 import styles from "./styles.module.scss";
 import { EmptyStreet } from "assets";
+import { optionType } from "types";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Property" },
@@ -20,41 +21,72 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Date" },
 ];
 
-const transaction: TransactionTableItem = {
-  id: "123",
-  date: "11/11/2023",
-  amount: "NGN 200,000,000",
-  type: "deposit",
-  property: "Mukola House",
-  propertyId: "1234",
-  user: "Jason Douglas",
-  status: "pending"
-};
+interface FinanceUIProps {
+  transactions: TransactionTableItem[];
+  pagination: {
+    handleChange: (page: number) => void;
+    totalPages: number;
+    currentPage: number;
+    totalCount: number;
+    pageLimit: number;
+  };
+  search: {
+    value: string;
+    handleChange: (search: string) => void;
+  };
+  type: optionType | undefined;
+  status: optionType | undefined;
+  date: { start; end } | undefined;
+  handleFilter: ({
+    status,
+    date,
+    type,
+  }: {
+    status: optionType;
+    type: optionType;
+    date: { start: string; end: string };
+  }) => void;
+  handleViewProperty: (id) => void;
+  handlePayAgent: (id) => void;
+}
 
-const transactions: TransactionTableItem[] = [
-  ...new Array(2).fill(transaction),
-  ...new Array(1).fill({ ...transaction, type: "rent" }),
-  ...new Array(1).fill({ ...transaction, type: "deposit_payout" }),
-  ...new Array(1).fill({ ...transaction, type: "rent_payout" }),
-  ...new Array(2).fill({ ...transaction, type: "investment" }),
-  ...new Array(2).fill({ ...transaction, type: "buy-back" }),
-  ...new Array(1).fill({ ...transaction, type: "buy-back_payout" }),
-];
-
-const FinanceUI = () => {
+const FinanceUI: React.FC<FinanceUIProps> = ({
+  transactions,
+  pagination,
+  status,
+  type,
+  search,
+  date,
+  handleFilter,
+  handleViewProperty,
+  handlePayAgent,
+}) => {
   return (
     <>
       <h1 className={styles.ttl}>
-        Financial Transactions <span>(58)</span>
+        Financial Transactions <span>({pagination.totalCount})</span>
       </h1>
       <section>
         <section className={styles.searchFilter}>
-          <FinanceFilter submit={console.log} type={{ label: "", value: "" }} />
+          <FinanceFilter
+            submit={(data) => {
+              handleFilter({
+                status: data.status,
+                type: data.type,
+                date: { start: data.startDate, end: data.endDate },
+              });
+            }}
+            value={{
+              status: status ?? { label: "", value: "" },
+              type: type ?? { label: "", value: "" },
+              startDate: date ? date?.start : "",
+              endDate: date ? date?.end : "",
+            }}
+          />
           <Search
             className={styles.search}
-            value={""}
+            {...search}
             placeholder={"Search by property name"}
-            handleChange={console.log}
           />
         </section>
         <Table
@@ -62,9 +94,9 @@ const FinanceUI = () => {
           tableBody={
             <TransactionTable
               tableBodyItems={transactions}
-              handleViewProperty={console.log}
+              handleViewProperty={handleViewProperty}
               tableBodyRowClassName={styles.tableBodyItem}
-              handlePayAgent={console.log}
+              handlePayAgent={handlePayAgent}
             />
           }
           customTableClasses={{
@@ -73,7 +105,7 @@ const FinanceUI = () => {
             tableHeaderItemClassName: styles.tableHeaderItem,
           }}
           emptyTable={{
-            show: false,
+            show: transactions.length === 0,
             element: (
               <EmptyTable
                 Vector={EmptyStreet}
@@ -83,14 +115,7 @@ const FinanceUI = () => {
             ),
           }}
         />
-        <Pagination
-          currentPage={1}
-          totalPages={3}
-          handleChange={console.log}
-          totalCount={21}
-          pageLimit={10}
-          name={"Team Members"}
-        />
+        <Pagination {...pagination} name={"Transactions"} />
       </section>
     </>
   );

@@ -14,9 +14,9 @@ export interface TransactionTableItem {
     | "deposit"
     | "investment"
     | "buy-back"
-    | "rent_payout"
-    | "deposit_payout"
-    | "buy-back_payout";
+    | "rent-payout"
+    | "deposit-payout"
+    | "buy-back-payout";
   property: string;
   propertyId: string;
   user: string;
@@ -56,7 +56,7 @@ const TransactionTable: React.FC<TableBodyProps> = ({
             </span>
             <span className={`${tableBodyItemClassName}`}>{item.amount}</span>
             <span className={tableBodyItemClassName}>
-              {item.type.replaceAll("_", " ")}
+              {item.type.replaceAll("-", " ")}
             </span>
             <span className={tableBodyItemClassName}>{item.user}</span>
             <span
@@ -66,7 +66,7 @@ const TransactionTable: React.FC<TableBodyProps> = ({
             </span>
             <span className={tableBodyItemClassName}>{item.date}</span>
             <span>
-              {item.type === "deposit_payout" && item.status === "pending" ? (
+              {item.type === "deposit-payout" && item.status === "pending" ? (
                 <Button
                   className={styles.payBtn}
                   onClick={() => handlePayAgent(item.id)}
