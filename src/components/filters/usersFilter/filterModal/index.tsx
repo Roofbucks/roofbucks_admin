@@ -96,7 +96,8 @@ const UsersFilterModal: React.FC<UsersFilterModalProps> = ({
 
   const handleReset = () => {
     reset(initFilterData);
-    submit({ status: "", accountType: "" });
+    submit(initFilterData);
+    close()
   };
 
   return (

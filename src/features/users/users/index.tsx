@@ -10,7 +10,6 @@ import {
 } from "components";
 import styles from "./styles.module.scss";
 import { EmptyStreet } from "assets";
-import { useState } from "react";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
 	{ title: "Name" },
@@ -26,6 +25,7 @@ interface UsersProps {
   users: UserTableItem[];
 	handleFilter: (data) => void;
 	handleSearch: (data: any) => void;
+	searchTerm: string;
 	pagination: {
     handleChange: (page) => void;
     total: number;
@@ -35,13 +35,12 @@ interface UsersProps {
 	};
 }
 
-const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter, pagination, handleSearch}) => {
-  const [val, setVal] = useState("");
+const UsersUI: React.FC<UsersProps> = ({ searchTerm, handleView, users, handleFilter, pagination, handleSearch}) => {
 
 	return (
 		<>
 			<h1 className={styles.ttl}>
-				Users <span>(58)</span>
+				Users <span>({pagination.count})</span>
 			</h1>
 			<section className={styles.searchFilter}>
 				<UsersFilter
@@ -53,11 +52,10 @@ const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter, pagina
 				/>
 				<Search
 					className={styles.search}
-					value={val}
+					value={searchTerm}
 					placeholder={"Search"}
 					handleChange={(e) => {
-						handleSearch(e)
-            setVal(e);
+						handleSearch(e);
 					}}
 				/>
 			</section>
@@ -77,7 +75,7 @@ const UsersUI: React.FC<UsersProps> = ({ handleView, users, handleFilter, pagina
 					tableHeaderItemClassName: styles.tableHeaderItem,
 				}}
 				emptyTable={{
-					show: false,
+					show: users.length === 0,
 					element: (
 						<EmptyTable
 							Vector={EmptyStreet}

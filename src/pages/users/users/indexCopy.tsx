@@ -96,6 +96,7 @@ const Users = () => {
         users={users}
         handleFilter={handleFilter}
         handleSearch={handleSearch}
+        searchTerm={searchTerm}
         pagination={{
           handleChange: handlePages,
           total: totalPages,
