@@ -104,6 +104,8 @@ const Users = () => {
         handleView={handleView}
         users={users}
         handleFilter={handleFilter}
+        status={filter.status}
+        accountType={filter.accountType}
         handleSearch={handleSearch}
         searchTerm={searchTerm}
         pagination={{

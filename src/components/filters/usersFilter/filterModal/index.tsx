@@ -59,9 +59,6 @@ const UsersFilterModal: React.FC<UsersFilterModalProps> = ({
     defaultValues: value,
   });
 
-  useEffect(() => {
-    reset(value);
-  }, [value]);
   const statusOptions: optionType[] = [
     {
       label: "Verified",
