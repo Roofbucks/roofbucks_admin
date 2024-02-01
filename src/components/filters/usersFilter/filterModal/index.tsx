@@ -5,8 +5,7 @@ import { optionType } from "types";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, CustomSelect, initOptionType } from "components";
-import { useEffect } from "react";
+import { Button, CustomSelect } from "components";
 
 interface optionType2 {
   label?: any;

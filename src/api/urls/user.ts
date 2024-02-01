@@ -11,18 +11,18 @@ USER URLS
  *
  */
 
-export const userURL = ({ currentPage, searchTerm, filter }) => {
-  let url = `/admin/get_users/?page=${currentPage}`;
+export const userURL = ({ currentPage, searchTerm, role, status }) => {
+  const queryParams = {
+    page: currentPage,
+    search: searchTerm || '',
+    role: role ? role.toUpperCase() : undefined,
+    status: status ? status.toLowerCase() : undefined
+  };
 
-  if (searchTerm) {
-    url += `&search=${searchTerm}`;
-  } else if (filter.accountType.value) {
-    url += `&role=${filter.accountType.value.toUpperCase()}`;
-  } else if (filter.status.value) {
-    url += `&status=${filter.status.value.toUpperCase()}`;
-  } else if (filter.accountType.value && filter.status.value) {
-    url += `&status=${filter.status.value.toUpperCase()}&role=${filter.accountType.value.toUpperCase()}`
-  }
+  const queryString = Object.entries(queryParams)
+    .filter(([_, value]) => value !== undefined && value !== '')
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&');
 
-  return url
-}
+  return `/admin/get_users/?${queryString}`;
+};

@@ -37,7 +37,7 @@ interface UsersProps {
     label?: any;
     value?: any;
   };
-  accountType: {
+  role: {
     label?: any;
     value?: any;
   };
@@ -45,7 +45,7 @@ interface UsersProps {
 
 const UsersUI: React.FC<UsersProps> = ({
 	status,
-	accountType,
+	role,
   searchTerm,
   handleView,
   users,
@@ -63,7 +63,7 @@ const UsersUI: React.FC<UsersProps> = ({
           submit={handleFilter}
           value={{
             status: { label: "", value: status.value },
-            accountType: { label: "", value: accountType.value },
+            accountType: { label: "", value: role.value },
           }}
         />
         <Search
