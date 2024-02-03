@@ -111,6 +111,10 @@ const FinanceFilterModal: React.FC<FinanceFilterModalProps> = ({
       value: "SUCCESS",
     },
     {
+      label: "Processing",
+      value: "PROCESSING",
+    },
+    {
       label: "Failed",
       value: "FAILED",
     },

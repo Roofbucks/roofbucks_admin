@@ -17,13 +17,21 @@ const FinanceFilter: React.FC<FinanceFilterProps> = ({
 }) => {
   const [showModal, setModal] = useState(false);
 
+  let count = 0;
+  if (value.status.value) count++;
+  if (value.type.value) count++;
+  if (value.startDate && value.endDate) count++;
+
   return (
     <>
-      <FilterIconOutline
-        role="button"
-        className={styles.filter}
-        onClick={() => setModal(true)}
-      />
+      <div className={styles.filterWrap}>
+        {count > 0 ? <p>{count}</p> : ""}
+        <FilterIconOutline
+          role="button"
+          className={styles.filter}
+          onClick={() => setModal(true)}
+        />
+      </div>
       <FinanceFilterModal
         show={showModal}
         close={() => setModal(false)}

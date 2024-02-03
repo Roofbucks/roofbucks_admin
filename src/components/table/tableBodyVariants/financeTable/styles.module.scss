@@ -33,6 +33,6 @@
 .failed {
   color: var(--red);
 }
-.pending {
+.pending, .processing {
   color: orange;
 }

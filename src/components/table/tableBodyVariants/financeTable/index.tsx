@@ -70,7 +70,7 @@ const TransactionTable: React.FC<TableBodyProps> = ({
               {item.type === "deposit-payout" && item.status === "pending" ? (
                 <Button
                   className={styles.payBtn}
-                  onClick={() => handlePayAgent(item.transactionRef)}
+                  onClick={() => handlePayAgent(item.id)}
                   type="tertiary"
                 >
                   Pay agent
