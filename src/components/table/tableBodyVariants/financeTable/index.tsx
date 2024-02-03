@@ -21,6 +21,7 @@ export interface TransactionTableItem {
   propertyId: string;
   user: string;
   status: "pending" | "success" | "failed" | "processing";
+  transactionRef: string
 }
 
 // User Table Body Props
@@ -69,7 +70,7 @@ const TransactionTable: React.FC<TableBodyProps> = ({
               {item.type === "deposit-payout" && item.status === "pending" ? (
                 <Button
                   className={styles.payBtn}
-                  onClick={() => handlePayAgent(item.id)}
+                  onClick={() => handlePayAgent(item.transactionRef)}
                   type="tertiary"
                 >
                   Pay agent

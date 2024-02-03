@@ -68,9 +68,9 @@ const MarketplaceApplication: React.FC<Props> = ({
           location: `${data.applicant_city}, ${data.applicant_country}`,
           percentage: data.percentage_ownership,
           amount: (data.total_cost * data.percentage_ownership) / 100,
-          focus: "",
-          investorType: "",
-          timeline: "",
+          focus: data.investment_focus,
+          investorType: data.investor_type,
+          timeline: data.investment_timeline,
           roi: data.expected_ROI,
         },
       };

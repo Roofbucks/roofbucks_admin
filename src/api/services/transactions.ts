@@ -4,7 +4,7 @@ TRANSACTIONS SERVICES
 =================================
 */
 
-import { fetchTransactionsURL, getRequest } from "api";
+import { fetchTransactionsURL, getRequest, payoutURL } from "api";
 
 export interface fetchTransactionsParams {
   search: string;
@@ -30,6 +30,18 @@ export interface fetchTransactionsParams {
 export const fetchTransactionsService = (params: fetchTransactionsParams) => {
   const requestData = {
     url: fetchTransactionsURL(params),
+  };
+  return getRequest(requestData);
+};
+
+/**
+ * Payout service
+ * @returns axios promise
+ */
+
+export const payoutService = (ref) => {
+  const requestData = {
+    url: payoutURL(ref),
   };
   return getRequest(requestData);
 };

@@ -1,5 +1,10 @@
-import { fetchTransactionsService } from "api";
-import { Preloader, Toast, TransactionTableItem } from "components";
+import { fetchTransactionsService, payoutService } from "api";
+import {
+  ConfirmationModal,
+  Preloader,
+  Toast,
+  TransactionTableItem,
+} from "components";
 import { FinanceUI } from "features";
 import { getDateTime, getErrorMessage } from "helpers";
 import { useApiRequest, useDebounce } from "hooks";
@@ -36,6 +41,12 @@ const Finance = () => {
     data: fetchResponse,
     requestStatus: fetchStatus,
     error: fetchError,
+  } = useApiRequest({});
+  const {
+    run: runPayout,
+    data: payoutResponse,
+    requestStatus: payoutStatus,
+    error: payoutError,
   } = useApiRequest({});
 
   const fechTransactions = (
@@ -79,9 +90,10 @@ const Finance = () => {
         amount: `NGN ${item.amount}`,
         type: item.transaction_type.toLowerCase(),
         property: item.property_name,
-        propertyId: "1234",
+        propertyId: item.property_id,
         user: item.user,
         status: item.status.toLowerCase(),
+        transactionRef: item.reference,
       }));
     } else if (fetchError) {
       setToast({
@@ -115,7 +127,35 @@ const Finance = () => {
     fechTransactions(1, date, status, type);
   };
 
-  const loading = fetchStatus.isPending;
+  const handlePayAgent = () => {
+    runPayout(payoutService(confirm.ref));
+  };
+
+  useMemo(() => {
+    if (payoutResponse?.status === 200) {
+      console.log(payoutResponse);
+      setConfirm({ show: false, ref: "" });
+      fechTransactions(1);
+      setToast({
+        show: true,
+        text: payoutResponse?.data?.message ?? "Successfully initated payment!",
+        type: false,
+      });
+    } else if (payoutError) {
+      setToast({
+        show: true,
+        text: getErrorMessage({
+          error: payoutError,
+          message: "Failed to initiate payment",
+        }),
+        type: false,
+      });
+    }
+  }, [fetchResponse, payoutError]);
+
+  const [confirm, setConfirm] = useState({ show: false, ref: "" });
+
+  const loading = fetchStatus.isPending || payoutStatus.isPending;
 
   return (
     <>
@@ -123,6 +163,12 @@ const Finance = () => {
       <Toast
         {...toast}
         close={() => setToast((prev) => ({ ...prev, show: false }))}
+      />
+      <ConfirmationModal
+        show={confirm.show}
+        close={() => setConfirm({ show: false, ref: "" })}
+        text={`Are you sure you want initiate this payment?`}
+        submit={handlePayAgent}
       />
       <FinanceUI
         transactions={transactions}
@@ -136,7 +182,7 @@ const Finance = () => {
         date={date}
         handleFilter={handleFilter}
         handleViewProperty={handleViewProperty}
-        handlePayAgent={console.log}
+        handlePayAgent={(ref) => setConfirm({ show: true, ref })}
       />
     </>
   );
