@@ -6,11 +6,9 @@ import {
 } from "assets";
 import styles from "./styles.module.scss";
 import { Button } from "components";
-import { Link } from "react-router-dom";
-import { Routes } from "router";
 import { useEffect, useState } from "react";
 
-export interface PropertyData {
+export interface PropertyEditData {
   status: string;
   id: string;
   name: string;
@@ -49,63 +47,22 @@ export interface PropertyData {
   deedOfAssignment: string | undefined;
   certificateOfOccupancy: string | undefined;
   otherDocs: { name: string; file: string }[];
-  agent: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    address: string;
-    city: string;
-    country: string;
-    id: string;
-  };
-  homeBuyer:
-    | {
-        firstName: string;
-        lastName: string;
-        email: string;
-        phone: string;
-        address: string;
-        city: string;
-        country: string;
-        id: string;
-        percentage: number;
-      }
-    | undefined;
-  investors: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    address: string;
-    city: string;
-    country: string;
-    id: string;
-    percentage: number;
-  }[];
-  rent: number;
-  marketValue: number;
+  agent: string;
 }
 
 interface PropertyProps {
   goBack: () => void;
   handleApprove: () => void;
   handleReject: () => void;
-  handleMarketValue: () => void;
-  handleRent: () => void;
-  property: PropertyData;
+  property: PropertyEditData;
 }
 
-const PropertyUI: React.FC<PropertyProps> = ({
+const PropertyEditUI: React.FC<PropertyProps> = ({
   goBack,
   handleApprove,
   handleReject,
-  handleMarketValue,
-  handleRent,
   property,
 }) => {
-  const { agent, homeBuyer, investors } = property;
-
   const [image, setImage] = useState("");
 
   useEffect(() => {
@@ -131,31 +88,6 @@ const PropertyUI: React.FC<PropertyProps> = ({
             </span>
           </h1>
           <div className={styles.btnSec}>
-            {/* Only show for approved property */}
-            {property.status !== "rejected" ? (
-              <Button
-                className={styles.actionBtn}
-                type="tertiary"
-                onClick={handleRent}
-              >
-                Update rent
-              </Button>
-            ) : (
-              ""
-            )}
-            {/* Only show for properties that have investors */}
-            {property.status !== "rejected" ? (
-              <Button
-                className={styles.actionBtn}
-                type="primary"
-                onClick={handleMarketValue}
-              >
-                Update market value
-              </Button>
-            ) : (
-              ""
-            )}
-
             {/* Only show for pending property */}
             {property.status === "pending" ? (
               <>
@@ -164,14 +96,14 @@ const PropertyUI: React.FC<PropertyProps> = ({
                   type="primary"
                   onClick={handleApprove}
                 >
-                  Approve
+                  Approve Changes
                 </Button>
                 <Button
                   className={`${styles.actionBtn} ${styles.rejectBtn}`}
                   type="secondary"
                   onClick={handleReject}
                 >
-                  Reject
+                  Reject Changes
                 </Button>
               </>
             ) : (
@@ -191,6 +123,10 @@ const PropertyUI: React.FC<PropertyProps> = ({
           <div>
             <span>Property Type</span>
             <p>{property.type}</p>
+          </div>
+          <div>
+            <span>Agent</span>
+            <p>{property.agent}</p>
           </div>
           <div>
             <span>Completion Status</span>
@@ -229,7 +165,7 @@ const PropertyUI: React.FC<PropertyProps> = ({
           )}
           <div>
             <span>Total Cost</span>
-            <p>{property.totalCost.toLocaleString()}</p>
+            <p>{property.totalCost}</p>
           </div>
           <div>
             <span>ERF Size</span>
@@ -242,14 +178,6 @@ const PropertyUI: React.FC<PropertyProps> = ({
           <div>
             <span>Floor Size</span>
             <p>{property.floorSize}</p>
-          </div>
-          <div>
-            <span>Market value</span>
-            <p>NGN {property.marketValue.toLocaleString()}</p>
-          </div>
-          <div>
-            <span>Annual rent</span>
-            <p>NGN {property.rent.toLocaleString()}</p>
           </div>
         </div>
         <div className={styles.description}>
@@ -410,144 +338,8 @@ const PropertyUI: React.FC<PropertyProps> = ({
           </div>
         </div>
       </section>
-      <section className={styles.section}>
-        <div className={styles.section__heading}>
-          <h1 className={styles.section__ttl}>Agent</h1>{" "}
-          <Link
-            target="_blank"
-            className={styles.viewBtn}
-            to={Routes.user(agent.id)}
-          >
-            View user <ArrowRight />{" "}
-          </Link>
-        </div>
-        <div className={styles.section__content}>
-          <div>
-            <span>First Name</span>
-            <p>{agent.firstName} </p>
-          </div>
-          <div>
-            <span>Last Name</span>
-            <p>{agent.lastName}</p>
-          </div>
-          <div>
-            <span>Email</span>
-            <p>{agent.email}</p>
-          </div>
-          <div>
-            <span>Phone number</span>
-            <p>{agent.phone}</p>
-          </div>
-          <div>
-            <span>Address</span>
-            <p>{agent.address}</p>
-          </div>
-          <div>
-            <span>City</span>
-            <p>{agent.city}</p>
-          </div>
-          <div>
-            <span>Country</span>
-            <p>{agent.country}</p>
-          </div>
-        </div>
-      </section>
-      {homeBuyer ? (
-        <section className={styles.section}>
-          <div className={styles.section__heading}>
-            <h1 className={styles.section__ttl}>
-              Home buyer - {homeBuyer?.percentage}% ownership
-            </h1>
-            <Link
-              target="_blank"
-              className={styles.viewBtn}
-              to={Routes.user(homeBuyer.id)}
-            >
-              View user <ArrowRight />{" "}
-            </Link>
-          </div>
-          <div className={styles.section__content}>
-            <div>
-              <span>First Name</span>
-              <p>{homeBuyer?.firstName} </p>
-            </div>
-            <div>
-              <span>Last Name</span>
-              <p>{homeBuyer?.lastName}</p>
-            </div>
-            <div>
-              <span>Email</span>
-              <p>{homeBuyer?.email}</p>
-            </div>
-            <div>
-              <span>Phone number</span>
-              <p>{homeBuyer?.phone}</p>
-            </div>
-            <div>
-              <span>Address</span>
-              <p>{homeBuyer.address}</p>
-            </div>
-            <div>
-              <span>City</span>
-              <p>{homeBuyer.city}</p>
-            </div>
-            <div>
-              <span>Country</span>
-              <p>{homeBuyer.country}</p>
-            </div>
-          </div>
-        </section>
-      ) : (
-        ""
-      )}
-      {investors.map((investor, index) => (
-        <section key={`investor_${investor.id}`} className={styles.section}>
-          <div className={styles.section__heading}>
-            <h1 className={styles.section__ttl}>
-              Investor ({index + 1}) - {investor.percentage}% ownership
-            </h1>{" "}
-            <Link
-              target="_blank"
-              className={styles.viewBtn}
-              to={Routes.user(investor.id)}
-            >
-              View user <ArrowRight />
-            </Link>
-          </div>
-          <div className={styles.section__content}>
-            <div>
-              <span>First Name</span>
-              <p>{investor.firstName} </p>
-            </div>
-            <div>
-              <span>Last Name</span>
-              <p>{investor.lastName}</p>
-            </div>
-            <div>
-              <span>Email</span>
-              <p>{investor.email}</p>
-            </div>
-            <div>
-              <span>Phone number</span>
-              <p>{investor.phone}</p>
-            </div>
-            <div>
-              <span>Address</span>
-              <p>{investor.address}</p>
-            </div>
-            <div>
-              <span>City</span>
-              <p>{investor.city}</p>
-            </div>
-            <div>
-              <span>Country</span>
-              <p>{investor.country}</p>
-            </div>
-          </div>
-        </section>
-      ))}
     </>
   );
 };
 
-export { PropertyUI };
+export { PropertyEditUI };

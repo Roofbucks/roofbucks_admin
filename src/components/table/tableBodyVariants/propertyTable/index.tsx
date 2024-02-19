@@ -44,7 +44,7 @@ const PropertyTable: React.FC<TableBodyProps> = ({
             <span className={tableBodyItemClassName}>
               <p className={styles.name}>{item.agent}</p>
             </span>
-            <span className={tableBodyItemClassName}>{item.amount}</span>
+            <span className={tableBodyItemClassName}>NGN {item.amount}</span>
             <span className={tableBodyItemClassName}>{item.date}</span>
             <span className={tableBodyItemClassName}>
               <p className={`${styles.status} ${styles[item.status]}`}>

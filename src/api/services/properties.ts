@@ -5,16 +5,19 @@ PROPERTIES SERVICES
 */
 
 import {
+  approveEditURL,
   approvePropertyURL,
   deleteRequest,
   discardApplicationURL,
   fetchApplicationURL,
   fetchApplicationsURL,
+  fetchEditURL,
   fetchEditedPropertiesURL,
   fetchPropertiesURL,
   fetchPropertyURL,
   getRequest,
   postRequest,
+  rejectEditURL,
   rejectPropertyURL,
   setMarketValueURL,
   setRentURL,
@@ -174,4 +177,41 @@ export const setRentService = (id: string, value: number) => {
     data: { value },
   };
   return postRequest(requestData);
+};
+
+/**
+ * Approve property edit service
+ * @returns axios promise
+ */
+
+export const approveEditService = (id: string) => {
+  const requestData = {
+    url: approveEditURL(id),
+  };
+  return getRequest(requestData);
+};
+
+/**
+ * Reject property edit service
+ * @returns axios promise
+ */
+
+export const rejectEditService = (id: string, reason: string) => {
+  const requestData = {
+    url: rejectEditURL(id),
+    data: { reason },
+  };
+  return postRequest(requestData);
+};
+
+/**
+ * Fetch property edit service
+ * @returns axios promise
+ */
+
+export const fetchEditService = (id: string) => {
+  const requestData = {
+    url: fetchEditURL(id),
+  };
+  return getRequest(requestData);
 };

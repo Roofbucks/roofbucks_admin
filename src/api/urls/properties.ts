@@ -94,3 +94,31 @@ export const setMarketValueURL = (id) => `/admin/set_market_value/${id}/`;
  */
 
 export const setRentURL = (id) => `/admin/set_rent_amount/${id}/`;
+
+/**
+ * Reject property edit URL
+ *
+ * @returns url string
+ *
+ */
+
+export const rejectEditURL = (id) => `/admin/reject_property_change/${id}/`;
+
+/**
+ * Approve property edit URL
+ *
+ * @returns url string
+ *
+ */
+
+export const approveEditURL = (id) => `/admin/approve_property_change/${id}/`;
+
+/**
+ * Fetch property edit URL
+ *
+ * @returns url string
+ *
+ */
+
+export const fetchEditURL = (id) =>
+  `/admin/single_property_change_application/${id}`;

@@ -13,6 +13,7 @@ import {
   Team,
   Settings,
   Finance,
+  PropertyEdit,
 } from "pages";
 import { LayoutRouteProps } from "react-router-dom";
 import { Routes } from "./routes";
@@ -109,6 +110,15 @@ export const RouteBuilder: RouteBuilderItem[] = [
   {
     path: Routes.property(":id"),
     Element: Property,
+    Layout: Layout,
+    props: {
+      active: "Properties",
+    },
+    isProtected: true,
+  },
+  {
+    path: Routes.propertyEdit(":id"),
+    Element: PropertyEdit,
     Layout: Layout,
     props: {
       active: "Properties",

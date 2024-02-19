@@ -23,12 +23,14 @@ interface RejectPropertyModalProps {
   show: boolean;
   close: () => void;
   submit: (data: RejectData) => void;
+  isEdit?: boolean;
 }
 
 const RejectPropertyModal: React.FC<RejectPropertyModalProps> = ({
   show,
   close,
   submit,
+  isEdit,
 }) => {
   const {
     register,
@@ -55,7 +57,7 @@ const RejectPropertyModal: React.FC<RejectPropertyModalProps> = ({
 
       <form>
         <Input
-          label="Why are you rejecting this property?"
+          label={`Why are you rejecting this property${isEdit ? " edit" : ""}?`}
           placeholder="Enter reason"
           type="text"
           parentClassName={styles.input}

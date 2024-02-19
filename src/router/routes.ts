@@ -20,6 +20,7 @@ export const Routes = {
   user: (id) => `/user/${id}`,
   properties: "/properties",
   property: (id) => `/property/${id}`,
+  propertyEdit: (id) => `/property/edit/${id}`,
   listings: "/listings",
   marketplace: "/marketplace",
   finance: "/finance",

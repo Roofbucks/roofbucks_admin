@@ -1,20 +1,18 @@
-import { PropertyData, PropertyUI } from "features";
+import { PropertyEditData, PropertyEditUI } from "features";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ApproveProperty } from "../approveProperty";
 import { RejectProperty } from "../rejectProperty";
-import { AddMarketValue } from "../addMarketValue";
-import { UpdateRent } from "../updateRent";
 import { useApiRequest } from "hooks";
-import { fetchPropertyService } from "api";
+import { fetchEditService } from "api";
 import { getErrorMessage } from "helpers";
 import { Preloader, Toast } from "components";
+import { ApprovePropertyEdit } from "../approvePropertyEdit";
+import { RejectPropertyEdit } from "../rejectPropertyEdit";
 
-const Property = () => {
+const PropertyEdit = () => {
   const [approve, setApprove] = useState(false);
   const [reject, setReject] = useState(false);
-  const [marketValue, setMarketValue] = useState(false);
-  const [rent, setRent] = useState(false);
   const [toast, setToast] = useState({
     show: false,
     text: "",
@@ -22,7 +20,7 @@ const Property = () => {
   });
 
   const navigate = useNavigate();
-  const { id: propertyID } = useParams();
+  const { id: editID } = useParams();
 
   // API Hooks
   const {
@@ -32,19 +30,18 @@ const Property = () => {
     error: fetchError,
   } = useApiRequest({});
 
-  const fetchProperty = () =>
-    propertyID && runFetch(fetchPropertyService(propertyID));
+  const fetchProperty = () => editID && runFetch(fetchEditService(editID));
 
   useEffect(() => {
     fetchProperty();
-  }, [propertyID]);
+  }, [editID]);
 
-  const property = useMemo<PropertyData | undefined>(() => {
+  const property = useMemo<PropertyEditData | undefined>(() => {
     if (fetchResponse?.status === 200) {
       const data = fetchResponse.data;
 
       return {
-        status: data.moderation_status.toLowerCase(),
+        status: data.status.toLowerCase(),
         id: data.id,
         name: data.name,
         type: data.apartment_type,
@@ -55,14 +52,14 @@ const Property = () => {
         yearBuilt: data.date_built,
         noOfBedrooms: data.number_of_bedrooms,
         noOfToilets: data.number_of_toilets,
-        totalCost: `NGN ${data.total_property_cost.toLocaleString()}`,
+        totalCost: `NGN ${data.total_property_cost}`,
         description: data.description,
         address: data.address,
         city: data.city,
         state: data.state,
         zipCode: data.zip_code,
         country: data.country,
-        amenities: data.amenities,
+        amenities: data.amenities.filter((item) => item !== ""),
         erfSize: `${data.ERF_size} SQM`,
         diningArea: `${data.dining_area} seats`,
         floorSize: `${data.floor_size} SQM`,
@@ -85,42 +82,7 @@ const Property = () => {
           name: item.name,
           file: item.url,
         })),
-        agent: {
-          firstName: data.agent.firstname,
-          lastName: data.agent.lastname,
-          email: data.agent.email,
-          phone: data.agent.phone,
-          address: data.agent.address,
-          city: data.agent.city,
-          country: data.agent.country,
-          id: data.agent.id,
-        },
-        homeBuyer: data.house_owner
-          ? {
-              firstName: data.house_owner.user.firstname,
-              lastName: data.house_owner.user.lastname,
-              email: data.house_owner.user.email,
-              phone: data.house_owner.user.phone,
-              address: data.house_owner.user.address,
-              city: data.house_owner.user.city,
-              country: data.house_owner.user.country,
-              id: data.house_owner.user.id,
-              percentage: data.house_owner.percentage,
-            }
-          : undefined,
-        investors: data.investors.map((item) => ({
-          firstName: item.user.firstname,
-          lastName: item.user.lastname,
-          email: item.user.email,
-          phone: item.user.phone,
-          address: item.user.address,
-          city: item.user.city,
-          country: item.user.country,
-          id: item.user.id,
-          percentage: item.percentage,
-        })),
-        rent: data.rent_amount,
-        marketValue: data.market_value,
+        agent: data.agent,
       };
     } else if (fetchError) {
       setToast({
@@ -146,33 +108,19 @@ const Property = () => {
         {...toast}
         close={() => setToast((prev) => ({ ...prev, show: false }))}
       />
-      {propertyID ? (
+      {editID ? (
         <>
-          <ApproveProperty
+          <ApprovePropertyEdit
             show={approve}
             close={() => setApprove(false)}
-            propertyID={propertyID}
+            id={editID}
             callback={fetchProperty}
           />
-          <RejectProperty
+          <RejectPropertyEdit
             show={reject}
             close={() => setReject(false)}
-            propertyID={propertyID}
+            id={editID}
             callback={fetchProperty}
-          />
-          <UpdateRent
-            propertyID={propertyID}
-            callback={fetchProperty}
-            show={rent}
-            close={() => setRent(false)}
-            rent={property?.rent ?? 0}
-          />
-          <AddMarketValue
-            propertyID={propertyID}
-            callback={fetchProperty}
-            show={marketValue}
-            close={() => setMarketValue(false)}
-            currentValue={property?.marketValue ?? 0}
           />
         </>
       ) : (
@@ -180,12 +128,10 @@ const Property = () => {
       )}
 
       {property ? (
-        <PropertyUI
+        <PropertyEditUI
           goBack={goBack}
           handleApprove={() => setApprove(true)}
           handleReject={() => setReject(true)}
-          handleMarketValue={() => setMarketValue(true)}
-          handleRent={() => setRent(true)}
           property={property}
         />
       ) : (
@@ -195,4 +141,4 @@ const Property = () => {
   );
 };
 
-export { Property };
+export { PropertyEdit };

@@ -8,3 +8,4 @@ export * from "./approveProperty";
 export * from "./rejectProperty";
 export * from "./addMarketValue";
 export * from "./updateRent";
+export * from "./propertyEdit";

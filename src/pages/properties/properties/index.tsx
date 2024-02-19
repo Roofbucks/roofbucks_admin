@@ -32,7 +32,10 @@ const Properties = () => {
   const [tab, setTab] = useState("properties");
 
   const navigate = useNavigate();
-  const handleView = (id) => navigate(Routes.property(id));
+  const handleView = (id) =>
+    navigate(
+      tab === "properties" ? Routes.property(id) : Routes.propertyEdit(id)
+    );
   const debouncedSearchTerm = useDebounce(search, 500);
 
   // API Hooks
@@ -120,7 +123,7 @@ const Properties = () => {
         propertyID: item.id,
         propertyName: item.name,
         agent: item.agent,
-        status: item.moderation_status.toLowerCase(),
+        status: item.status.toLowerCase(),
         date: getDateTime(item.created_at).date,
         amount: `${item.total_property_cost}`,
       }));
