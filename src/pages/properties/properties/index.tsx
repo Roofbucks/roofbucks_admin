@@ -84,11 +84,13 @@ const Properties = () => {
 
   const properties = useMemo<PropertyTableItem[]>(() => {
     if (fetchResponse?.status === 200) {
-      setPages((prev) => ({
-        ...prev,
-        totalPages: fetchResponse.data.pages,
-        totalCount: fetchResponse.data.total,
-      }));
+      if (tab === "properties") {
+        setPages((prev) => ({
+          ...prev,
+          totalPages: fetchResponse.data.pages,
+          totalCount: fetchResponse.data.total,
+        }));
+      }
 
       return fetchResponse.data.results.map((item) => ({
         propertyID: item.id,
@@ -96,7 +98,8 @@ const Properties = () => {
         agent: item.agent,
         status: item.moderation_status.toLowerCase(),
         date: getDateTime(item.created_at).date,
-        amount: `${item.total_property_cost}`,
+        amount: `NGN ${item.total_property_cost?.toLocaleString() ?? "---"}`,
+        marketValue: `NGN ${item.market_value?.toLocaleString() ?? "---"}`,
       }));
     } else if (fetchError) {
       setToast({
@@ -113,11 +116,13 @@ const Properties = () => {
 
   const editedProperties = useMemo<PropertyTableItem[]>(() => {
     if (fetchEditResponse?.status === 200) {
-      setPages((prev) => ({
-        ...prev,
-        totalPages: fetchEditResponse.data.pages,
-        totalCount: fetchEditResponse.data.total,
-      }));
+      if (tab === "edited") {
+        setPages((prev) => ({
+          ...prev,
+          totalPages: fetchEditResponse.data.pages,
+          totalCount: fetchEditResponse.data.total,
+        }));
+      }
 
       return fetchEditResponse.data.results.map((item) => ({
         propertyID: item.id,
@@ -125,7 +130,7 @@ const Properties = () => {
         agent: item.agent,
         status: item.status.toLowerCase(),
         date: getDateTime(item.created_at).date,
-        amount: `${item.total_property_cost}`,
+        amount: `NGN ${item.total_property_cost?.toLocaleString() ?? "---"}`,
       }));
     } else if (fetchEditError) {
       setToast({

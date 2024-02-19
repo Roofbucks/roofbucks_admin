@@ -20,6 +20,7 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "ID" },
   { title: "Name" },
   { title: "Amount" },
+  { title: "Market Value" },
   { title: "Date Created" },
   { title: "Status" },
   { title: "" },

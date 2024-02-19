@@ -42,6 +42,12 @@
 section.tableHeader,
 div.tableBodyItem {
   display: grid;
+  grid-template-columns: 0.7fr 1.2fr 1fr 1fr 1fr 1fr 0.8fr 40px;
+  gap: 1rem;
+}
+section.tableHeader.edited,
+div.tableBodyItem.edited {
+  display: grid;
   grid-template-columns: 0.7fr 1.2fr 1fr 1fr 1fr 0.8fr 40px;
   gap: 1rem;
 }

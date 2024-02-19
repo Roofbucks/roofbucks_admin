@@ -18,19 +18,11 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Property Name" },
   { title: "Agent" },
   { title: "Amount" },
+  { title: "Market Value" },
   { title: "Date Created" },
   { title: "Status" },
   { title: "" },
 ];
-
-const Property: PropertyTableItem = {
-  propertyID: "123",
-  propertyName: "New house",
-  agent: "John Doe",
-  status: "pending",
-  date: "12/08/2023",
-  amount: "NGN 200,000",
-};
 
 interface PropertiesProps {
   handleView: (id: string) => void;
@@ -112,42 +104,50 @@ const PropertiesUI: React.FC<PropertiesProps> = ({
       </section>
       <section className={styles.searchFilter}>
         {tab.value === "properties" ? (
-          <PropertiesFilter
-            statusOptions={statusOptions}
-            submit={(data) => {
-              handleFilter({
-                status: data.status,
-                date: { start: data.startDate, end: data.endDate },
-              });
-            }}
-            value={{
-              status: status ?? { label: "", value: "" },
-              startDate: date ? date?.start : "",
-              endDate: date ? date?.end : "",
-            }}
-          />
+          <>
+            <PropertiesFilter
+              statusOptions={statusOptions}
+              submit={(data) => {
+                handleFilter({
+                  status: data.status,
+                  date: { start: data.startDate, end: data.endDate },
+                });
+              }}
+              value={{
+                status: status ?? { label: "", value: "" },
+                startDate: date ? date?.start : "",
+                endDate: date ? date?.end : "",
+              }}
+            />
+            <Search
+              className={styles.search}
+              value={search.value}
+              placeholder={"Search by id or property"}
+              handleChange={search.handleChange}
+            />
+          </>
         ) : (
           ""
         )}
-        <Search
-          className={styles.search}
-          value={search.value}
-          placeholder={"Search by id or property"}
-          handleChange={search.handleChange}
-        />
       </section>
       <Table
-        tableHeaderTitles={tableHeaderTitles}
+        tableHeaderTitles={tableHeaderTitles.filter((item) =>
+          tab.value === "edited" ? item.title !== "Market Value" : item
+        )}
         tableBody={
           <PropertyTable
             tableBodyItems={properties}
             view={handleView}
-            tableBodyRowClassName={styles.tableBodyItem}
+            tableBodyRowClassName={`${styles.tableBodyItem} ${
+              tab.value === "edited" ? styles.edited : ""
+            }`}
           />
         }
         customTableClasses={{
           tableContainerClassName: styles.tableWrap,
-          tableHeaderClassName: styles.tableHeader,
+          tableHeaderClassName: `${styles.tableHeader} ${
+            tab.value === "edited" ? styles.edited : ""
+          }`,
           tableHeaderItemClassName: styles.tableHeaderItem,
         }}
         emptyTable={{

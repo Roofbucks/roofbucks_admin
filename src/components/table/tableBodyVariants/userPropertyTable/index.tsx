@@ -8,6 +8,7 @@ export interface UserPropertyTableItem {
   propertyID: string;
   propertyName: string;
   status: string;
+  marketValue: string;
   amount: string;
   date: string;
 }
@@ -41,6 +42,7 @@ const UserPropertyTable: React.FC<TableBodyProps> = ({
               <p className={styles.name}>{item.propertyName}</p>
             </span>
             <span className={tableBodyItemClassName}>{item.amount}</span>
+            <span className={tableBodyItemClassName}>{item.marketValue}</span>
             <span className={tableBodyItemClassName}>{item.date}</span>
             <span className={tableBodyItemClassName}>
               <p className={`${styles.status} ${styles[item.status]}`}>

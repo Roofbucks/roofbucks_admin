@@ -9,6 +9,7 @@ export interface PropertyTableItem {
   propertyName: string;
   agent: string;
   status: "pending" | "rejected" | "incomplete" | "approved";
+  marketValue?: string;
   amount: string;
   date: string;
 }
@@ -44,7 +45,12 @@ const PropertyTable: React.FC<TableBodyProps> = ({
             <span className={tableBodyItemClassName}>
               <p className={styles.name}>{item.agent}</p>
             </span>
-            <span className={tableBodyItemClassName}>NGN {item.amount}</span>
+            <span className={tableBodyItemClassName}>{item.amount}</span>
+            {item.marketValue ? (
+              <span className={tableBodyItemClassName}>{item.marketValue}</span>
+            ) : (
+              ""
+            )}
             <span className={tableBodyItemClassName}>{item.date}</span>
             <span className={tableBodyItemClassName}>
               <p className={`${styles.status} ${styles[item.status]}`}>

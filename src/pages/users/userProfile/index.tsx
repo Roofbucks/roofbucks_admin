@@ -165,7 +165,8 @@ const UserProfile = () => {
         propertyName: item.name,
         status: item.moderation_status.toLowerCase(),
         date: new Date(item.created_at).toLocaleDateString(),
-        amount: `NGN ${item.total_property_cost}`,
+        amount: `NGN ${item.total_property_cost?.toLocaleString()}`,
+        marketValue: `NGN ${item.market_value?.toLocaleString()}`
       }));
     } else if (propertiesError) {
       setToast({

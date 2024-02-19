@@ -93,11 +93,12 @@ const Marketplace = () => {
 
   const properties = useMemo<PropertyTableItem[]>(() => {
     if (fetchResponse?.status === 200) {
-      setPages((prev) => ({
-        ...prev,
-        totalPages: fetchResponse.data.pages,
-        totalCount: fetchResponse.data.total,
-      }));
+      if (tab === "properties")
+        setPages((prev) => ({
+          ...prev,
+          totalPages: fetchResponse.data.pages,
+          totalCount: fetchResponse.data.total,
+        }));
 
       return fetchResponse.data.results.map((item) => ({
         propertyID: item.id,
@@ -105,7 +106,8 @@ const Marketplace = () => {
         agent: item.agent,
         status: item.moderation_status.toLowerCase(),
         date: getDateTime(item.created_at).date,
-        amount: `${item.total_property_cost}`,
+        amount: `NGN ${item.total_property_cost?.toLocaleString() ?? "---"}`,
+        marketValue: `NGN ${item.market_value?.toLocaleString() ?? "---"}`,
       }));
     } else if (fetchError) {
       setToast({
@@ -122,11 +124,12 @@ const Marketplace = () => {
 
   const applications = useMemo<MarketplaceApplicationTableItem[]>(() => {
     if (fetchApplicationsResponse?.status === 200) {
-      setPages((prev) => ({
-        ...prev,
-        totalPages: fetchApplicationsResponse.data.pages,
-        totalCount: fetchApplicationsResponse.data.total,
-      }));
+      if (tab === "applications")
+        setPages((prev) => ({
+          ...prev,
+          totalPages: fetchApplicationsResponse.data.pages,
+          totalCount: fetchApplicationsResponse.data.total,
+        }));
 
       return fetchApplicationsResponse.data.results.map((item) => ({
         id: item.id,
@@ -180,7 +183,7 @@ const Marketplace = () => {
   };
 
   const loading = fetchStatus.isPending || fetchApplicationsStatus.isPending;
-console.log(showApplication)
+  console.log(showApplication);
   return (
     <>
       <Preloader loading={loading} />
