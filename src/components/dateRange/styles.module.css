@@ -1,0 +1,42 @@
+.showDate {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  position: relative;
+  color: #808080;
+}
+.statRange {
+  justify-content: flex-end;
+}
+.showDate p:first-of-type {
+  padding-right: 4px;
+}
+.showDate p:last-of-type {
+  padding-left: 4px;
+}
+.dateRange {
+  position: relative;
+}
+.dateRange [class*="rdrDefinedRangesWrapper"] {
+  display: none;
+}
+.showDateRangeIcon {
+  width: 18px;
+  margin-right: 10px;
+}
+.wrapper {
+  background: #fff;
+  position: absolute;
+  z-index: 2;
+  top: 1.5rem;
+  border-radius: 6px;
+}
+
+.wrapper > button {
+  display: block;
+  width: 90%;
+  margin: auto;
+  margin-bottom: 1rem;
+  background: rgb(61, 145, 255);
+  border-color: rgb(61, 145, 255);
+}

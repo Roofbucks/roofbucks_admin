@@ -26,8 +26,12 @@ import { ReactComponent as AddIcon } from "./addIcon.svg";
 import { ReactComponent as SecurityIcon } from "./securityIcon.svg";
 import { ReactComponent as UserIcon } from "./userIcon.svg";
 import { ReactComponent as CheckIcon } from "./checkIcon.svg";
+import { ReactComponent as CalendarIconOutline } from "./calendarIconOutline.svg";
+import { ReactComponent as MoneyBagIcon2 } from "./moneyBagIcon2.svg";
 
 export {
+  MoneyBagIcon2,
+  CalendarIconOutline,
   CheckIcon,
   SecurityIcon,
   UserIcon,

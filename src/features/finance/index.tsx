@@ -1,6 +1,7 @@
 import {
   EmptyTable,
   FinanceFilter,
+  MyDateRangePicker,
   Pagination,
   Search,
   Table,
@@ -9,8 +10,22 @@ import {
   TransactionTableItem,
 } from "components";
 import styles from "./styles.module.scss";
-import { EmptyStreet } from "assets";
+import { ChevronIcon, EmptyStreet, MoneyBagIcon2 } from "assets";
 import { optionType } from "types";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
+import "chart.js/auto";
+
+ChartJS.unregister();
+ChartJS.register(ArcElement, Tooltip, Legend, Filler);
+ChartJS.defaults.font.family = "inherit";
+ChartJS.defaults.font.size = 18;
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Property" },
@@ -61,12 +76,157 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
   handleViewProperty,
   handlePayAgent,
 }) => {
+  const stats: StatInfo[] = [
+    {
+      title: "Total Transactions",
+      total: pagination.totalCount,
+      percentage: 10,
+      increase: true,
+      difference: 5,
+    },
+    {
+      title: "Total Deposits",
+      total: `NGN 500`,
+      percentage: 10,
+      increase: true,
+      difference: 5,
+    },
+    {
+      title: "Total Investments",
+      total: `NGN 500`,
+      percentage: 10,
+      increase: true,
+      difference: 5,
+    },
+    {
+      title: "Total Rent",
+      total: `NGN 500`,
+      percentage: 10,
+      increase: true,
+      difference: 5,
+    },
+    {
+      title: "Total Buy-back",
+      total: `NGN 500`,
+      percentage: 10,
+      increase: true,
+      difference: 5,
+    },
+    {
+      title: "Total Rent Payout",
+      total: `NGN 500`,
+      percentage: 10,
+      increase: true,
+      difference: 5,
+    },
+    {
+      title: "Total Deposit Payout",
+      total: `NGN 500`,
+      percentage: 10,
+      increase: false,
+      difference: 5,
+    },
+    {
+      title: "Total Buy-back Payout",
+      total: `NGN 500`,
+      percentage: 10,
+      increase: true,
+      difference: 5,
+    },
+  ];
+
+  const totalRevenue = {
+    title: "Total Revenue",
+    total: `NGN 50000`,
+    percentage: 10,
+    increase: true,
+    difference: 5,
+  };
+
+  const avgRevenue = {
+    title: "Average Revenue",
+    total: `NGN 500000`,
+    percentage: 10,
+    increase: true,
+    difference: 5,
+  };
+
   return (
     <>
-      <h1 className={styles.ttl}>
-        Financial Transactions <span>({pagination.totalCount})</span>
-      </h1>
+      <h1 className={styles.ttl}>Your Finances</h1>
+      <section className={styles.transactionVolume}>
+        <p className={styles.sectionTtl}>Transaction Volume</p>
+        <div>
+          <MyDateRangePicker
+            className={styles.statRange}
+            startDate={""}
+            endDate={""}
+            handleChange={console.log}
+          />
+          <div className={`${styles.statList} ${styles.secWrap}`}>
+            {stats.map((item, index) => (
+              <StatCard {...item} key={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className={styles.revenue}>
+        <p className={styles.sectionTtl}>Revenue Generated</p>
+        <div>
+          <MyDateRangePicker
+            className={styles.statRange}
+            startDate={""}
+            endDate={""}
+            handleChange={console.log}
+          />
+
+          <div className={styles.revenueWrapper}>
+            <div className={styles.summarySec}>
+              <StatCard {...totalRevenue} />
+              <StatCard {...avgRevenue} />
+              {/* <div className={styles.summary}>
+                <div className={styles.summaryIconSec}>
+                  <MoneyBagIcon2 className={styles.summaryIcon} />
+                </div>
+                <div>
+                  <p className={styles.summaryValue}>NGN 500,000</p>
+                  <p className={styles.summaryLabel}>Avg. Revenue</p>
+                </div>
+              </div>
+              <div className={styles.summary}>
+                <div className={styles.summaryIconSec}>
+                  <MoneyBagIcon2 className={styles.summaryIcon} />
+                </div>
+                <div>
+                  <p className={styles.summaryValue}>NGN 500,000</p>
+                  <p className={styles.summaryLabel}>Total Revenue</p>
+                </div>
+              </div> */}
+            </div>
+            <div className={styles.trendsChart}>
+              <Graph
+                labels={[
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ]}
+                values={[45, 30, 20, 42, 60, 16, 72, 34, 58, 102, 41, 30]}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
       <section>
+        <p className={styles.sectionTtl}>Financial Transactions</p>
         <section className={styles.searchFilter}>
           <FinanceFilter
             submit={(data) => {
@@ -117,6 +277,97 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
         />
         <Pagination {...pagination} name={"Transactions"} />
       </section>
+    </>
+  );
+};
+
+export interface StatInfo {
+  title: string;
+  total: number | string;
+  percentage: number;
+  increase: boolean;
+  difference: number;
+}
+
+const StatCard: React.FC<StatInfo> = ({
+  title,
+  total,
+  percentage,
+  increase,
+  difference,
+}) => {
+  return (
+    <div className={styles.statCard}>
+      <div className={styles.statInfo}>
+        <p className={styles.statTxt1}>{title}</p>
+        <p className={styles.statTxt2}>{total}</p>
+        <p className={styles.statTxt3}>
+          <span>{difference}</span> ({percentage}%){" "}
+          <ChevronIcon className={!increase ? styles.downwardRed : ""} />
+        </p>
+      </div>
+    </div>
+  );
+};
+
+interface GraphProps {
+  labels: string[];
+  values: number[];
+}
+const Graph: React.FC<GraphProps> = ({ labels, values }) => {
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "NGN",
+        data: values,
+        backgroundColor: "rgba(221, 227, 221, 1)",
+        hoverBackgroundColor: "rgb(15, 201, 75)",
+        borderRadius: 7,
+        barPercentage: 0.7,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          display: false,
+        },
+        ticks: {
+          // Include a dollar sign in the ticks
+          callback: function (value, index, ticks) {
+            return "NGN" + value;
+          },
+        },
+        display: false,
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+    },
+  };
+
+  const config = {
+    type: "bar",
+    data: data,
+    options: options,
+  };
+
+  return (
+    <>
+      <Bar {...config} />
     </>
   );
 };

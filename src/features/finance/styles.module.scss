@@ -43,6 +43,97 @@ div.tableBodyItem {
   min-width: 700px;
 }
 
+// Stat
+.transactionVolume {
+  margin-bottom: 2rem;
+}
+.sectionTtl {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.statList {
+  --auto-grid-min-size: 20%;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(var(--auto-grid-min-size), 1fr)
+  );
+  grid-gap: 1rem;
+}
+.statCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+}
+.statInfo {
+}
+.statTxt1 {
+  margin-bottom: 8px;
+}
+.statTxt2 {
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+.statTxt3 {
+}
+.statTxt3 span {
+  font-weight: 600;
+}
+.statTxt3 svg {
+  margin-left: 10px;
+  margin-top: -6px;
+  width: 8px;
+
+  path {
+    fill: var(--green);
+  }
+}
+.downwardRed {
+  transform: rotate(180deg);
+  margin-top: 2px;
+}
+.downwardRed path {
+  fill: #fa6564;
+}
+.statRange {
+  justify-content: flex-end;
+}
+.revenue {
+  margin-bottom: 2rem;
+}
+.revenueWrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: 2rem;
+}
+.summarySec {
+  width: 100%;
+  // max-width: 220px;
+
+  .statCard {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+.trendsChart {
+  width: 100%;
+}
+@media screen and (max-width: 1100px) {
+  .revenueWrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .summarySec {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
 @media screen and (max-width: 800px) {
   .ttl {
     padding-left: 1.5rem;
@@ -51,5 +142,19 @@ div.tableBodyItem {
   .ttl::before {
     width: 10px;
     height: 30px;
+  }
+  .statList {
+    overflow-x: scroll;
+    display: flex;
+    gap: unset;
+    margin-bottom: 1.5rem;
+  }
+  .statCard {
+    min-width: 150px;
+    width: 150px;
+    margin-right: 1rem;
+  }
+  .statCard:hover {
+    border-color: #0fc94b;
   }
 }
