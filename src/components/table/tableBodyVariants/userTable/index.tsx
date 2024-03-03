@@ -55,7 +55,7 @@ const UserTable: React.FC<TableBodyProps> = ({
     };
 
     const list = [viewItem];
-    verifiedEmail && list.push(resendItem);
+    !verifiedEmail && list.push(resendItem);
     return list;
   };
 
