@@ -89,49 +89,49 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
       total: `NGN 500`,
       percentage: 10,
       increase: true,
-      difference: 5,
+      difference: `NGN 500`,
     },
     {
       title: "Total Investments",
       total: `NGN 500`,
       percentage: 10,
       increase: true,
-      difference: 5,
+      difference: `NGN 50`,
     },
     {
       title: "Total Rent",
       total: `NGN 500`,
       percentage: 10,
       increase: true,
-      difference: 5,
+      difference: `NGN 50`,
     },
     {
       title: "Total Buy-back",
       total: `NGN 500`,
       percentage: 10,
       increase: true,
-      difference: 5,
+      difference: `NGN 50`,
     },
     {
       title: "Total Rent Payout",
       total: `NGN 500`,
       percentage: 10,
       increase: true,
-      difference: 5,
+      difference: `NGN 50`,
     },
     {
       title: "Total Deposit Payout",
       total: `NGN 500`,
       percentage: 10,
       increase: false,
-      difference: 5,
+      difference: `NGN 50`,
     },
     {
       title: "Total Buy-back Payout",
       total: `NGN 500`,
       percentage: 10,
       increase: true,
-      difference: 5,
+      difference: `NGN 50`,
     },
   ];
 
@@ -140,7 +140,7 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
     total: `NGN 50000`,
     percentage: 10,
     increase: true,
-    difference: 5,
+    difference: `NGN 50`,
   };
 
   const avgRevenue = {
@@ -148,7 +148,7 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
     total: `NGN 500000`,
     percentage: 10,
     increase: true,
-    difference: 5,
+    difference: `NGN 50`,
   };
 
   return (
@@ -226,7 +226,9 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
         </div>
       </section>
       <section>
-        <p className={styles.sectionTtl}>Financial Transactions <span>({pagination.totalCount})</span></p>
+        <p className={styles.sectionTtl}>
+          Financial Transactions <span>({pagination.totalCount})</span>
+        </p>
         <section className={styles.searchFilter}>
           <FinanceFilter
             submit={(data) => {
@@ -286,7 +288,7 @@ export interface StatInfo {
   total: number | string;
   percentage: number;
   increase: boolean;
-  difference: number;
+  difference: number | string;
 }
 
 const StatCard: React.FC<StatInfo> = ({
