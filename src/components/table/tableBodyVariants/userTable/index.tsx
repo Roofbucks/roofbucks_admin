@@ -71,10 +71,8 @@ const UserTable: React.FC<TableBodyProps> = ({
             <span className={`${tableBodyItemClassName} ${styles.email}`}>
               {item.verifiedEmail ? (
                 <TickIcon title="Email verified" />
-              ) : item.type === "agent" ? (
-                <ErrorIcon title="Unverified email" />
               ) : (
-                ""
+                <ErrorIcon title="Unverified email" />
               )}
               {item.email}
             </span>

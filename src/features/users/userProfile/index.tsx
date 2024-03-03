@@ -124,7 +124,8 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
           </p>
           {personal.status === "unverified" ? (
             <Button
-              className={styles.suspend}
+              disabled={!identification.idNo}
+              className={styles.actionBtn}
               type="primary"
               onClick={handleVerifyProfile}
             >

@@ -79,6 +79,28 @@ const UserProfile = () => {
         limit: pages.pageLimit,
       })
     );
+
+  const handleView = (id) => navigate(Routes.property(id));
+
+  const handleApproveBusiness = () => {
+    user?.business?.id &&
+      runApproveBusiness(approveCompanyService(user.business.id));
+  };
+
+  const handleSuspendUser = () => {
+    user?.personal.email &&
+      runSuspend(suspendUserService(user?.personal.email));
+  };
+
+  const handleUnsuspendUser = () => {
+    user?.personal.email &&
+      runUnsuspend(unsuspendUserService(user?.personal.email));
+  };
+
+  const handleVerifyProfile = () => {
+    params.id && runApproveProfile(verifyProfileService(params.id));
+  };
+
   useEffect(() => {
     fetchUser();
     fetchProperties(1);
@@ -188,13 +210,6 @@ const UserProfile = () => {
     return [];
   }, [propertiesResponse, propertiesError]);
 
-  const handleView = (id) => navigate(Routes.property(id));
-
-  const handleApproveBusiness = () => {
-    user?.business?.id &&
-      runApproveBusiness(approveCompanyService(user.business.id));
-  };
-
   useMemo(() => {
     if (approveBusinessResponse?.status === 200) {
       fetchUser();
@@ -223,20 +238,6 @@ const UserProfile = () => {
     }
     return [];
   }, [approveBusinessResponse, approveBusinessError]);
-
-  const handleSuspendUser = () => {
-    user?.personal.email &&
-      runSuspend(suspendUserService(user?.personal.email));
-  };
-
-  const handleUnsuspendUser = () => {
-    user?.personal.email &&
-      runUnsuspend(unsuspendUserService(user?.personal.email));
-  };
-
-  const handleVerifyProfile = () => {
-    params.id && runApproveProfile(verifyProfileService(params.id));
-  };
 
   useMemo(() => {
     if (suspendResponse?.status === 204) {
@@ -295,6 +296,35 @@ const UserProfile = () => {
     }
     return [];
   }, [unsuspendResponse, unsuspendError]);
+
+  useMemo(() => {
+    if (approveProfileResponse?.status === 200) {
+      fetchUser();
+      setToast({
+        show: true,
+        text: "Approval successful!",
+        type: true,
+      });
+
+      setTimeout(() => {
+        setToast({
+          show: false,
+          text: "",
+          type: true,
+        });
+      }, 2000);
+    } else if (approveProfileError) {
+      setToast({
+        show: true,
+        text: getErrorMessage({
+          error: approveProfileError,
+          message: "Failed to approve personal profile, please try again later",
+        }),
+        type: false,
+      });
+    }
+    return [];
+  }, [approveProfileResponse, approveProfileError]);
 
   const handlePages = (page: number) => {
     fetchProperties(page);
