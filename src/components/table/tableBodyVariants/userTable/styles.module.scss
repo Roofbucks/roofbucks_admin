@@ -25,12 +25,22 @@
   align-items: center;
 
   svg {
-    margin-left: 10px;
+    margin-right: 10px;
     width: 16px;
+    min-width: 16px;
   }
 }
 .email {
   text-transform: lowercase;
+
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 10px;
+    width: 16px;
+    min-width: 16px;
+  }
 }
 .tableBodyRow * {
   word-break: break-all;

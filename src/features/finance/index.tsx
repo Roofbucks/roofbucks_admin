@@ -226,7 +226,7 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
         </div>
       </section>
       <section>
-        <p className={styles.sectionTtl}>Financial Transactions</p>
+        <p className={styles.sectionTtl}>Financial Transactions <span>({pagination.totalCount})</span></p>
         <section className={styles.searchFilter}>
           <FinanceFilter
             submit={(data) => {

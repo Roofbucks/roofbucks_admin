@@ -88,6 +88,7 @@ interface UserProfileProps {
   handleApproveBusiness: () => void;
   handleSuspendUser: () => void;
   handleUnsuspendUser: () => void;
+  handleVerifyProfile: () => void;
 }
 
 const UserProfileUI: React.FC<UserProfileProps> = ({
@@ -99,6 +100,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
   handleApproveBusiness,
   handleSuspendUser,
   handleUnsuspendUser,
+  handleVerifyProfile,
 }) => {
   const { personal, billing, business, identification } = user;
 
@@ -120,7 +122,15 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
           >
             {personal.status}
           </p>
-          {personal.status !== "unverified" ? (
+          {personal.status === "unverified" ? (
+            <Button
+              className={styles.suspend}
+              type="primary"
+              onClick={handleVerifyProfile}
+            >
+              Verify profile
+            </Button>
+          ) : (
             <Button
               className={styles.suspend}
               type="primary"
@@ -134,8 +144,6 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
                 ? "Suspend account"
                 : "Unsuspend account"}
             </Button>
-          ) : (
-            ""
           )}
         </div>
         <div className={styles.section__content}>

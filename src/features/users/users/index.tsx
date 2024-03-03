@@ -21,16 +21,6 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
-const user: UserTableItem = {
-  id: "123",
-  name: "New user",
-  email: "user@user.com",
-  status: "verified",
-  type: "agent",
-  dateCreated: "12/08/2023",
-  verifiedBusiness: true,
-};
-
 interface UsersProps {
   handleView: (id: string) => void;
   users: UserTableItem[];

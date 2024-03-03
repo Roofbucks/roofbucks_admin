@@ -77,8 +77,9 @@ const Users = () => {
         email: item.email,
         type: item.role.toLowerCase(),
         dateCreated: new Date(item.created_at).toLocaleDateString(),
-        status: item.status.toLowerCase(),
+        status: item.profile_status.toLowerCase(),
         verifiedBusiness: item.business_verified,
+        verifiedEmail: item.email_verified === "VERIFIED",
       }));
     } else if (fetchError) {
       setToast({
@@ -102,7 +103,7 @@ const Users = () => {
   };
 
   const handleResend = (email) => {
-    runResend(resendMailService({email}));
+    runResend(resendMailService({ email }));
   };
 
   useMemo(() => {

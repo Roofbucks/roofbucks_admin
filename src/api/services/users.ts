@@ -14,6 +14,7 @@ import {
   resendMailURL,
   suspendUserURL,
   unsuspendUserURL,
+  verifyProfileURL,
 } from "api";
 
 interface fetchUsersParams {
@@ -125,4 +126,16 @@ export const unsuspendUserService = (email: string) => {
     data: { email },
   };
   return postRequest(requestData);
+};
+
+/**
+ *Verify user profile service
+ * @returns axios promise
+ */
+
+export const verifyProfileService = (id: string) => {
+  const requestData = {
+    url: verifyProfileURL(id),
+  };
+  return getRequest(requestData);
 };

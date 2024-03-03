@@ -51,6 +51,13 @@ div.tableBodyItem {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 1rem;
+
+  span {
+    color: var(--neutral);
+    font-size: 80%;
+    font-weight: 400;
+    margin-left: 2px;
+  }
 }
 .statList {
   --auto-grid-min-size: 20%;

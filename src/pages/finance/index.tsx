@@ -31,6 +31,7 @@ const Finance = () => {
   const [date, setDate] = useState({ start: "", end: "" });
   const [search, setSearch] = useState("");
   const debouncedSearchTerm = useDebounce(search, 500);
+  const [confirm, setConfirm] = useState({ show: false, ref: "" });
 
   const navigate = useNavigate();
   const handleViewProperty = (id) => navigate(Routes.property(id));
@@ -133,7 +134,6 @@ const Finance = () => {
 
   useMemo(() => {
     if (payoutResponse?.status === 200) {
-      console.log(payoutResponse);
       setConfirm({ show: false, ref: "" });
       fechTransactions(1);
       setToast({
@@ -151,9 +151,8 @@ const Finance = () => {
         type: false,
       });
     }
-  }, [fetchResponse, payoutError]);
+  }, [payoutResponse, payoutError]);
 
-  const [confirm, setConfirm] = useState({ show: false, ref: "" });
 
   const loading = fetchStatus.isPending || payoutStatus.isPending;
 

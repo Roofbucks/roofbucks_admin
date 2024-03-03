@@ -4,6 +4,7 @@ import {
   fetchUserService,
   suspendUserService,
   unsuspendUserService,
+  verifyProfileService,
 } from "api";
 import { Preloader, Toast, UserPropertyTableItem } from "components";
 import { UserProfileData, UserProfileUI } from "features";
@@ -60,6 +61,12 @@ const UserProfile = () => {
     requestStatus: unsuspendStatus,
     error: unsuspendError,
   } = useApiRequest({});
+  const {
+    run: runApproveProfile,
+    data: approveProfileResponse,
+    requestStatus: approveProfileStatus,
+    error: approveProfileError,
+  } = useApiRequest({});
 
   const fetchUser = () =>
     params.id && runFetchUser(fetchUserService(params.id));
@@ -92,7 +99,7 @@ const UserProfile = () => {
           city: data.city,
           country: data.country,
           phoneNumber: data.phone,
-          status: data.status.toLowerCase(),
+          status: data.profile_status.toLowerCase(),
         },
         identification: {
           idType: data.identity_document_type
@@ -166,7 +173,7 @@ const UserProfile = () => {
         status: item.moderation_status.toLowerCase(),
         date: new Date(item.created_at).toLocaleDateString(),
         amount: `NGN ${item.total_property_cost?.toLocaleString()}`,
-        marketValue: `NGN ${item.market_value?.toLocaleString()}`
+        marketValue: `NGN ${item.market_value?.toLocaleString()}`,
       }));
     } else if (propertiesError) {
       setToast({
@@ -225,6 +232,10 @@ const UserProfile = () => {
   const handleUnsuspendUser = () => {
     user?.personal.email &&
       runUnsuspend(unsuspendUserService(user?.personal.email));
+  };
+
+  const handleVerifyProfile = () => {
+    params.id && runApproveProfile(verifyProfileService(params.id));
   };
 
   useMemo(() => {
@@ -317,6 +328,7 @@ const UserProfile = () => {
           handleApproveBusiness={handleApproveBusiness}
           handleSuspendUser={handleSuspendUser}
           handleUnsuspendUser={handleUnsuspendUser}
+          handleVerifyProfile={handleVerifyProfile}
         />
       ) : (
         ""

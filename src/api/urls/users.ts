@@ -67,3 +67,13 @@ export const suspendUserURL = () => `/admin/suspend_user/`;
  */
 
 export const unsuspendUserURL = () => `/admin/unsuspend_user/`;
+
+
+/**
+ * Verify user profile url
+ *
+ * @returns url string
+ *
+ */
+
+export const verifyProfileURL = (id) => `/admin/verify_profile/${id}/`;

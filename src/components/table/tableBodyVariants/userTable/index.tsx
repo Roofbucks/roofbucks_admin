@@ -17,6 +17,7 @@ export interface UserTableItem {
   type: "agent" | "shareholder";
   dateCreated: string;
   verifiedBusiness?: boolean;
+  verifiedEmail: boolean;
 }
 
 // Test Table Body Props
@@ -35,7 +36,7 @@ const UserTable: React.FC<TableBodyProps> = ({
   tableBodyItemClassName,
   tableBodyRowClassName,
 }) => {
-  const actions = (id, status, email): ActionItem[] => {
+  const actions = (id, verifiedEmail, email): ActionItem[] => {
     const viewItem = {
       text: (
         <>
@@ -54,7 +55,7 @@ const UserTable: React.FC<TableBodyProps> = ({
     };
 
     const list = [viewItem];
-    status === "unverified" && list.push(resendItem);
+    verifiedEmail && list.push(resendItem);
     return list;
   };
 
@@ -68,10 +69,16 @@ const UserTable: React.FC<TableBodyProps> = ({
           >
             <span className={tableBodyItemClassName}>{item.name}</span>
             <span className={`${tableBodyItemClassName} ${styles.email}`}>
+              {item.verifiedEmail ? (
+                <TickIcon title="Email verified" />
+              ) : item.type === "agent" ? (
+                <ErrorIcon title="Unverified email" />
+              ) : (
+                ""
+              )}
               {item.email}
             </span>
             <span className={`${tableBodyItemClassName} ${styles.account}`}>
-              {item.type}{" "}
               {item.verifiedBusiness && item.type === "agent" ? (
                 <TickIcon title="Verified business" />
               ) : item.type === "agent" ? (
@@ -79,6 +86,7 @@ const UserTable: React.FC<TableBodyProps> = ({
               ) : (
                 ""
               )}{" "}
+              {item.type}
             </span>
             <span className={tableBodyItemClassName}>{item.dateCreated}</span>
             <span className={tableBodyItemClassName}>
@@ -88,7 +96,7 @@ const UserTable: React.FC<TableBodyProps> = ({
             </span>
             <span className={tableBodyItemClassName}>
               <TableAction
-                actions={actions(item.id, item.status, item.email)}
+                actions={actions(item.id, item.verifiedEmail, item.email)}
               />
             </span>
           </TableBodyRow>
