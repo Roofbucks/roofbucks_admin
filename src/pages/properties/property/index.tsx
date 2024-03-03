@@ -55,7 +55,7 @@ const Property = () => {
         yearBuilt: data.date_built,
         noOfBedrooms: data.number_of_bedrooms,
         noOfToilets: data.number_of_toilets,
-        totalCost: `NGN ${data.total_property_cost.toLocaleString()}`,
+        totalCost: `NGN ${data.total_property_cost?.toLocaleString()}`,
         description: data.description,
         address: data.address,
         city: data.city,
