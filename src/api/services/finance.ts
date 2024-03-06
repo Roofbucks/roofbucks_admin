@@ -4,7 +4,13 @@ TRANSACTIONS SERVICES
 =================================
 */
 
-import { fetchTransactionsURL, getRequest, payoutURL } from "api";
+import {
+  fetchRevenueGraphURL,
+  fetchStatURL,
+  fetchTransactionsURL,
+  getRequest,
+  payoutURL,
+} from "api";
 
 export interface fetchTransactionsParams {
   search: string;
@@ -42,6 +48,38 @@ export const fetchTransactionsService = (params: fetchTransactionsParams) => {
 export const payoutService = (ref) => {
   const requestData = {
     url: payoutURL(ref),
+  };
+  return getRequest(requestData);
+};
+
+export interface fetchStatParams {
+  start_date: string; //YYYY-MM-DD
+  end_date: string; //YYYY-MM-DD
+}
+/**
+ * Fetch transaction stats service
+ * @returns axios promise
+ */
+
+export const fetchStatService = (params: fetchStatParams) => {
+  const requestData = {
+    url: fetchStatURL(params),
+  };
+  return getRequest(requestData);
+};
+
+export interface fetchRevenueGraphParams {
+  start_date: string; //YYYY-MM-DD
+  end_date: string; //YYYY-MM-DD
+}
+/**
+ * Fetch revenue graph data service
+ * @returns axios promise
+ */
+
+export const fetchRevenueGraphService = (params: fetchRevenueGraphParams) => {
+  const requestData = {
+    url: fetchRevenueGraphURL(params),
   };
   return getRequest(requestData);
 };

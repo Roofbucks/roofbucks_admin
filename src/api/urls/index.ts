@@ -3,4 +3,4 @@ export * from "./team";
 export * from "./users";
 export * from "./account";
 export * from "./properties";
-export * from "./transactions";
+export * from "./finance";

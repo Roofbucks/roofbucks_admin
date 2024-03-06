@@ -36,6 +36,12 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "Date" },
 ];
 
+export interface RevenueData {
+  average: StatInfo;
+  total: StatInfo;
+  graph: { label: string; value: number }[];
+}
+
 interface FinanceUIProps {
   transactions: TransactionTableItem[];
   pagination: {
@@ -63,6 +69,18 @@ interface FinanceUIProps {
   }) => void;
   handleViewProperty: (id) => void;
   handlePayAgent: (id) => void;
+  stats: StatInfo[];
+  statDateFilter: {
+    start: string;
+    end: string;
+    onChange: (start, end) => void;
+  };
+  graphDateFilter: {
+    start: string;
+    end: string;
+    onChange: (start, end) => void;
+  };
+  revenue: RevenueData;
 }
 
 const FinanceUI: React.FC<FinanceUIProps> = ({
@@ -75,82 +93,11 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
   handleFilter,
   handleViewProperty,
   handlePayAgent,
+  stats,
+  statDateFilter,
+  graphDateFilter,
+  revenue,
 }) => {
-  const stats: StatInfo[] = [
-    {
-      title: "Total Transactions",
-      total: pagination.totalCount,
-      percentage: 10,
-      increase: true,
-      difference: 5,
-    },
-    {
-      title: "Total Deposits",
-      total: `NGN 500`,
-      percentage: 10,
-      increase: true,
-      difference: `NGN 500`,
-    },
-    {
-      title: "Total Investments",
-      total: `NGN 500`,
-      percentage: 10,
-      increase: true,
-      difference: `NGN 50`,
-    },
-    {
-      title: "Total Rent",
-      total: `NGN 500`,
-      percentage: 10,
-      increase: true,
-      difference: `NGN 50`,
-    },
-    {
-      title: "Total Buy-back",
-      total: `NGN 500`,
-      percentage: 10,
-      increase: true,
-      difference: `NGN 50`,
-    },
-    {
-      title: "Total Rent Payout",
-      total: `NGN 500`,
-      percentage: 10,
-      increase: true,
-      difference: `NGN 50`,
-    },
-    {
-      title: "Total Deposit Payout",
-      total: `NGN 500`,
-      percentage: 10,
-      increase: false,
-      difference: `NGN 50`,
-    },
-    {
-      title: "Total Buy-back Payout",
-      total: `NGN 500`,
-      percentage: 10,
-      increase: true,
-      difference: `NGN 50`,
-    },
-  ];
-
-  const totalRevenue = {
-    title: "Total Revenue",
-    total: `NGN 50000`,
-    percentage: 10,
-    increase: true,
-    difference: `NGN 50`,
-  };
-
-  const avgRevenue = {
-    title: "Average Revenue",
-    total: `NGN 500000`,
-    percentage: 10,
-    increase: true,
-    difference: `NGN 50`,
-  };
-
   return (
     <>
       <h1 className={styles.ttl}>Your Finances</h1>
@@ -159,9 +106,9 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
         <div>
           <MyDateRangePicker
             className={styles.statRange}
-            startDate={""}
-            endDate={""}
-            handleChange={console.log}
+            startDate={statDateFilter.start}
+            endDate={statDateFilter.end}
+            handleChange={statDateFilter.onChange}
           />
           <div className={`${styles.statList} ${styles.secWrap}`}>
             {stats.map((item, index) => (
@@ -175,51 +122,20 @@ const FinanceUI: React.FC<FinanceUIProps> = ({
         <div>
           <MyDateRangePicker
             className={styles.statRange}
-            startDate={""}
-            endDate={""}
-            handleChange={console.log}
+            startDate={graphDateFilter.start}
+            endDate={graphDateFilter.end}
+            handleChange={graphDateFilter.onChange}
           />
 
           <div className={styles.revenueWrapper}>
             <div className={styles.summarySec}>
-              <StatCard {...totalRevenue} />
-              <StatCard {...avgRevenue} />
-              {/* <div className={styles.summary}>
-                <div className={styles.summaryIconSec}>
-                  <MoneyBagIcon2 className={styles.summaryIcon} />
-                </div>
-                <div>
-                  <p className={styles.summaryValue}>NGN 500,000</p>
-                  <p className={styles.summaryLabel}>Avg. Revenue</p>
-                </div>
-              </div>
-              <div className={styles.summary}>
-                <div className={styles.summaryIconSec}>
-                  <MoneyBagIcon2 className={styles.summaryIcon} />
-                </div>
-                <div>
-                  <p className={styles.summaryValue}>NGN 500,000</p>
-                  <p className={styles.summaryLabel}>Total Revenue</p>
-                </div>
-              </div> */}
+              <StatCard {...revenue.total} />
+              <StatCard {...revenue.average} />
             </div>
             <div className={styles.trendsChart}>
               <Graph
-                labels={[
-                  "Jan",
-                  "Feb",
-                  "Mar",
-                  "Apr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Aug",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dec",
-                ]}
-                values={[45, 30, 20, 42, 60, 16, 72, 34, 58, 102, 41, 30]}
+                labels={revenue.graph.map((item) => item.label)}
+                values={revenue.graph.map((item) => item.value)}
               />
             </div>
           </div>

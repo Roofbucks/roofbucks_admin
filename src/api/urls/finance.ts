@@ -22,3 +22,20 @@ export const fetchTransactionsURL = (params) =>
  */
 
 export const payoutURL = (ref) => `/admin/payout/${ref}`;
+
+/**
+ * Fetch transaction stats URL
+ * @returns url string
+ *
+ */
+
+export const fetchStatURL = (params) => `/admin/stat/?${appendParams(params)}`;
+
+/**
+ * Fetch revenue graph data URL
+ * @returns url string
+ *
+ */
+
+export const fetchRevenueGraphURL = (params) =>
+  `/admin/graph/?${appendParams(params)}`;

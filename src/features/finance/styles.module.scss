@@ -84,13 +84,14 @@ div.tableBodyItem {
   font-size: 20px;
 }
 .statTxt3 {
+  display: flex;
+  align-items: center;
 }
 .statTxt3 span {
   font-weight: 600;
 }
 .statTxt3 svg {
   margin-left: 10px;
-  margin-top: -6px;
   width: 8px;
 
   path {
@@ -102,7 +103,7 @@ div.tableBodyItem {
   margin-top: 2px;
 }
 .downwardRed path {
-  fill: #fa6564;
+  fill: #fa6564 !important;
 }
 .statRange {
   justify-content: flex-end;

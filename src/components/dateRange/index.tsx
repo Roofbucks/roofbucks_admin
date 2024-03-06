@@ -3,26 +3,9 @@ import * as React from "react";
 import styles from "./styles.module.css";
 import { DateRangePicker, Range } from "react-date-range";
 import { Button } from "..";
-
-const useOutsideAlerter = (ref: any, closeFunction: () => any) => {
-  React.useEffect(() => {
-    /**
-     * Hide if clicked on outside of element
-     */
-    const handleClickOutside = (event: { target: any }) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        closeFunction && closeFunction();
-      }
-    };
-
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref]);
-};
+import { useClickOutside } from "hooks";
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 
 interface DateRangeProps {
   className?: string;
@@ -54,7 +37,7 @@ const MyDateRangePicker: React.FC<DateRangeProps> = ({
   }, [startDate, endDate]);
 
   const rangeBody = React.useRef(null);
-  useOutsideAlerter(rangeBody, () => setShowRangePicker(false));
+  useClickOutside(rangeBody, () => setShowRangePicker(false));
 
   const handleApply = () => {
     handleChange(statRange.startDate, statRange.endDate);
@@ -90,8 +73,8 @@ const MyDateRangePicker: React.FC<DateRangeProps> = ({
                 key: "selection",
               },
             ]}
-            showDateDisplay
-            showMonthAndYearPickers
+            // showDateDisplay
+            // showMonthAndYearPickers
           />
 
           <Button onClick={handleApply} type="primary">

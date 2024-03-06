@@ -65,3 +65,17 @@ export const timeAgo = (date: Date): string => {
   }
   return Math.floor(seconds) + " seconds ago";
 };
+
+export const formatDate = (date: Date) => {
+  if (!date) {
+    return date;
+  }
+
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth();
+  const day = date.getUTCDate();
+
+  return `${year}-${month + 1 > 9 ? "" : 0}${month + 1}-${
+    day > 9 ? "" : 0
+  }${day}`;
+};
