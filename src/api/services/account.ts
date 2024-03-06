@@ -7,8 +7,10 @@ ACCOUNT SERVICES
 import {
   changePasswordURL,
   editNameURL,
+  fetchNotifsURL,
   fetchProfileURL,
   getRequest,
+  markAsReadURL,
   postRequest,
 } from "api";
 
@@ -54,6 +56,32 @@ export const editNameService = (data: changePasswordRequestData) => {
 export const fetchProfileService = () => {
   const requestData = {
     url: fetchProfileURL(),
+  };
+
+  return getRequest(requestData);
+};
+
+/**
+ * Fetch notifications service
+ * @returns axios promise
+ */
+
+export const fetchNotifsService = (page) => {
+  const requestData = {
+    url: fetchNotifsURL(page),
+  };
+
+  return getRequest(requestData);
+};
+
+/**
+ * Mark activity as read service
+ * @returns axios promise
+ */
+
+export const markAsReadService = (id: string) => {
+  const requestData = {
+    url: markAsReadURL(id),
   };
 
   return getRequest(requestData);

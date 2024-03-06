@@ -123,6 +123,9 @@ button.sidebarType {
   right: unset;
   left: 26px;
 }
+.notifWrap {
+  position: relative;
+}
 @media screen and (max-width: 1200px) {
   .navBar {
     padding-left: 1rem;

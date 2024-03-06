@@ -30,3 +30,20 @@ export const editNameURL = () => `/admin/update_name/`;
  */
 
 export const fetchProfileURL = () => `/user/profile/`;
+
+/**
+ * Fetch notifications url
+ *
+ * @returns url string
+ *
+ */
+
+export const fetchNotifsURL = (page) => `/admin/activities/?page=${page}&limit=${20}`;
+
+/**
+ * Mark activity as read url
+ *
+ * @returns url string
+ *
+ */
+export const markAsReadURL = (id) => `/admin/mark_as_read/${id}/`;

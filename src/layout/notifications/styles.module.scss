@@ -1,0 +1,110 @@
+.container {
+  position: absolute;
+  background: #fff;
+  box-shadow: 0px 2px 6px 1px rgb(0 0 0 / 10%);
+  padding: 1rem;
+  right: 0;
+  width: 350px;
+  top: 2rem;
+  border-radius: 6px;
+}
+
+.notifHdSec {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+.notifHeading {
+  font-size: 22px;
+  font-weight: 600;
+}
+.notifHdSec button {
+  background: transparent;
+  border: none;
+  color: #808080;
+  font-size: 13px;
+}
+.notifList {
+  max-height: 250px;
+  overflow: auto;
+  padding-right: 6px;
+  margin-right: -6px;
+}
+.notifCard {
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 44px;
+  gap: 6px 10px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+p.notifTtl {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 17px;
+  font-weight: 600;
+  align-items: center;
+  margin: 0;
+  margin-bottom: 5px;
+}
+.notifTime {
+  color: #9a9fa5;
+  font-weight: 400;
+  font-size: 12px;
+  position: relative;
+}
+p.notifTxt {
+  color: #6f767e;
+  font-weight: 400;
+  margin: 0;
+}
+.notifDropdownWrap {
+  width: 370px;
+}
+.clearIcon {
+  display: block;
+  margin-left: auto;
+  width: 20px;
+
+  path {
+    fill: red;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+
+  button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    svg {
+      width: 10px;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+
+  button:first-of-type {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+.empty {
+  padding: 3rem 0;
+  text-align: center;
+}

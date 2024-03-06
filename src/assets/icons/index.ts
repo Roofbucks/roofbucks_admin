@@ -28,8 +28,10 @@ import { ReactComponent as UserIcon } from "./userIcon.svg";
 import { ReactComponent as CheckIcon } from "./checkIcon.svg";
 import { ReactComponent as CalendarIconOutline } from "./calendarIconOutline.svg";
 import { ReactComponent as MoneyBagIcon2 } from "./moneyBagIcon2.svg";
+import { ReactComponent as BellIconOutline } from "./bellIconOutline.svg";
 
 export {
+  BellIconOutline,
   MoneyBagIcon2,
   CalendarIconOutline,
   CheckIcon,

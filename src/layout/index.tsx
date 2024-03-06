@@ -1,4 +1,5 @@
 import {
+  BellIconOutline,
   FinancesIcon,
   LogoutIcon,
   MenuOpen,
@@ -16,6 +17,7 @@ import { Routes } from "router";
 import styles from "./styles.module.css";
 import { Logout } from "./logoutPrompt";
 import { useAppSelector } from "state/hooks";
+import { Notifications } from "./notifications";
 
 interface SidebarType {
   active: dashboardPages;
@@ -148,6 +150,7 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
 
   const [showMenu, setShowMenu] = React.useState(false);
   const [showLogout, setShowLogout] = React.useState(false);
+  const [showNotifDropdown, setShowNotifDropdown] = React.useState(false);
 
   const menuRef = React.useRef(null);
 
@@ -178,7 +181,25 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
         <header className={styles.navBar}>
           <div className={styles.profileSec}>
             {/* <img src={placeholderAvatar} alt="avatar" /> */}
-            <p>Hello, {firstName} <span>{role}</span></p>
+            <p>
+              Hello, {firstName} <span>{role}</span>
+            </p>
+          </div>
+          <div
+            className={`${styles.notifWrap} ${styles.notifRed} ${
+              showNotifDropdown ? styles.disableCaret : ""
+            }`}
+          >
+            <BellIconOutline
+              role="button"
+              className={styles.notif}
+              onClick={() => setShowNotifDropdown(true)}
+            />
+            <Notifications
+              show={showNotifDropdown}
+              closeMenu={(x) => setShowNotifDropdown(x)}
+              className={styles.notifDropdownWrap}
+            />
           </div>
         </header>
         <div className={styles.content}>{children}</div>
@@ -186,6 +207,8 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
     </>
   );
 };
+
+
 
 export { Layout };
 export * from "./logoutPrompt";
