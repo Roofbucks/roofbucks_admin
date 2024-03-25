@@ -10,7 +10,7 @@ import {
 } from "components";
 import styles from "./styles.module.scss";
 import { EmptyStreet } from "assets";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
 	{ title: "Name" },
@@ -21,38 +21,34 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
 	{ title: "" },
 ];
 
-// const user: UserTableItem = {
-// 	id: "123",
-// 	name: "New user",
-// 	email: "user@user.com",
-// 	status: "verified",
-// 	type: "agent",
-// 	dateCreated: "12/08/2023",
-// 	verifiedBusiness: true,
-// };
-
 interface UsersProps {
 	handleView: (id: string) => void;
-	userList: UserTableItem[];
-	handleFilter: (data: any) => void;
-	searchUsers: any;
-	pagination: any;
-	handleSearch: any;
+	users: UserTableItem[];
+	handleFilter: (data) => void;
+	handleSearch: (data: any) => void;
+	pagination: {
+		handleChange: (page) => void;
+		total: number;
+		current: number;
+		count: number;
+		limit: number;
+	};
+	search: string;
 }
 
 const UsersUI: React.FC<UsersProps> = ({
 	handleView,
-	searchUsers,
+	users,
+	handleFilter,
 	pagination,
 	handleSearch,
-	handleFilter,
+	search,
 }) => {
-	const [value, setValue] = useState("");
 
 	return (
 		<>
 			<h1 className={styles.ttl}>
-				Users <span>(58)</span>
+				Users <span>({pagination.count})</span>
 			</h1>
 			<section className={styles.searchFilter}>
 				<UsersFilter
@@ -64,19 +60,16 @@ const UsersUI: React.FC<UsersProps> = ({
 				/>
 				<Search
 					className={styles.search}
-					value={value}
+					value={search}
 					placeholder={"Search"}
-					handleChange={(e) => {
-						setValue(e);
-						handleSearch(e);
-					}}
+					handleChange={handleSearch}
 				/>
 			</section>
 			<Table
 				tableHeaderTitles={tableHeaderTitles}
 				tableBody={
 					<UserTable
-						tableBodyItems={searchUsers}
+						tableBodyItems={users}
 						view={handleView}
 						resendMail={console.log}
 						tableBodyRowClassName={styles.tableBodyItem}
@@ -88,7 +81,7 @@ const UsersUI: React.FC<UsersProps> = ({
 					tableHeaderItemClassName: styles.tableHeaderItem,
 				}}
 				emptyTable={{
-					show: false,
+					show: users.length === 0,
 					element: (
 						<EmptyTable
 							Vector={EmptyStreet}

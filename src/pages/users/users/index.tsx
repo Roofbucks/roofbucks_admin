@@ -1,130 +1,115 @@
-import axios from "axios";
+import { userService } from "api";
+import debounce from "lodash/debounce";
 import { UsersUI } from "features";
-import { useEffect, useState, useMemo } from "react";
+import { useApiRequest } from "hooks/useApiRequest";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
-
-interface filterOptionType {
-	label?: any;
-	value?: any;
-}
+import { Preloader } from "components";
 
 interface FilterData {
-	status: filterOptionType;
-	accountType: filterOptionType;
+	status: {
+		label?: any;
+		value?: any;
+	};
+	role: {
+		label?: any;
+		value?: any;
+	};
 }
 
 const Users = () => {
+	const {
+		run: runUserData,
+		data: userDataResponse,
+		requestStatus,
+	} = useApiRequest({});
+	const [loading, setLoading] = useState(false);
+	const [totalPages, setTotalPages] = useState(1);
+	const [totalUsers, setTotalUsers] = useState(0);
+	const [currentPage, setCurrentPage] = useState(1);
 	const [users, setUsers] = useState([]);
-	const [search, setSearch] = useState("");
-	const [filterUsers, setFilterUsers] = useState<FilterData>({
-		status: { label: "", value: "" },
-		accountType: { label: "", value: "" },
-	});
-	const [pageData, setPageData] = useState({
-		pageTotal: 1,
-		usersDataTotal: 0,
-		currentPage: 1,
-		pageLimit: 10,
-	});
-	console.log(pageData);
-
-	useEffect(() => {
-		const fetchUsers = () => {
-			axios
-				.get("/admin/get_users/", {
-					baseURL: process.env.REACT_APP_API_BASE_URL,
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem(
-							"roofbucksAdminAccess"
-						)}`,
-					},
-					params: {
-						search: search,
-						page: pageData.currentPage,
-						limit: 10,
-						role: filterUsers.accountType.value,
-						status: filterUsers.status.value,
-					},
-				})
-				.then((res) => {
-					const pageInfo = res.data;
-					console.log(pageInfo);
-					const userData = res.data.results;
-					setPageData((prev) => ({
-						...prev,
-						usersDataTotal: pageInfo.total,
-						pageTotal: pageInfo.pages,
-						pageLimit: pageInfo.limit,
-					}));
-
-					const userList = userData.map((user) => ({
-						id: user.id,
-						name: `${user.firstname} ${user.lastname}`,
-						email: user.email,
-						type: user.role.toLowerCase(),
-						dateCreated: new Date(user.created_at).toLocaleDateString(),
-						status: user.status.toLowerCase(),
-						verifiedBusiness: user.business_verified,
-					}));
-					setUsers(userList);
-				})
-				.catch((err) => console.log(err))
-				.finally(() => console.log("done"));
-		};
-		fetchUsers();
-	}, [
-		search,
-		filterUsers.accountType.value,
-		filterUsers.status.value,
-		pageData.currentPage,
-	]);
-
+	const [search, setSearchTerm] = useState("");
 	const navigate = useNavigate();
+	const [filter, setFilter] = useState<FilterData>({
+		status: { label: "", value: "" },
+		role: { label: "", value: "" },
+	});
 
-	const handlePages = (page) => {
-		setPageData((prev) => ({
-			...prev,
-			currentPage: page < pageData.pageTotal ? (page += 1) : (page -= 1),
-		}));
+	useMemo(() => {
+		if (userDataResponse?.status === 200) {
+			const userData = userDataResponse.data.results;
+			setTotalUsers(userDataResponse?.data.total);
+			setTotalPages(userDataResponse?.data.pages);
+
+			const userList = userData.map((item) => ({
+				id: item.id,
+				name: `${item.firstname} ${item.lastname}`,
+				email: item.email,
+				type: item.role.toLowerCase(),
+				dateCreated: item.created_at.substring(0, 10),
+				status: item.profile_status.toLowerCase(),
+			}));
+			setUsers(userList);
+			console.log(userData);
+		} else {
+			console.log("there was an error");
+		}
+	}, [userDataResponse]);
+
+	const handlePages = (currentPage) => {
+		setCurrentPage(currentPage);
 	};
 
 	const handleFilter = (data: any) => {
-		setPageData((prev) => ({
-			...prev,
-			currentPage: 1,
-		}));
-		setFilterUsers({
+		setFilter({
 			status: data.status,
-			accountType: data.accountType,
+			role: data.accountType,
 		});
+		setCurrentPage(1);
 	};
 
-	const handleSearch = (e: any) => {
-		setPageData((prev) => ({
-			...prev,
-			currentPage: 1,
-		}));
-		setSearch(e);
+	const handleSearch = (search: string) => {
+		setSearchTerm(search);
+		setCurrentPage(1);
 	};
 
+	useEffect(() => {
+		runUserData(
+			userService({
+				search: search,
+				currentPage: currentPage,
+				role: filter.role.value,
+				status: filter.status.value,
+				limit: 10,
+			})
+		);
+	}, [currentPage, filter, search]);
+
+	useEffect(() => {
+		setLoading(requestStatus.isPending);
+	}, [requestStatus]);
 	const handleView = (id) => {
 		navigate(Routes.user(id));
 	};
 
 	return (
 		<>
+			<Preloader loading={loading} />
 			<UsersUI
 				handleView={handleView}
 				users={users}
 				handleFilter={handleFilter}
+				status={filter.status}
+				role={filter.role}
 				handleSearch={handleSearch}
+				search={search}
 				pagination={{
-					handleChange: () => handlePages(pageData.currentPage),
-					total: pageData.pageTotal,
-					current: pageData.currentPage,
-					count: pageData.usersDataTotal,
-					limit: pageData.pageLimit,
+					handleChange: handlePages,
+					total: totalPages,
+					current: currentPage,
+					count: totalUsers,
+					limit: 10,
 				}}
 			/>
 		</>

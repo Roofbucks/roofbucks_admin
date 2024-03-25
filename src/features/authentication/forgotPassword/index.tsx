@@ -9,90 +9,96 @@ import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 
 interface RecoveryData {
-  email: string;
+	email: string;
+	redirect_url: string;
 }
 
 const initialValues: RecoveryData = {
-  email: "",
+	email: "",
+	redirect_url: `${window.location.origin}/reset-password`,
 };
-
+console.log();
 export interface RecoveryModalProps {
-  recovery: (data: RecoveryData) => void;
-  login: () => void;
-  clear: boolean;
+	recovery: (data: RecoveryData) => void;
+	login: () => void;
+	clear: boolean;
 }
 
 const RecoverySchema = yup
-  .object({
-    email: yup.string().email("Enter a valid email").required("Required"),
-  })
-  .required();
+	.object({
+		email: yup
+			.string()
+			.email("Enter a valid email")
+			.required("Required"),
+		redirect_url: yup.string().required(),
+	})
+	.required();
 
 const ForgotPasswordUI: React.FC<RecoveryModalProps> = ({
-  recovery,
-  login,
-  clear,
+	recovery,
+	login,
+	clear,
 }: RecoveryModalProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<RecoveryData>({
-    resolver: yupResolver(RecoverySchema),
-    defaultValues: initialValues,
-  });
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm<RecoveryData>({
+		resolver: yupResolver(RecoverySchema),
+		defaultValues: initialValues,
+	});
 
-  React.useEffect(() => {
-    reset();
-  }, [clear]);
+	React.useEffect(() => {
+		reset();
+	}, [clear]);
 
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<RecoveryData> = (data) => recovery(data);
+	const onSubmit: SubmitHandler<RecoveryData> = (data) => recovery(data);
 
-  return (
-    <div className={styles.page}>
-      <div className={styles.head}>
-        <LogoWithText type={"dark"} />
-      </div>
-      <div className={styles.body}>
-        <h1 className={styles.ttl}>Account Recovery</h1>
-        <form className={styles.form}>
-          <Input
-            label="Email Address"
-            placeholder="e.g. user@gmail.com"
-            type="email"
-            parentClassName={styles.input}
-            required
-            validatorMessage={errors.email?.message}
-            name="email"
-            register={register}
-          />
-          <p className={styles.info}>
-            Enter your recovery email address with which you will recieve an OTP
-          </p>
-          <Button
-            className={styles.continue}
-            type="primary"
-            onClick={handleSubmit(onSubmit)}
-          >
-            Continue
-          </Button>
-          <Button
-            onClick={() => {
-              navigate(Routes.home)
-              login();
-            }}
-            type="tertiary"
-            className={styles.back} 
-          >
-            <ArrowRight /> Back to login
-          </Button>
-        </form>
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.page}>
+			<div className={styles.head}>
+				<LogoWithText type={"dark"} />
+			</div>
+			<div className={styles.body}>
+				<h1 className={styles.ttl}>Account Recovery</h1>
+				<form className={styles.form}>
+					<Input
+						label="Email Address"
+						placeholder="e.g. user@gmail.com"
+						type="email"
+						parentClassName={styles.input}
+						required
+						validatorMessage={errors.email?.message}
+						name="email"
+						register={register}
+					/>
+					<p className={styles.info}>
+						Enter your recovery email address with which you will recieve an OTP
+					</p>
+					<Button
+						className={styles.continue}
+						type="primary"
+						onClick={handleSubmit(onSubmit)}
+					>
+						Continue
+					</Button>
+					<Button
+						onClick={() => {
+							navigate(Routes.home);
+							login();
+						}}
+						type="tertiary"
+						className={styles.back}
+					>
+						<ArrowRight /> Back to login
+					</Button>
+				</form>
+			</div>
+		</div>
+	);
 };
 
 export { ForgotPasswordUI };

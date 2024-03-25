@@ -3,7 +3,8 @@ import {
 	patchRequest,
 	postRequest,
 	resetPasswordURL,
-	loginURL
+	loginURL,
+	axiosInstanceUnauth,
 } from "api";
 
 /*
@@ -24,11 +25,12 @@ export const loginService = (data: LoginRequestData) => {
 		url: loginURL(),
 		data,
 	};
-	return postRequest(requestData);
+	return axiosInstanceUnauth.post(requestData.url, requestData.data);
 };
 
 export interface forgotPasswordData {
 	email: string;
+	redirect_url: string;
 }
 
 export const forgotPasswordService = (data: forgotPasswordData) => {
