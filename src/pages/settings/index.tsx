@@ -1,4 +1,10 @@
-import { UpdateName, UpdatePassword, updateNameService, updatePasswordService, userNameService } from "api";
+import {
+	UpdateName,
+	UpdatePassword,
+	updateNameService,
+	updatePasswordService,
+	userNameService,
+} from "api";
 import { AccountData, SettingsUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
@@ -19,7 +25,7 @@ const Settings = () => {
 	const {
 		run: runUpdateName,
 		data: nameInfo,
-		requestStatus: updateNameInfo,
+		requestStatus: updateNameRequestStatus,
 	} = useApiRequest({});
 	const {
 		run: runUpdatePassword,
@@ -28,26 +34,28 @@ const Settings = () => {
 	} = useApiRequest({});
 
 	useMemo(() => {
-		console.log(userInfo);
 		if (userInfo?.status === 200) {
 			const userInfoFirstName = userInfo.data.firstname;
 			const userInfoLastName = userInfo.data.lastname;
 			setUserName({ firstname: userInfoFirstName, lastname: userInfoLastName });
 		} else {
 		}
-	}, []);
+	}, [userInfo]);
+
 	useMemo(() => {
 		if (nameInfo?.status === 200) {
-			console.group("success");
-		} else {
+			alert("Name Changed Successfully");
+		} else if (nameInfo?.status === 404) {
+			console.log("Error");
 		}
-	}, []);
+	}, [nameInfo]);
 	useMemo(() => {
 		if (passwordInfo?.status === 200) {
-			console.group("success");
-		} else {
-		}
-	}, []);
+			alert("Password Changed Successfully");
+		} else if (passwordInfo?.status === 404) {
+			console.log("Error");
+		} 
+	}, [passwordInfo]);
 
 	useEffect(() => {
 		runUserName(userNameService());
@@ -57,12 +65,20 @@ const Settings = () => {
 		runUpdatePassword(updatePasswordService(data));
 	};
 	const updateUserName = (data: UpdateName) => {
-		runUpdatePassword(updateNameService(data));
+		runUpdateName(updateNameService(data));
 	};
 
 	useEffect(() => {
-		setLoading(userNameRequestStatus.isPending);
-	}, [userNameRequestStatus]);
+		setLoading(
+			userNameRequestStatus.isPending ||
+				updatePasswordResponseStatus.isPending ||
+				updateNameRequestStatus.isPending
+		);
+	}, [
+		userNameRequestStatus,
+		updateNameRequestStatus,
+		updatePasswordResponseStatus,
+	]);
 
 	return (
 		<>
@@ -71,7 +87,7 @@ const Settings = () => {
 				account={userName}
 				submitPassword={submitNewPassword}
 				reset={false}
-				updateName ={updateUserName}
+				updateName={updateUserName}
 			/>
 		</>
 	);

@@ -4,7 +4,7 @@ import { SecurityIcon, UserIcon } from "assets";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
-import { Button, Input } from "components";
+import { Button, Input, Preloader } from "components";
 import { useEffect, useState } from "react";
 
 interface SettingsProps {
@@ -106,28 +106,25 @@ const AccountForm = ({ account, submit }) => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = useForm<AccountData>({
 		resolver: yupResolver(accountSchema),
 		defaultValues: account,
 	});
 
-	const [first, setFirst] = useState("");
-	const [last, setLast] = useState("");
-
-	const onSubmit: SubmitHandler<AccountData> = async (data) => {
-		await submit(data);
+	const onSubmit: SubmitHandler<AccountData> = (data) => {
+		submit(data);
 	};
-	useEffect(() => {
-		setFirst(account.firstname);
-		setLast(account.lastname);
-	}, [account]);
 
+	useEffect(() => {
+		reset(account);
+	}, [account]);
+	console.log(account);
 	return (
 		<>
 			<form className={styles.accountForm}>
 				<Input
 					label="First Name"
-					value={first}
 					type="text"
 					parentClassName={styles.inputWrap}
 					required
@@ -135,13 +132,9 @@ const AccountForm = ({ account, submit }) => {
 					name="firstname"
 					register={register}
 					placeholder={""}
-					onChange={(e) => {
-						setFirst(e.target.value);
-					}}
 				/>
 				<Input
 					label="Last Name"
-					value={last}
 					type="text"
 					parentClassName={styles.inputWrap}
 					required
@@ -149,9 +142,6 @@ const AccountForm = ({ account, submit }) => {
 					name="lastname"
 					register={register}
 					placeholder={""}
-					onChange={(e) => {
-						setLast(e.target.value);
-					}}
 				/>
 				<div className={styles.btnWrap}>
 					<Button
@@ -203,6 +193,7 @@ const securitySchema = yup
 	.required();
 
 const PasswordForm = ({ submit }) => {
+	const [loading, setLoading] = useState(false);
 	const {
 		register,
 		handleSubmit,
@@ -214,15 +205,17 @@ const PasswordForm = ({ submit }) => {
 	});
 
 	const [passwordSubmit, setPasswordSubmit] = useState(false);
-	const onSubmit: SubmitHandler<SecurityData> = async (data) => {
+	const onSubmit: SubmitHandler<SecurityData> = (data) => {
 		setPasswordSubmit(true);
-		await submit(data);
+		submit(data);
 		setPasswordSubmit(false);
+		reset();
 	};
 
 	return (
 		<>
 			<form className={styles.securityForm}>
+				<Preloader loading={loading} />
 				<Input
 					label="CURRENT PASSWORD *"
 					placeholder="********"
