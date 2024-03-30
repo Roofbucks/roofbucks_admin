@@ -10,6 +10,7 @@ import {
 	patchRequest,
 	updatePasswordURL,
 	postRequest,
+	updateNameURL,
 } from "api";
 
 /**
@@ -17,10 +18,7 @@ import {
  * @returns axios promise
  */
 
-export interface UserName {
-	firstname: string;
-	lastname: string;
-}
+
 
 export const userNameService = () => {
 	const request = {
@@ -28,13 +26,18 @@ export const userNameService = () => {
 	};
 	return getRequest(request);
 };
-export const patchUserNameService = (data: UserName) => {
+
+export interface UserName {
+	firstname: string;
+	lastname: string;
+}
+export const UpdateNameService = (data:UserName) => {
 	const request = {
-		url: userNameURL(),
-		data,
-	};
-	return patchRequest(request);
-};
+		url: updateNameURL(),
+		data
+	}
+	return postRequest(request)
+}
 export interface UpdatePassword {
 	current_password: string;
 	new_password: string;

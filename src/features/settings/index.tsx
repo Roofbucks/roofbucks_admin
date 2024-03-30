@@ -6,8 +6,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input } from "components";
 import { useEffect, useState } from "react";
-import { patchUserNameService, userNameService } from "api";
-import { useApiRequest } from "hooks/useApiRequest";
 
 interface SettingsProps {
 	account: AccountData;
@@ -78,7 +76,7 @@ const SettingsUI: React.FC<SettingsProps> = ({
 				{view === 1 ? (
 					<AccountForm account={account} />
 				) : (
-					<PasswordForm passwordData={console.log("hi")} />
+					<PasswordForm submit={onSubmitSecurity} />
 				)}
 			</section>
 		</>
@@ -199,7 +197,7 @@ const securitySchema = yup
 	})
 	.required();
 
-const PasswordForm = ({ passwordData }) => {
+const PasswordForm = ({ submit }) => {
 	const {
 		register,
 		handleSubmit,
@@ -210,8 +208,11 @@ const PasswordForm = ({ passwordData }) => {
 		defaultValues: initialSecurityValues,
 	});
 
-	const onSubmit: SubmitHandler<SecurityData> = (data) => {
-
+	const [passwordSubmit, setPasswordSubmit] = useState(false);
+	const onSubmit: SubmitHandler<SecurityData> = async (data) => {
+		setPasswordSubmit(true);
+		await submit(data);
+		setPasswordSubmit(false);
 	};
 
 	return (
@@ -252,6 +253,7 @@ const PasswordForm = ({ passwordData }) => {
 						className={styles.btn}
 						onClick={handleSubmit(onSubmit)}
 						type="primary"
+						disabled={passwordSubmit}
 					>
 						Save
 					</Button>

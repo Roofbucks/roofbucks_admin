@@ -1,57 +1,60 @@
-import { updatePasswordService, userNameService } from "api";
-import { SettingsUI } from "features";
+import { UpdatePassword, updatePasswordService, userNameService } from "api";
+import { AccountData, SettingsUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
 import { Preloader } from "components";
 
 const Settings = () => {
-	const [userName, setUserName] = useState({
+	const [userName, setUserName] = useState<AccountData>({
 		firstname: "",
 		lastname: "",
 	});
 	const [loading, setLoading] = useState(false);
-	const { run, data: userInfo, requestStatus } = useApiRequest({});
+
+	const {
+		run: runUserName,
+		data: userInfo,
+		requestStatus: userNameRequestStatus,
+	} = useApiRequest({});
+	const {
+		run: runUpdateName,
+		data: nameInfo,
+		requestStatus: updateNameInfo,
+	} = useApiRequest({});
+	const {
+		run: runUpdatePassword,
+		data: passwordInfo,
+		requestStatus: updatePasswordResponseStatus,
+	} = useApiRequest({});
 
 	useMemo(() => {
+		console.log(userInfo);
 		if (userInfo?.status === 200) {
 			const userInfoFirstName = userInfo.data.firstname;
 			const userInfoLastName = userInfo.data.lastname;
-			console.log(userInfo);
 			setUserName({ firstname: userInfoFirstName, lastname: userInfoLastName });
 		} else {
-			console.log("Failed to get User names");
 		}
 	}, []);
-	useEffect(() => {
-		run(userNameService());
-	}, []);
-
-	useEffect(() => {
-		setLoading(requestStatus.isPending);
-	}, [requestStatus]);
-	const {
-		run: updatePassword,
-		data: passwordInfo,
-		requestStatus: responseStatus,
-	} = useApiRequest({});
-
-	const [newPassword, setNewPassword] = useState({
-		current_password: "",
-		new_password: "",
-	});
 	useMemo(() => {
 		if (passwordInfo?.status === 200) {
-			// setNewPassword();
 			console.group("success");
 		} else {
-			console.log("Failed to get User names");
 		}
 	}, []);
 
-	useEffect(() => {}, []);
-	const submitNewPassword = ({ newPassword }) => {
-		run(updatePasswordService(newPassword));
+	useEffect(() => {
+		runUserName(userNameService());
+	}, []);
+
+	const submitNewPassword = (data: UpdatePassword) => {
+		runUpdatePassword(updatePasswordService(data));
 	};
+
+	useEffect(() => {
+		setLoading(userNameRequestStatus.isPending);
+	}, [userNameRequestStatus]);
+
 	return (
 		<>
 			<Preloader loading={loading} />
