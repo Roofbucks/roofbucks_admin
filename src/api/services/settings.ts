@@ -23,7 +23,10 @@ export interface UserName {
 }
 
 export const userNameService = () => {
-	return getRequest({ url: userNameURL() });
+	const request = {
+		url: userNameURL(),
+	};
+	return getRequest(request);
 };
 export const patchUserNameService = (data: UserName) => {
 	const request = {

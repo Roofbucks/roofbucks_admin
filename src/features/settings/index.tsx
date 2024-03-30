@@ -11,7 +11,7 @@ import { useApiRequest } from "hooks/useApiRequest";
 
 interface SettingsProps {
 	account: AccountData;
-	submitPassword: (data) => void;
+	submitPassword: (data: any) => void;
 	reset: boolean;
 }
 
@@ -28,7 +28,7 @@ const SettingsUI: React.FC<SettingsProps> = ({
 		formState: { errors: errorsAccount },
 	} = useForm<AccountData>({
 		resolver: yupResolver(accountSchema),
-		defaultValues: initialAccountValues,
+		defaultValues: account,
 	});
 
 	const {
@@ -75,22 +75,21 @@ const SettingsUI: React.FC<SettingsProps> = ({
 				</span>
 			</nav>
 			<section className={styles.formWrap}>
-				{view === 1 ? <AccountForm account={account} /> : <PasswordForm />}
+				{view === 1 ? (
+					<AccountForm account={account} />
+				) : (
+					<PasswordForm passwordData={console.log("hi")} />
+				)}
 			</section>
 		</>
 	);
 };
 
 // Account
-interface AccountData {
+export interface AccountData {
 	firstname: string;
 	lastname: string;
 }
-
-const initialAccountValues: AccountData = {
-	firstname: "",
-	lastname: "",
-};
 
 const accountSchema = yup
 	.object({
@@ -166,7 +165,7 @@ const AccountForm = ({ account }) => {
 };
 
 // Security
-interface SecurityData {
+export interface SecurityData {
 	currentPassword: string;
 	newPassword: string;
 	confirmPassword: string;
@@ -200,7 +199,7 @@ const securitySchema = yup
 	})
 	.required();
 
-const PasswordForm = () => {
+const PasswordForm = ({ passwordData }) => {
 	const {
 		register,
 		handleSubmit,
@@ -212,7 +211,7 @@ const PasswordForm = () => {
 	});
 
 	const onSubmit: SubmitHandler<SecurityData> = (data) => {
-		// console.log(data);
+
 	};
 
 	return (
