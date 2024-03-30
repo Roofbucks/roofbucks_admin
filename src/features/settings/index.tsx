@@ -18,6 +18,7 @@ const SettingsUI: React.FC<SettingsProps> = ({
 	submitPassword,
 	reset,
 	account,
+	updateName,
 }) => {
 	const [view, setView] = React.useState(1);
 
@@ -45,7 +46,10 @@ const SettingsUI: React.FC<SettingsProps> = ({
 	}, [reset]);
 
 	const onSubmitAccount: SubmitHandler<AccountData> = (data) => {
-		// console.log(data);
+		updateName({
+			firstname: data.firstname,
+			lastname: data.lastname,
+		});
 	};
 
 	const onSubmitSecurity: SubmitHandler<SecurityData> = (data) => {
@@ -75,7 +79,7 @@ const SettingsUI: React.FC<SettingsProps> = ({
 			</nav>
 			<section className={styles.formWrap}>
 				{view === 1 ? (
-					<AccountForm account={account} />
+					<AccountForm account={account} submit={onSubmitAccount} />
 				) : (
 					<PasswordForm submit={onSubmitSecurity} />
 				)}
@@ -97,7 +101,7 @@ const accountSchema = yup
 	})
 	.required();
 
-const AccountForm = ({ account }) => {
+const AccountForm = ({ account, submit }) => {
 	const {
 		register,
 		handleSubmit,
@@ -110,8 +114,8 @@ const AccountForm = ({ account }) => {
 	const [first, setFirst] = useState("");
 	const [last, setLast] = useState("");
 
-	const onSubmit: SubmitHandler<AccountData> = (data) => {
-		// console.log("data");
+	const onSubmit: SubmitHandler<AccountData> = async (data) => {
+		await submit(data);
 	};
 	useEffect(() => {
 		setFirst(account.firstname);
