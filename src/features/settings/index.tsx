@@ -11,6 +11,7 @@ interface SettingsProps {
 	account: AccountData;
 	submitPassword: (data: any) => void;
 	reset: boolean;
+	updateName: (data: any) => void;
 }
 
 const SettingsUI: React.FC<SettingsProps> = ({

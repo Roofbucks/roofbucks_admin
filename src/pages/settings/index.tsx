@@ -1,4 +1,4 @@
-import { UpdatePassword, updatePasswordService, userNameService } from "api";
+import { UpdateName, UpdatePassword, updateNameService, updatePasswordService, userNameService } from "api";
 import { AccountData, SettingsUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
@@ -37,6 +37,12 @@ const Settings = () => {
 		}
 	}, []);
 	useMemo(() => {
+		if (nameInfo?.status === 200) {
+			console.group("success");
+		} else {
+		}
+	}, []);
+	useMemo(() => {
 		if (passwordInfo?.status === 200) {
 			console.group("success");
 		} else {
@@ -50,6 +56,9 @@ const Settings = () => {
 	const submitNewPassword = (data: UpdatePassword) => {
 		runUpdatePassword(updatePasswordService(data));
 	};
+	const updateUserName = (data: UpdateName) => {
+		runUpdatePassword(updateNameService(data));
+	};
 
 	useEffect(() => {
 		setLoading(userNameRequestStatus.isPending);
@@ -62,6 +71,7 @@ const Settings = () => {
 				account={userName}
 				submitPassword={submitNewPassword}
 				reset={false}
+				updateName ={updateUserName}
 			/>
 		</>
 	);

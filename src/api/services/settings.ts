@@ -27,11 +27,11 @@ export const userNameService = () => {
 	return getRequest(request);
 };
 
-export interface UserName {
+export interface UpdateName {
 	firstname: string;
 	lastname: string;
 }
-export const UpdateNameService = (data:UserName) => {
+export const updateNameService = (data:UpdateName) => {
 	const request = {
 		url: updateNameURL(),
 		data
