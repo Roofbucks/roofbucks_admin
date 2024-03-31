@@ -142,13 +142,22 @@ const UserProfile = () => {
   ]);
 
   const handleView = (id) => navigate(Routes.property(id));
-  const handleSuspend = (data: suspendData) =>
+  const handleSuspend = (data: suspendData) => {
     runUserSuspend(userSuspendService(data));
-  const handleUnsuspend = (data: unsuspendData) =>
+    runUserProfileData(userProfileService(id));
+  };
+  const handleUnsuspend = (data: unsuspendData) => {
     runUserUnsuspend(userUnsuspendService(data));
-  const handleVerifyUser = (id) => runUserVerify(userVerifyService(id));
-  const handleVerifyBusiness = (id) =>
+    runUserProfileData(userProfileService(id));
+  };
+  const handleVerifyUser = (id) => {
+    runUserVerify(userVerifyService(id));
+    runUserProfileData(userProfileService(id));
+  };
+  const handleVerifyBusiness = (id) => {
     runBusinessVerify(businessVerifyService(user?.businessID));
+    runUserProfileData(userProfileService(id));
+  };
 
   const property = {
     propertyID: "123",

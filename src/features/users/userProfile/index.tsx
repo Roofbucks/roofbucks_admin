@@ -132,8 +132,6 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
   proofOfAddress,
 }) => {
   const navigate = useNavigate();
-  const [status, setStatus] = useState<string>("");
-  const [verify, setVerified] = useState<boolean>(false);
   const suspendData: suspendData = {
     email: email,
   };
@@ -142,28 +140,22 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
   };
 
   const handleClick = () => {
-    if (status === "VERIFIED") {
+    if (profileStatus === "VERIFIED") {
       handleSuspend(suspendData);
-      setStatus("SUSPENDED");
-    } else if (status === "SUSPENDED") {
+    } else if (profileStatus === "SUSPENDED") {
       handleUnsuspend(unsuspendData);
-      setStatus("VERIFIED");
-    } else if (status === "UNVERIFIED") {
+    } else if (profileStatus === "UNVERIFIED") {
       handleVerifyUser(id);
-      setStatus("VERIFIED");
     }
   };
 
   const handleBusiness = () => {
-    if (!verify) {
+    if (!isVerified) {
       handleVerifyBusiness(businessID);
-      setVerified(!verify);
     }
   };
 
   useEffect(() => {
-    setStatus(profileStatus);
-    setVerified(isVerified);
   }, [profileStatus, isVerified]);
 
   return (
@@ -182,26 +174,26 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
         <div className={styles.section__heading}>
           <div className={styles.profile}>
             <h1 className={styles.section__ttl}>Personal Information</h1>
-            <span className={styles.tag}>
-              {status === "VERIFIED"
+            <span className={`${styles.tag} ${styles[profileStatus]}`}>
+              {profileStatus === "VERIFIED"
                 ? "Verified"
-                : status === "UNVERIFIED"
+                : profileStatus === "UNVERIFIED"
                 ? "Unverified"
-                : status === "SUSPENDED"
+                : profileStatus === "SUSPENDED"
                 ? "Suspended"
                 : "Unknown Status"}
             </span>
           </div>
           <Button
-            className={`${styles[status]} ${styles.active}`}
+            className={`${styles[profileStatus]} ${styles.active}`}
             type="primary"
             onClick={handleClick}
           >
-            {status === "UNVERIFIED"
+            {profileStatus === "UNVERIFIED"
               ? "Verify Personal Profile"
-              : status === "VERIFIED"
+              : profileStatus === "VERIFIED"
               ? "Suspend Account"
-              : status === "SUSPENDED"
+              : profileStatus === "SUSPENDED"
               ? "Unsuspend Account"
               : "Unknown Action"}
           </Button>
@@ -275,27 +267,27 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
         </div>
 
         <div className={styles.section__documents}>
-          {<div>
+          { idAlbumDoc1 && <div>
             <DocumentIcon />
             <p>ID Front Page</p>
             <a href={idAlbumDoc1}>
               <DownloadIcon />
             </a>
           </div>}
-          <div>
+          {idAlbumDoc2 && <div>
             <DocumentIcon />
             <p>ID Back Page</p>
             <a href={idAlbumDoc2}>
               <DownloadIcon />
             </a>
-          </div>
-          <div>
+          </div>}
+          {proofOfAddress && <div>
             <DocumentIcon />
             <p>Proof of Address</p>
             <a href={proofOfAddress}>
               <DownloadIcon />
             </a>
-          </div>
+          </div>}
         </div>
       </section>
       <section className={styles.section}>
@@ -303,10 +295,10 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
           <div className={styles.profile}>
             <h1 className={styles.section__ttl}>Business Information</h1>
             <span className={styles.tag}>
-              {verify === true ? "Verified" : "Unverified"}
+              {isVerified === true ? "Verified" : "Unverified"}
             </span>
           </div>
-          {!verify && (
+          {!isVerified && (
             <Button
               className={styles.actionBtn}
               type="primary"
@@ -351,13 +343,13 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
           <p>{desc}</p>
         </div>
         <div className={styles.section__documents}>
-          <div>
+          {certificate && <div>
             <DocumentIcon />
             <p>Certificate of Incorporation</p>
             <a href={certificate}>
               <DownloadIcon />
             </a>
-          </div>
+          </div>}
         </div>
       </section>
       <section className={styles.section}>

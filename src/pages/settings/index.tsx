@@ -38,6 +38,7 @@ const Settings = () => {
   };
   const accountSettings = (data: settingsAccountData) => {
     runAccountData(settingsAccountService(data));
+    runUserProfileData(fetchUserProfileService());
   };
 
   useMemo(() => {
