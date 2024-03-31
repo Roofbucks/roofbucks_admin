@@ -72,9 +72,10 @@ export const RouteBuilder: RouteBuilderItem[] = [
     path: Routes.user(":id"),
     Element: UserProfile,
     Layout: Layout,
-    props: {
-      active: "Users",
-    },
+    props: (params) => ({
+      id: params.id, // Pass the id parameter from the route
+      active: "Users", // Add the active prop
+    }),
   },
   {
     path: Routes.properties,

@@ -20,12 +20,23 @@
     margin-bottom: 1rem;
     justify-content: space-between;
 
-    button {
+    .profile {
+      display: flex;
+      gap: 10px;
+
+      .tag {
+        background: var(--green-bg);
+        border-radius: 24px;
+        margin-left: 10px;
+        color: var(--green);
+        padding: 6px 18px;
+      }
     }
+
+    button {}
   }
 
-  &__ttl {
-  }
+  &__ttl {}
 
   &__content {
     display: grid;
@@ -43,8 +54,18 @@
         display: block;
       }
 
-      p {
+      .email {
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-left: 10px;
+          width: 16px;
+          min-width: 16px;
+        }
       }
+
+      p {}
     }
   }
 
@@ -60,7 +81,7 @@
       border-radius: 8px;
       align-items: center;
 
-      > svg {
+      >svg {
         margin-right: 10px;
         width: 18px;
       }
@@ -72,6 +93,7 @@
 
       a {
         margin-left: 10px;
+
         svg {
           width: 18px;
         }
@@ -91,13 +113,38 @@
     margin-bottom: 4px;
     display: block;
   }
-  p {
-  }
+
+  p {}
 }
 
-.suspend {
+.UNVERIFIED {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.UNVERIFIED:focus {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.VERIFIED {
   background: var(--red);
   border-color: var(--red);
+}
+
+.VERIFIED:focus {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.SUSPENDED {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.SUSPENDED:focus {
+  background: var(--green);
+  border-color: var(--green);
 }
 
 section.tableHeader,
@@ -106,6 +153,7 @@ div.tableBodyItem {
   grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 40px;
   gap: 1rem;
 }
+
 .tableWrap {
   min-width: 700px;
 }
@@ -117,6 +165,7 @@ div.tableBodyItem {
   width: 40px;
   height: 40px;
 }
+
 .imageSec {
   display: grid;
   grid-template-columns: 40px 1fr;

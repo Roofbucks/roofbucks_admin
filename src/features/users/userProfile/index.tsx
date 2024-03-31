@@ -3,7 +3,8 @@ import {
   DocumentIcon,
   DownloadIcon,
   EmptyStreet,
-  placeholderAvatar,
+  ErrorIcon,
+  TickIcon,
 } from "assets";
 import styles from "./styles.module.scss";
 import {
@@ -15,6 +16,10 @@ import {
   UserPropertyTable,
   UserPropertyTableItem,
 } from "components";
+import { Routes } from "router";
+import { useNavigate } from "react-router-dom";
+import { suspendData, unsuspendData } from "api";
+import { useEffect, useState } from "react";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "ID" },
@@ -25,75 +30,228 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
-const property: UserPropertyTableItem = {
-  propertyID: "123",
-  propertyName: "New house",
-  status: "pending",
-  date: "12/08/2023",
-  amount: "NGN 200,000",
-};
-
 interface UserProfileProps {
+  property: UserPropertyTableItem[];
   handleView: (id: string) => void;
+  handleSuspend: (data: suspendData) => void;
+  handleUnsuspend: (data: unsuspendData) => void;
+  handleVerifyUser: (id) => void;
+  handleVerifyBusiness: (id) => void;
+  id: string | undefined;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  dateOfBirth: string;
+  emailVerified: boolean;
+  address: string;
+  city: string;
+  country: string;
+  phone: string;
+  idType: string;
+  profileStatus: string;
+  idNumber: string;
+  idExpiryDate: string;
+  idAlbumDoc1: string;
+  idAlbumDoc2: string;
+  businessID: number;
+  isVerified: boolean;
+  companyLogo: string;
+  regName: string;
+  regNumber: string;
+  businessEmail: string;
+  businessPhone: string;
+  businessCountry: string;
+  businessCity: string;
+  displayName: string;
+  desc: string;
+  certificate: string;
+  displayPhoto: string;
+  bankCountry: string;
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  proofOfAddress: string;
 }
 
-const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
+export type UserProps = Pick<
+  UserProfileProps,
+  Exclude<
+    keyof UserProfileProps,
+    | "handleView"
+    | "property"
+    | "handleSuspend"
+    | "handleUnsuspend"
+    | "handleVerifyUser"
+    | "handleVerifyBusiness"
+    | "id"
+  >
+>;
+
+const UserProfileUI: React.FC<UserProfileProps> = ({
+  handleView,
+  handleSuspend,
+  handleUnsuspend,
+  handleVerifyUser,
+  handleVerifyBusiness,
+  id,
+  property,
+  firstName,
+  lastName,
+  email,
+  role,
+  dateOfBirth,
+  emailVerified,
+  address,
+  city,
+  country,
+  phone,
+  idType,
+  profileStatus,
+  idNumber,
+  idExpiryDate,
+  idAlbumDoc1,
+  idAlbumDoc2,
+  businessID,
+  isVerified,
+  companyLogo,
+  regName,
+  regNumber,
+  businessEmail,
+  businessPhone,
+  businessCountry,
+  businessCity,
+  displayName,
+  desc,
+  certificate,
+  displayPhoto,
+  bankCountry,
+  bankName,
+  accountName,
+  accountNumber,
+  proofOfAddress,
+}) => {
+  const navigate = useNavigate();
+  const [status, setStatus] = useState<string>("");
+  const [verify, setVerified] = useState<boolean>(false);
+  const suspendData: suspendData = {
+    email: email,
+  };
+  const unsuspendData: unsuspendData = {
+    email: email,
+  };
+
+  const handleClick = () => {
+    if (status === "VERIFIED") {
+      handleSuspend(suspendData);
+      setStatus("SUSPENDED");
+    } else if (status === "SUSPENDED") {
+      handleUnsuspend(unsuspendData);
+      setStatus("VERIFIED");
+    } else if (status === "UNVERIFIED") {
+      handleVerifyUser(id);
+      setStatus("VERIFIED");
+    }
+  };
+
+  const handleBusiness = () => {
+    if (!verify) {
+      handleVerifyBusiness(businessID);
+      setVerified(!verify);
+    }
+  };
+
+  useEffect(() => {
+    setStatus(profileStatus);
+    setVerified(isVerified);
+  }, [profileStatus, isVerified]);
+
   return (
     <>
-      <Button className={styles.backBtn} type="tertiary" onClick={() => {}}>
+      <Button
+        className={styles.backBtn}
+        type="tertiary"
+        onClick={() => {
+          navigate(Routes.users);
+        }}
+      >
         <ArrowRight />
         Back
       </Button>
       <section className={styles.section}>
         <div className={styles.section__heading}>
-          <h1 className={styles.section__ttl}>Personal Information</h1>
-          <Button className={styles.suspend} type="primary" onClick={() => {}}>
-            Suspend account
+          <div className={styles.profile}>
+            <h1 className={styles.section__ttl}>Personal Information</h1>
+            <span className={styles.tag}>
+              {status === "VERIFIED"
+                ? "Verified"
+                : status === "UNVERIFIED"
+                ? "Unverified"
+                : status === "SUSPENDED"
+                ? "Suspended"
+                : "Unknown Status"}
+            </span>
+          </div>
+          <Button
+            className={`${styles[status]} ${styles.active}`}
+            type="primary"
+            onClick={handleClick}
+          >
+            {status === "UNVERIFIED"
+              ? "Verify Personal Profile"
+              : status === "VERIFIED"
+              ? "Suspend Account"
+              : status === "SUSPENDED"
+              ? "Unsuspend Account"
+              : "Unknown Action"}
           </Button>
         </div>
         <div className={styles.section__content}>
           <div className={styles.imageSec}>
-            <img
-              className={styles.image}
-              src={placeholderAvatar}
-              alt="avatar"
-            />
+            <img className={styles.image} src={displayPhoto} alt="avatar" />
             <div>
-              <span>First name</span>
-              <p>John Doe</p>
+              <span>First name </span>
+              <p>{firstName}</p>
             </div>
           </div>
           <div>
             <span>Last name</span>
-            <p>John Doe</p>
+            <p>{lastName}</p>
           </div>
           <div>
             <span>Email</span>
-            <p>JohnDoe@gmail.com</p>
+            <p className={styles.email}>
+              {emailVerified ? (
+                <TickIcon title="Email verified" />
+              ) : (
+                <ErrorIcon title="Unverified email" />
+              )}
+              {email}
+            </p>
           </div>
           <div>
             <span>Account Type</span>
-            <p>Agent</p>
+            <p>{role}</p>
           </div>
           <div>
             <span>Date of Birth</span>
-            <p>01/01/1991</p>
+            <p>{dateOfBirth}</p>
           </div>
           <div>
             <span>Address</span>
-            <p>25 Makoko Road</p>
+            <p>{address}</p>
           </div>
           <div>
             <span>City</span>
-            <p>Lagos</p>
+            <p>{city}</p>
           </div>
           <div>
             <span>Country</span>
-            <p>Nigeria</p>
+            <p>{country}</p>
           </div>
           <div>
             <span>Phone number</span>
-            <p>08199228822</p>
+            <p>{phone}</p>
           </div>
         </div>
       </section>
@@ -104,37 +262,37 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
         <div className={styles.section__content}>
           <div>
             <span>ID Type</span>
-            <p>John Doe</p>
+            <p>{idType}</p>
           </div>
           <div>
             <span>ID No</span>
-            <p>John Doe</p>
+            <p>{idNumber}</p>
           </div>
           <div>
             <span>Expiration Date</span>
-            <p>01/01/1991</p>
+            <p>{idExpiryDate}</p>
           </div>
         </div>
 
         <div className={styles.section__documents}>
-          <div>
+          {<div>
             <DocumentIcon />
             <p>ID Front Page</p>
-            <a>
+            <a href={idAlbumDoc1}>
               <DownloadIcon />
             </a>
-          </div>
+          </div>}
           <div>
             <DocumentIcon />
             <p>ID Back Page</p>
-            <a>
+            <a href={idAlbumDoc2}>
               <DownloadIcon />
             </a>
           </div>
           <div>
             <DocumentIcon />
             <p>Proof of Address</p>
-            <a>
+            <a href={proofOfAddress}>
               <DownloadIcon />
             </a>
           </div>
@@ -142,59 +300,61 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
       </section>
       <section className={styles.section}>
         <div className={styles.section__heading}>
-          <h1 className={styles.section__ttl}>Business Information</h1>
-          <Button
-            className={styles.actionBtn}
-            type="primary"
-            onClick={() => {}}
-          >
-            Verify business
-          </Button>
+          <div className={styles.profile}>
+            <h1 className={styles.section__ttl}>Business Information</h1>
+            <span className={styles.tag}>
+              {verify === true ? "Verified" : "Unverified"}
+            </span>
+          </div>
+          {!verify && (
+            <Button
+              className={styles.actionBtn}
+              type="primary"
+              onClick={handleBusiness}
+            >
+              Verify Business
+            </Button>
+          )}
         </div>
         <div className={styles.section__content}>
           <div className={styles.imageSec}>
             <img
               className={styles.image}
-              src={placeholderAvatar}
+              src={companyLogo}
               alt="company logo"
             />
             <div>
               <span>Company Name</span>
-              <p>John Doe</p>
+              <p>{regName}</p>
             </div>
           </div>
           <div>
             <span>Registration No</span>
-            <p>John Doe</p>
+            <p>{regNumber}</p>
           </div>
 
           <div>
             <span>Email</span>
-            <p>info@company.com</p>
+            <p>{businessEmail}</p>
           </div>
           <div>
             <span>City</span>
-            <p>Lagos</p>
+            <p>{businessCity}</p>
           </div>
           <div>
             <span>Country</span>
-            <p>Nigeria</p>
+            <p>{businessCountry}</p>
           </div>
         </div>
         <div className={styles.description}>
           <span>Description</span>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci
-            nesciunt iste, quam numquam minima repellendus molestias laboriosam
-            aliquam eaque, error, iusto soluta modi accusantium porro odit
-            natus! Quod, nihil ad!
-          </p>
+          <p>{desc}</p>
         </div>
         <div className={styles.section__documents}>
           <div>
             <DocumentIcon />
             <p>Certificate of Incorporation</p>
-            <a>
+            <a href={certificate}>
               <DownloadIcon />
             </a>
           </div>
@@ -207,19 +367,19 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
         <div className={styles.section__content}>
           <div>
             <span>Bank</span>
-            <p>Access Bank</p>
+            <p>{bankName}</p>
           </div>
           <div>
             <span>Account name</span>
-            <p>John Doe</p>
+            <p>{accountName}</p>
           </div>
           <div>
             <span>Account number</span>
-            <p>0198777255</p>
+            <p>{accountNumber}</p>
           </div>
           <div>
             <span>Country</span>
-            <p>Nigeria</p>
+            <p>{bankCountry}</p>
           </div>
         </div>
       </section>
@@ -233,7 +393,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({ handleView }) => {
           tableHeaderTitles={tableHeaderTitles}
           tableBody={
             <UserPropertyTable
-              tableBodyItems={new Array(10).fill(property)}
+              tableBodyItems={property}
               view={handleView}
               tableBodyRowClassName={styles.tableBodyItem}
             />

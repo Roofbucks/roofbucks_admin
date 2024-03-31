@@ -17,6 +17,7 @@ export interface UserTableItem {
   type: "agent" | "shareholder";
   dateCreated: string;
   verifiedBusiness?: boolean;
+  verifiedEmail?: boolean;
 }
 
 // Test Table Body Props
@@ -35,24 +36,28 @@ const UserTable: React.FC<TableBodyProps> = ({
   tableBodyItemClassName,
   tableBodyRowClassName,
 }) => {
-  const actions = (id): ActionItem[] => [
-    {
+  const actions = (id, verifiedEmail, email): ActionItem[] => {
+    const viewItem = {
       text: (
         <>
           <EyeIconOutline className={styles.dropdownIcon} /> View
         </>
       ),
       action: () => view(id),
-    },
-    {
+    };
+    const resendItem = {
       text: (
         <>
           <SendIcon className={styles.dropdownIcon} /> Resend email
         </>
       ),
-      action: () => resendMail(id),
-    },
-  ];
+      action: () => resendMail(email),
+    };
+
+    const list = [viewItem];
+    !verifiedEmail && list.push(resendItem);
+    return list;
+  };
   return (
     <>
       <TableBody customClassName={`${styles.tableBody}`}>
@@ -62,7 +67,14 @@ const UserTable: React.FC<TableBodyProps> = ({
             customClassName={`${styles.tableBodyRow} ${tableBodyRowClassName}`}
           >
             <span className={tableBodyItemClassName}>{item.name}</span>
-            <span className={`${tableBodyItemClassName} ${styles.email}`}>{item.email}</span>
+            <span className={`${tableBodyItemClassName} ${styles.email}`}>
+              {item.verifiedEmail ? (
+                <TickIcon title="Email verified" />
+              ) : (
+                <ErrorIcon title="Unverified email" />
+              )}
+              {item.email}
+            </span>
             <span className={`${tableBodyItemClassName} ${styles.account}`}>
               {item.type}{" "}
               {item.verifiedBusiness && item.type === "agent" ? (
@@ -80,7 +92,9 @@ const UserTable: React.FC<TableBodyProps> = ({
               </p>
             </span>
             <span className={tableBodyItemClassName}>
-              <TableAction actions={actions(item.id)} />
+              <TableAction
+                actions={actions(item.id, item.verifiedEmail, item.email)}
+              />
             </span>
           </TableBodyRow>
         ))}

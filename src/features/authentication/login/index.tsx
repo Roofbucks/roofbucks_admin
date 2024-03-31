@@ -45,7 +45,6 @@ const LoginUI: React.FC<LoginModalProps> = ({
 
   const onSubmit: SubmitHandler<LoginData> = (data) => {
     return login(data);
-
   }
 
   const navigate = useNavigate();

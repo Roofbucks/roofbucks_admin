@@ -1,5 +1,5 @@
 import { userService } from "api";
-import debounce from 'lodash/debounce';
+import debounce from "lodash/debounce";
 import { UsersUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
@@ -19,7 +19,11 @@ interface FilterData {
 }
 
 const Users = () => {
-  const { run: runUserData, data: userDataResponse, requestStatus } = useApiRequest({});
+  const {
+    run: runUserData,
+    data: userDataResponse,
+    requestStatus,
+  } = useApiRequest({});
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
@@ -38,23 +42,24 @@ const Users = () => {
       setTotalUsers(userDataResponse?.data.total);
       setTotalPages(userDataResponse?.data.pages);
 
-      const userList = userData
-      .map((item) => ({
+      const userList = userData.map((item) => ({
         id: item.id,
         name: `${item.firstname} ${item.lastname}`,
         email: item.email,
         type: item.role.toLowerCase(),
         dateCreated: item.created_at.substring(0, 10),
-        status: item.status.toLowerCase(),
+        status: item.profile_status.toLowerCase(),
+        verifiedBusiness: item.business_verified,
+        verifiedEmail: item.email_verified,
       }));
-    setUsers(userList);
-  } else {
-    console.log("there was an error");
-  }
+      setUsers(userList);
+    } else if (userDataResponse?.status === 404) {
+      console.log("there was an error");
+    }
   }, [userDataResponse]);
 
   const handlePages = (currentPage) => {
-    setCurrentPage(currentPage)
+    setCurrentPage(currentPage);
   };
 
   const handleFilter = (data: any) => {
@@ -62,7 +67,7 @@ const Users = () => {
       status: data.status,
       role: data.accountType,
     });
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
 
   const handleSearch = (searchTerm: string) => {
@@ -71,27 +76,27 @@ const Users = () => {
   };
 
   useEffect(() => {
-    runUserData(userService({
-      searchTerm: searchTerm,
-      currentPage: currentPage,
-      role: filter.role.value,
-      status: filter.status.value,
-      limit: 10
-    }));
+    runUserData(
+      userService({
+        searchTerm: searchTerm,
+        currentPage: currentPage,
+        role: filter.role.value,
+        status: filter.status.value,
+        limit: 10,
+      })
+    );
   }, [currentPage, filter, searchTerm]);
 
   useEffect(() => {
     setLoading(requestStatus.isPending);
   }, [requestStatus]);
-  const handleView = (id) => {
+  const handleView = (id: number) => {
     navigate(Routes.user(id));
   };
 
-
-
   return (
     <>
-      <Preloader loading={loading}/>
+      <Preloader loading={loading} />
       <UsersUI
         handleView={handleView}
         users={users}
@@ -105,7 +110,7 @@ const Users = () => {
           total: totalPages,
           current: currentPage,
           count: totalUsers,
-          limit: 10
+          limit: 10,
         }}
       />
     </>

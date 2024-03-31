@@ -21,7 +21,7 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
 ];
 
 interface UsersProps {
-  handleView: (id: string) => void;
+  handleView: (id: number) => void;
   users: UserTableItem[];
   handleFilter: (data) => void;
   handleSearch: (data: any) => void;

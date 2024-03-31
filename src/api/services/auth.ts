@@ -26,6 +26,7 @@ export const loginService = (data: loginData) => {
 
 export interface forgotPasswordData {
   email: string;
+  redirect_url: string;
 }
 
 export const forgotPasswordService = (data: forgotPasswordData) => {

@@ -8,7 +8,7 @@ import { ArrowRight } from "assets";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
 
-interface RecoveryData {
+export interface RecoveryData {
   email: string;
 }
 

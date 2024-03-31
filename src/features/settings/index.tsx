@@ -5,15 +5,22 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { Button, Input } from "components";
+import { useEffect, useState } from "react";
 
 interface SettingsProps {
-  // account: AccountData;
+  account: AccountData;
   submitPassword: (data) => void;
   reset: boolean;
+  updateName: (data) => void;
 }
 
-const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
-  const [view, setView] = React.useState(1);
+const SettingsUI: React.FC<SettingsProps> = ({
+  submitPassword,
+  reset,
+  account,
+  updateName,
+}) => {
+  const [view, setView] = useState(1);
 
   const {
     register: registerAccount,
@@ -21,7 +28,7 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
     formState: { errors: errorsAccount },
   } = useForm<AccountData>({
     resolver: yupResolver(accountSchema),
-    defaultValues: initialAccountValues,
+    defaultValues: account,
   });
 
   const {
@@ -40,6 +47,10 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
 
   const onSubmitAccount: SubmitHandler<AccountData> = (data) => {
     console.log(data);
+    updateName({
+      firstname: data.firstName,
+      lastname: data.lastName,
+    });
   };
 
   const onSubmitSecurity: SubmitHandler<SecurityData> = (data) => {
@@ -48,6 +59,7 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
       new_password: data.newPassword,
     });
   };
+
   return (
     <>
       <h1 className={styles.ttl}>Settings</h1>
@@ -68,65 +80,80 @@ const SettingsUI: React.FC<SettingsProps> = ({ submitPassword, reset }) => {
         </span>
       </nav>
       <section className={styles.formWrap}>
-        {view === 1 ? <AccountForm /> : <PasswordForm />}
+        {view === 1 ? (
+          <AccountForm account={account} changeName={onSubmitAccount} />
+        ) : (
+          <PasswordForm onSubmitSecurity={onSubmitSecurity} />
+        )}
       </section>
     </>
   );
 };
 
 // Account
-interface AccountData {
-  name: string;
-  email: string;
+export interface AccountData {
+  firstName: string;
+  lastName: string;
 }
 
-const initialAccountValues: AccountData = {
-  name: "",
-  email: "",
-};
+export interface AccountProps {
+  changeName: (data: AccountData) => void;
+  account: {
+    firstName: string;
+    lastName: string;
+  };
+}
 
 const accountSchema = yup
   .object({
-    name: yup.string().required("Required"),
-    email: yup.string().required("Required").email("Enter a valid email"),
+    firstName: yup.string().required("Required"),
+    lastName: yup.string().required("Required"),
   })
   .required();
 
-const AccountForm = () => {
+const AccountForm: React.FC<AccountProps> = ({
+  account,
+  changeName,
+}: AccountProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
+    reset,
   } = useForm<AccountData>({
     resolver: yupResolver(accountSchema),
-    defaultValues: initialAccountValues,
+    defaultValues: account,
   });
-
   const onSubmit: SubmitHandler<AccountData> = (data) => {
     console.log(data);
+    return changeName(data);
   };
+
+  useEffect(() => {
+    reset(account);
+  }, [account]);
 
   return (
     <>
       <form className={styles.accountForm}>
         <Input
-          label="Name"
-          placeholder="e.g. Jane"
+          label="First Name"
+          placeholder="e.g. Dwayne"
           type="text"
           parentClassName={styles.inputWrap}
           required
-          validatorMessage={errors.name?.message}
-          name="name"
+          validatorMessage={errors.firstName?.message}
+          name="firstName"
           register={register}
         />
         <Input
-          label="Email address"
-          placeholder="e.g. jane@roofbucks.com"
-          type="email"
+          label="Last Name"
+          placeholder="e.g. Johnson"
+          type="text"
           parentClassName={styles.inputWrap}
           required
-          validatorMessage={errors.email?.message}
-          name="email"
+          validatorMessage={errors.lastName?.message}
+          name="lastName"
           register={register}
         />
         <div className={styles.btnWrap}>
@@ -134,6 +161,7 @@ const AccountForm = () => {
             className={styles.btn}
             onClick={handleSubmit(onSubmit)}
             type="primary"
+            disabled={!isDirty}
           >
             Save
           </Button>
@@ -178,7 +206,9 @@ const securitySchema = yup
   })
   .required();
 
-const PasswordForm = () => {
+const PasswordForm: React.FC<{
+  onSubmitSecurity: SubmitHandler<SecurityData>;
+}> = ({ onSubmitSecurity }) => {
   const {
     register,
     handleSubmit,
@@ -189,8 +219,12 @@ const PasswordForm = () => {
     defaultValues: initialSecurityValues,
   });
 
-  const onSubmit: SubmitHandler<SecurityData> = (data) => {
-    console.log(data);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const onSubmit = (data: SecurityData) => {
+    onSubmitSecurity(data);
+    setIsSubmitting(true);
+    reset();
   };
 
   return (
@@ -229,10 +263,11 @@ const PasswordForm = () => {
         <div className={styles.btnWrap}>
           <Button
             className={styles.btn}
-            onClick={handleSubmit(onSubmit)}
             type="primary"
+            onClick={handleSubmit(onSubmit)}
+            disabled={isSubmitting}
           >
-            Save
+            {isSubmitting ? "Submitting..." : "Save"}
           </Button>
         </div>
       </form>
