@@ -37,6 +37,15 @@ export const userURL = ({ currentPage, searchTerm, role, status }) => {
 export const userProfileURL = (id) => `/admin/get_user/${id}/`
 
 /**
+ * GET USER PROPERTY URL
+ *
+ * @returns url string
+ *
+ */
+
+export const userPropertyURL = (id) => `/admin/get_user_properties/${id}/`
+
+/**
  * SUSPEND USER URL
  *
  * @returns url string

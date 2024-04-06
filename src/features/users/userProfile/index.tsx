@@ -19,7 +19,7 @@ import {
 import { Routes } from "router";
 import { useNavigate } from "react-router-dom";
 import { suspendData, unsuspendData } from "api";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "ID" },
@@ -32,6 +32,13 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
 
 interface UserProfileProps {
   property: UserPropertyTableItem[];
+  pagination: {
+    handleChange: (page) => void;
+    total: number;
+    current: number;
+    count: number;
+    limit: number;
+  };
   handleView: (id: string) => void;
   handleSuspend: (data: suspendData) => void;
   handleUnsuspend: (data: unsuspendData) => void;
@@ -80,6 +87,7 @@ export type UserProps = Pick<
     keyof UserProfileProps,
     | "handleView"
     | "property"
+    | "pagination"
     | "handleSuspend"
     | "handleUnsuspend"
     | "handleVerifyUser"
@@ -96,6 +104,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
   handleVerifyBusiness,
   id,
   property,
+  pagination,
   firstName,
   lastName,
   email,
@@ -155,8 +164,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
     }
   };
 
-  useEffect(() => {
-  }, [profileStatus, isVerified]);
+  useEffect(() => {}, [profileStatus, isVerified]);
 
   return (
     <>
@@ -267,27 +275,33 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
         </div>
 
         <div className={styles.section__documents}>
-          { idAlbumDoc1 && <div>
-            <DocumentIcon />
-            <p>ID Front Page</p>
-            <a href={idAlbumDoc1}>
-              <DownloadIcon />
-            </a>
-          </div>}
-          {idAlbumDoc2 && <div>
-            <DocumentIcon />
-            <p>ID Back Page</p>
-            <a href={idAlbumDoc2}>
-              <DownloadIcon />
-            </a>
-          </div>}
-          {proofOfAddress && <div>
-            <DocumentIcon />
-            <p>Proof of Address</p>
-            <a href={proofOfAddress}>
-              <DownloadIcon />
-            </a>
-          </div>}
+          {idAlbumDoc1 && (
+            <div>
+              <DocumentIcon />
+              <p>ID Front Page</p>
+              <a href={idAlbumDoc1}>
+                <DownloadIcon />
+              </a>
+            </div>
+          )}
+          {idAlbumDoc2 && (
+            <div>
+              <DocumentIcon />
+              <p>ID Back Page</p>
+              <a href={idAlbumDoc2}>
+                <DownloadIcon />
+              </a>
+            </div>
+          )}
+          {proofOfAddress && (
+            <div>
+              <DocumentIcon />
+              <p>Proof of Address</p>
+              <a href={proofOfAddress}>
+                <DownloadIcon />
+              </a>
+            </div>
+          )}
         </div>
       </section>
       <section className={styles.section}>
@@ -343,13 +357,15 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
           <p>{desc}</p>
         </div>
         <div className={styles.section__documents}>
-          {certificate && <div>
-            <DocumentIcon />
-            <p>Certificate of Incorporation</p>
-            <a href={certificate}>
-              <DownloadIcon />
-            </a>
-          </div>}
+          {certificate && (
+            <div>
+              <DocumentIcon />
+              <p>Certificate of Incorporation</p>
+              <a href={certificate}>
+                <DownloadIcon />
+              </a>
+            </div>
+          )}
         </div>
       </section>
       <section className={styles.section}>
@@ -407,11 +423,11 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
           }}
         />
         <Pagination
-          currentPage={1}
-          totalPages={3}
-          handleChange={console.log}
-          totalCount={21}
-          pageLimit={10}
+          currentPage={pagination.current}
+          totalPages={pagination.total}
+          handleChange={pagination.handleChange}
+          totalCount={pagination.count}
+          pageLimit={pagination.limit}
           name={"Properties"}
         />
       </section>

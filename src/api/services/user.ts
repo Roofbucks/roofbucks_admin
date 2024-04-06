@@ -4,7 +4,7 @@ USER SERVICES
 =================================
 */
 
-import { userURL, getRequest, userProfileURL, userSuspendURL, postRequest, userVerifyURL, userUnsuspendURL, businessVerifyURL} from "api";
+import { userURL, getRequest, userProfileURL, userSuspendURL, postRequest, userVerifyURL, userUnsuspendURL, businessVerifyURL, userPropertyURL} from "api";
 
 /**
  * user service
@@ -26,12 +26,34 @@ export const userService = (data: userData) => {
   return getRequest(request);
 };
 
+/**
+ * user profile service
+ * @returns axios promise
+ */
+
 export const userProfileService = (id) => {
   const request = {
     url: userProfileURL(id)
   };
   return getRequest(request);
 }
+
+/**
+ * user property service
+ * @returns axios promise
+ */
+
+export const userPropertyService = (id) => {
+  const request = {
+    url: userPropertyURL(id)
+  };
+  return getRequest(request);
+}
+
+/**
+ * user suspend service
+ * @returns axios promise
+ */
 
 export interface suspendData {
   email: string;
@@ -44,6 +66,12 @@ export const userSuspendService = (data: suspendData) => {
   };
   return postRequest(request);
 };
+
+/**
+ * user unsuspend service
+ * @returns axios promise
+ */
+
 export interface unsuspendData {
   email: string;
 }
@@ -56,6 +84,10 @@ export const userUnsuspendService = (data: unsuspendData) => {
   return postRequest(request);
 };
 
+/**
+ * user verify service
+ * @returns axios promise
+ */
 
 export const userVerifyService = (id) => {
   const request = {
@@ -63,6 +95,11 @@ export const userVerifyService = (id) => {
   };
   return getRequest(request);
 };
+
+/**
+ * user business verify service
+ * @returns axios promise
+ */
 
 export const businessVerifyService = (id) => {
   const request = {

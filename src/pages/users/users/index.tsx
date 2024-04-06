@@ -1,5 +1,4 @@
 import { userService } from "api";
-import debounce from "lodash/debounce";
 import { UsersUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";

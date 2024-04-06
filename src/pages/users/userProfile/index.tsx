@@ -6,15 +6,21 @@ import {
   suspendData,
   unsuspendData,
   userProfileService,
+  userPropertyService,
   userSuspendService,
   userUnsuspendService,
   userVerifyService,
 } from "api";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
-import { Preloader } from "components";
+import { Preloader, UserPropertyTableItem } from "components";
 
 const UserProfile = () => {
+  const {
+    run: runUserPropertyData,
+    data: userPropertyDataResponse,
+    requestStatus: userPropertyStatus,
+  } = useApiRequest({});
   const {
     run: runUserProfileData,
     data: userProfileDataResponse,
@@ -43,6 +49,10 @@ const UserProfile = () => {
 
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<UserProps | null>(null);
+  const [userProperty, setUserProperty] = useState<UserPropertyTableItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalUsers, setTotalUsers] = useState(0);
   const { id } = useParams();
 
   useMemo(() => {
@@ -121,8 +131,29 @@ const UserProfile = () => {
       console.log("there was an error");
     }
   }, [userProfileDataResponse]);
+  useMemo(() => {
+    if (userPropertyDataResponse?.status === 200) {
+      const userData = userPropertyDataResponse.data.results;
+      setTotalUsers(userPropertyDataResponse?.data.total);
+      setTotalPages(userPropertyDataResponse?.data.pages);
+      console.log(userProfileDataResponse)
+
+      const userList = userData.map((item) => ({
+        propertyID: item.id?.substring(0, 6),
+        propertyName: item.name,
+        amount: item.total_property_cost,
+        status: item.moderation_status?.toLowerCase(),
+        date: item.created_at?.substring(0, 10),
+      }));
+      setUserProperty(userList);
+    } else if (userPropertyDataResponse?.status === 404) {
+      console.log("there was an error");
+    }
+  }, [userPropertyDataResponse]);
+
   useEffect(() => {
     runUserProfileData(userProfileService(id));
+    runUserPropertyData(userPropertyService(id));
   }, [id]);
 
   useEffect(() => {
@@ -143,28 +174,36 @@ const UserProfile = () => {
 
   const handleView = (id) => navigate(Routes.property(id));
   const handleSuspend = (data: suspendData) => {
-    runUserSuspend(userSuspendService(data));
-    runUserProfileData(userProfileService(id));
+    runUserSuspend(userSuspendService(data))
+      .then(() => {
+        return runUserProfileData(userProfileService(id));
+      })
+      .catch((error) => {console.log(error)});
   };
-  const handleUnsuspend = (data: unsuspendData) => {
-    runUserUnsuspend(userUnsuspendService(data));
-    runUserProfileData(userProfileService(id));
+   const handleUnsuspend = (data: unsuspendData) => {
+     runUserUnsuspend(userUnsuspendService(data))
+      .then(() => {
+        return runUserProfileData(userProfileService(id));
+      })
+      .catch((error)=> {console.log(error)})
   };
   const handleVerifyUser = (id) => {
-    runUserVerify(userVerifyService(id));
-    runUserProfileData(userProfileService(id));
+    runUserVerify(userVerifyService(id))
+      .then(() => {
+        return runUserProfileData(userProfileService(id));
+      })
+      .catch((error)=> {console.log(error)})
   };
   const handleVerifyBusiness = (id) => {
-    runBusinessVerify(businessVerifyService(user?.businessID));
-    runUserProfileData(userProfileService(id));
+    runBusinessVerify(businessVerifyService(user?.businessID))
+      .then(() => {
+        return runUserProfileData(userProfileService(id));
+      })
+      .catch((error)=> {console.log(error)})
   };
 
-  const property = {
-    propertyID: "123",
-    propertyName: "New house",
-    status: "pending",
-    date: "12/08/2023",
-    amount: "NGN 200,000",
+  const handlePages = (currentPage) => {
+    setCurrentPage(currentPage);
   };
 
   const navigate = useNavigate();
@@ -177,7 +216,14 @@ const UserProfile = () => {
         handleUnsuspend={handleUnsuspend}
         handleVerifyUser={handleVerifyUser}
         handleVerifyBusiness={handleVerifyBusiness}
-        property={[...Array(5)].fill({ ...property })}
+        property={userProperty}
+        pagination={{
+          handleChange: handlePages,
+          total: totalPages,
+          current: currentPage,
+          count: totalUsers,
+          limit: 10,
+        }}
         id={id}
         firstName={user?.firstName || ""}
         lastName={user?.lastName || ""}
