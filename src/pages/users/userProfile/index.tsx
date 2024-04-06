@@ -136,10 +136,10 @@ const UserProfile = () => {
       const userData = userPropertyDataResponse.data.results;
       setTotalUsers(userPropertyDataResponse?.data.total);
       setTotalPages(userPropertyDataResponse?.data.pages);
-      console.log(userProfileDataResponse)
+      console.log(userProfileDataResponse);
 
       const userList = userData.map((item) => ({
-        propertyID: item.id?.substring(0, 6),
+        propertyID: item.id?.substring(0, 8),
         propertyName: item.name,
         amount: item.total_property_cost,
         status: item.moderation_status?.toLowerCase(),
@@ -162,7 +162,8 @@ const UserProfile = () => {
         suspendRequestStatus.isPending ||
         unsuspendRequestStatus.isPending ||
         userVerifyStatus.isPending ||
-        businessVerifyStatus.isPending
+        businessVerifyStatus.isPending ||
+        userPropertyStatus.isPending
     );
   }, [
     userRequestStatus,
@@ -170,6 +171,7 @@ const UserProfile = () => {
     suspendRequestStatus,
     userVerifyStatus,
     businessVerifyStatus,
+    userPropertyStatus,
   ]);
 
   const handleView = (id) => navigate(Routes.property(id));
@@ -178,28 +180,36 @@ const UserProfile = () => {
       .then(() => {
         return runUserProfileData(userProfileService(id));
       })
-      .catch((error) => {console.log(error)});
+      .catch((error) => {
+        console.log(error);
+      });
   };
-   const handleUnsuspend = (data: unsuspendData) => {
-     runUserUnsuspend(userUnsuspendService(data))
+  const handleUnsuspend = (data: unsuspendData) => {
+    runUserUnsuspend(userUnsuspendService(data))
       .then(() => {
         return runUserProfileData(userProfileService(id));
       })
-      .catch((error)=> {console.log(error)})
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const handleVerifyUser = (id) => {
     runUserVerify(userVerifyService(id))
       .then(() => {
         return runUserProfileData(userProfileService(id));
       })
-      .catch((error)=> {console.log(error)})
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const handleVerifyBusiness = (id) => {
     runBusinessVerify(businessVerifyService(user?.businessID))
       .then(() => {
         return runUserProfileData(userProfileService(id));
       })
-      .catch((error)=> {console.log(error)})
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handlePages = (currentPage) => {
