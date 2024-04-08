@@ -21,59 +21,67 @@ const tableHeaderTitles: TableHeaderItemProps[] = [
   { title: "" },
 ];
 
-const Property: PropertyTableItem = {
-  propertyID: "123",
-  propertyName: "New house",
-  agent: "John Doe",
-  status: "pending",
-  date: "12/08/2023",
-  amount: "NGN 200,000",
-  isEdited: true,
-};
-
 interface PropertiesProps {
+  properties: PropertyTableItem[];
   handleView: (id: string) => void;
+  handleFilter: (data) => void;
+  handleSearch: (data: any) => void;
+  searchTerm: string;
+  pagination: {
+    handleChange: (page) => void;
+    total: number;
+    current: number;
+    count: number;
+    limit: number;
+  };
+  status: {
+    label?: any;
+    value?: any;
+  };
+  startDate: string;
+  endDate: string;
 }
 
-const PropertiesUI: React.FC<PropertiesProps> = ({ handleView }) => {
+const PropertiesUI: React.FC<PropertiesProps> = ({
+  properties,
+  handleView,
+  handleFilter,
+  handleSearch,
+  status,
+  startDate,
+  endDate,
+  searchTerm,
+  pagination,
+  
+}) => {
   return (
     <>
       <h1 className={styles.ttl}>
-        Properties <span>(58)</span>
+        Properties <span>({pagination.count})</span>
       </h1>
       <section className={styles.searchFilter}>
         <PropertiesFilter
-          submit={console.log}
+          submit={handleFilter}
           value={{
-            status: { label: "", value: "" },
-            startDate: "",
-            endDate: "",
+            status: { label: "", value: status.value },
+            startDate: startDate,
+            endDate: endDate,
           }}
         />
         <Search
           className={styles.search}
-          value={""}
+          value={searchTerm}
           placeholder={"Search by id, property or agent"}
-          handleChange={console.log}
+          handleChange={(e) => {
+            handleSearch(e);
+          }}
         />
       </section>
       <Table
         tableHeaderTitles={tableHeaderTitles}
         tableBody={
           <PropertyTable
-            tableBodyItems={[
-              ...new Array(4).fill(Property),
-              ...new Array(4).fill({
-                ...Property,
-                isEdited: false,
-                status: "approved",
-              }),
-              ...new Array(2).fill({
-                ...Property,
-                isEdited: false,
-                status: "rejected",
-              }),
-            ]}
+            tableBodyItems={properties}
             view={handleView}
             tableBodyRowClassName={styles.tableBodyItem}
           />
@@ -95,11 +103,11 @@ const PropertiesUI: React.FC<PropertiesProps> = ({ handleView }) => {
         }}
       />
       <Pagination
-        currentPage={1}
-        totalPages={3}
-        handleChange={console.log}
-        totalCount={21}
-        pageLimit={10}
+        currentPage={pagination.current}
+        totalPages={pagination.total}
+        handleChange={pagination.handleChange}
+        totalCount={pagination.count}
+        pageLimit={pagination.limit}
         name={"Properties"}
       />
     </>
