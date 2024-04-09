@@ -27,3 +27,56 @@ export const usersURL = ({ currentPage, search, role, status }) => {
 	return `/admin/get_users/?${queryString}`;
 };
 
+/**
+ * GET USER URL
+ *
+ * @returns url string
+ *
+ */
+
+export const userProfileURL = (id) => `/admin/get_user/${id}/`;
+
+/**
+ * GET USER PROPERTY URL
+ *
+ * @returns url string
+ *
+ */
+
+export const userPropertyURL = (id) => `/admin/get_user_properties/${id}/`;
+
+/**
+ * SUSPEND USER URL
+ *
+ * @returns url string
+ *
+ */
+
+export const userSuspendURL = () => `/admin/suspend_user/`;
+
+/**
+ * UNSUSPEND USER URL
+ *
+ * @returns url string
+ *
+ */
+
+export const userUnsuspendURL = () => `/admin/unsuspend_user/`;
+
+/**
+ * VERIFY USER URL
+ *
+ * @returns url string
+ *
+ */
+
+export const userVerifyURL = (id) => `/admin/verify_profile/${id}/`;
+
+/**
+ * VERIFY USER URL
+ *
+ * @returns url string
+ *
+ */
+
+export const businessVerifyURL = (id) => `/admin/approve_company/${id}/`;
