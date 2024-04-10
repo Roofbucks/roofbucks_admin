@@ -42,8 +42,8 @@ interface UserProfileProps {
 	handleView: (id: string) => void;
 	handleSuspend: (data: suspendData) => void;
 	handleUnsuspend: (data: unsuspendData) => void;
-	handleVerifyUser: (id) => void;
-	handleVerifyBusiness: (id) => void;
+	handleVerifyProfile: (id) => void;
+	handleApproveCompany: (id) => void;
 	id: string | undefined;
 	firstname: string;
 	lastname: string;
@@ -92,8 +92,8 @@ export type UserProps = Pick<
 		| "pagination"
 		| "handleSuspend"
 		| "handleUnsuspend"
-		| "handleVerifyUser"
-		| "handleVerifyBusiness"
+		| "handleVerifyProfile"
+		| "handleApproveCompany"
 		| "id"
 	>
 >;
@@ -102,8 +102,8 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 	handleView,
 	handleSuspend,
 	handleUnsuspend,
-	handleVerifyUser,
-	handleVerifyBusiness,
+	handleVerifyProfile,
+	handleApproveCompany,
 	id,
 	firstname,
 	lastname,
@@ -145,13 +145,13 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 		} else if (profileStat === "SUSPENDED") {
 			handleUnsuspend(unsuspendData);
 		} else if (profileStat === "UNVERIFIED") {
-			handleVerifyUser(id);
+			handleVerifyProfile(id);
 		}
 	};
 
 	const handleBusiness = () => {
 		if (!businessInfo.isVerified) {
-			handleVerifyBusiness(businessInfo.businessId);
+			handleApproveCompany(businessInfo.businessId);
 		}
 	};
 

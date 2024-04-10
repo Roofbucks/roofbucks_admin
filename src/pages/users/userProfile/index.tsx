@@ -17,34 +17,34 @@ import { Preloader, UserPropertyTableItem } from "components";
 
 const UserProfile = () => {
 	const {
-		run: runUserPropertyData,
-		data: userPropertyDataResponse,
-		requestStatus: userPropertyStatus,
-	} = useApiRequest({});
-	const {
 		run: runUserProfileData,
 		data: userProfileDataResponse,
-		requestStatus: userRequestStatus,
+		requestStatus: userProfileRequestStatus,
 	} = useApiRequest({});
 	const {
-		run: runUserSuspend,
-		data: userSuspendResponse,
-		requestStatus: suspendRequestStatus,
+		run: runUserPropertyData,
+		data: userPropertyDataResponse,
+		requestStatus: userPropertyRequestStatus,
 	} = useApiRequest({});
 	const {
-		run: runUserUnsuspend,
-		data: userUnsuspendResponse,
-		requestStatus: unsuspendRequestStatus,
+		run: runSuspendUser,
+		data: suspendUserResponse,
+		requestStatus: suspendUserRequestStatus,
 	} = useApiRequest({});
 	const {
-		run: runUserVerify,
-		data: userVerifyResponse,
-		requestStatus: userVerifyStatus,
+		run: runUnsuspendUser,
+		data: unsuspendUserResponse,
+		requestStatus: unsuspendUserRequestStatus,
 	} = useApiRequest({});
 	const {
-		run: runBusinessVerify,
-		data: businessVerifyResponse,
-		requestStatus: businessVerifyStatus,
+		run: runVerifyProfile,
+		data: verifyProfileResponse,
+		requestStatus: verifyProfileStatus,
+	} = useApiRequest({});
+	const {
+		run: runApproveCompany,
+		data: approveCompanyResponse,
+		requestStatus: approveCompanyStatus,
 	} = useApiRequest({});
 
 	const [loading, setLoading] = useState(false);
@@ -56,33 +56,33 @@ const UserProfile = () => {
 	const { id } = useParams();
 
 	useMemo(() => {
-		if (userSuspendResponse?.status === 200) {
+		if (suspendUserResponse?.status === 200) {
 			alert("User Suspended!");
-		} else if (userSuspendResponse?.status === 404) {
+		} else if (suspendUserResponse?.status === 404) {
 			alert("User Not Suspended!");
 		}
-	}, [userSuspendResponse]);
+	}, [suspendUserResponse]);
 	useMemo(() => {
-		if (userUnsuspendResponse?.status === 200) {
+		if (unsuspendUserResponse?.status === 200) {
 			console.log("User Unsuspended!");
-		} else if (userUnsuspendResponse?.status === 404) {
+		} else if (unsuspendUserResponse?.status === 404) {
 			alert("User still Suspended!");
 		}
-	}, [userUnsuspendResponse]);
+	}, [unsuspendUserResponse]);
 	useMemo(() => {
-		if (userVerifyResponse?.status === 200) {
+		if (verifyProfileResponse?.status === 200) {
 			alert("User Verified!");
-		} else if (userVerifyResponse?.status === 404) {
+		} else if (verifyProfileResponse?.status === 404) {
 			alert("User still Unverified!");
 		}
-	}, [userVerifyResponse]);
+	}, [verifyProfileResponse]);
 	useMemo(() => {
-		if (businessVerifyResponse?.status === 200) {
+		if (approveCompanyResponse?.status === 200) {
 			alert("Business Verified!");
-		} else if (businessVerifyResponse?.status === 404) {
+		} else if (approveCompanyResponse?.status === 404) {
 			alert("Business still Unverified!");
 		}
-	}, [businessVerifyResponse]);
+	}, [approveCompanyResponse]);
 	useMemo(() => {
 		if (userProfileDataResponse?.status === 200) {
 			const userProfile = userProfileDataResponse.data;
@@ -147,25 +147,25 @@ const UserProfile = () => {
 
 	useEffect(() => {
 		setLoading(
-			userRequestStatus.isPending ||
-				suspendRequestStatus.isPending ||
-				unsuspendRequestStatus.isPending ||
-				userVerifyStatus.isPending ||
-				businessVerifyStatus.isPending ||
-				userPropertyStatus.isPending
+			userProfileRequestStatus.isPending ||
+				suspendUserRequestStatus.isPending ||
+				unsuspendUserRequestStatus.isPending ||
+				verifyProfileStatus.isPending ||
+				approveCompanyStatus.isPending ||
+				userPropertyRequestStatus.isPending
 		);
 	}, [
-		userRequestStatus,
-		unsuspendRequestStatus,
-		suspendRequestStatus,
-		userVerifyStatus,
-		businessVerifyStatus,
-		userPropertyStatus,
+		userProfileRequestStatus,
+		unsuspendUserRequestStatus,
+		suspendUserRequestStatus,
+		verifyProfileStatus,
+		approveCompanyStatus,
+		userPropertyRequestStatus,
 	]);
 
 	const handleView = (id) => navigate(Routes.property(id));
 	const handleSuspend = (data: suspendData) => {
-		runUserSuspend(suspendUserService(data))
+		runSuspendUser(suspendUserService(data))
 			.then(() => {
 				return runUserProfileData(userProfileService(id));
 			})
@@ -174,7 +174,7 @@ const UserProfile = () => {
 			});
 	};
 	const handleUnsuspend = (data: unsuspendData) => {
-		runUserUnsuspend(unsuspendUserService(data))
+		runUnsuspendUser(unsuspendUserService(data))
 			.then(() => {
 				return runUserProfileData(userProfileService(id));
 			})
@@ -182,8 +182,8 @@ const UserProfile = () => {
 				console.log(error);
 			});
 	};
-	const handleVerifyUser = (id) => {
-		runUserVerify(verifyProfileService(id))
+	const handleVerifyProfile = (id) => {
+		runVerifyProfile(verifyProfileService(id))
 			.then(() => {
 				return runUserProfileData(userProfileService(id));
 			})
@@ -191,8 +191,8 @@ const UserProfile = () => {
 				console.log(error);
 			});
 	};
-	const handleVerifyBusiness = (id) => {
-		runBusinessVerify(approveCompanyService(user?.businessInfo.businessId))
+	const handleApproveCompany = (id) => {
+		runApproveCompany(approveCompanyService(user?.businessInfo.businessId))
 			.then(() => {
 				return runUserProfileData(userProfileService(id));
 			})
@@ -213,8 +213,8 @@ const UserProfile = () => {
 				handleView={handleView}
 				handleSuspend={handleSuspend}
 				handleUnsuspend={handleUnsuspend}
-				handleVerifyUser={handleVerifyUser}
-				handleVerifyBusiness={handleVerifyBusiness}
+				handleVerifyProfile={handleVerifyProfile}
+				handleApproveCompany={handleApproveCompany}
 				property={userProperty}
 				pagination={{
 					handleChange: handlePages,
