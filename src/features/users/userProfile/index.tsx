@@ -165,7 +165,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
   };
 
   useEffect(() => {}, [profileStatus, isVerified]);
-
+  console.log(role)
   return (
     <>
       <Button
@@ -304,7 +304,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
           )}
         </div>
       </section>
-      <section className={styles.section}>
+      {role === "agent" && <section className={styles.section}>
         <div className={styles.section__heading}>
           <div className={styles.profile}>
             <h1 className={styles.section__ttl}>Business Information</h1>
@@ -367,7 +367,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
             </div>
           )}
         </div>
-      </section>
+      </section>}
       <section className={styles.section}>
         <div className={styles.section__heading}>
           <h1 className={styles.section__ttl}>Billing Information</h1>
