@@ -2,14 +2,14 @@ import { UserProfileUI, UserProps } from "features";
 import { useNavigate, useParams } from "react-router-dom";
 import { Routes } from "router";
 import {
-	businessVerifyService,
+	approveCompanyService,
 	suspendData,
 	unsuspendData,
 	userProfileService,
 	userPropertyService,
-	userSuspendService,
-	userUnsuspendService,
-	userVerifyService,
+	suspendUserService,
+	unsuspendUserService,
+	verifyProfileService,
 } from "api";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
@@ -87,8 +87,8 @@ const UserProfile = () => {
 		if (userProfileDataResponse?.status === 200) {
 			const userProfile = userProfileDataResponse.data;
 			const ProfileData = {
-				firstName: userProfile.firstname,
-				lastName: userProfile.lastname,
+				firstname: userProfile.firstname,
+				lastname: userProfile.lastname,
 				email: userProfile.email,
 				role: userProfile.role.toLowerCase(),
 				dateOfBirth: userProfile.date_of_birth?.substring(0, 10),
@@ -97,27 +97,16 @@ const UserProfile = () => {
 				city: userProfile.city,
 				country: userProfile.country,
 				phone: userProfile.phone,
-				idType: userProfile.identity_document_type.toLowerCase(),
-				profileStatus: userProfile.profile_status,
-				idNumber: userProfile.identity_document_number,
-				idExpiryDate: userProfile.identity_document_expiry_date?.substring(
+				idDocType: userProfile.identity_document_type.toLowerCase(),
+				profileStat: userProfile.profile_status,
+				idDocNumber: userProfile.identity_document_number,
+				idDocExpiryDate: userProfile.identity_document_expiry_date?.substring(
 					0,
 					10
 				),
 				idAlbumDoc1: userProfile.identity_document_album?.[0]?.document,
 				idAlbumDoc2: userProfile.identity_document_album?.[1]?.document,
-				businessID: userProfile.business_info.id,
-				isVerified: userProfile.business_info.is_verified,
-				companyLogo: userProfile.business_info.company_logo,
-				regName: userProfile.business_info.registered_name,
-				regNumber: userProfile.business_info.registeration_number,
-				businessEmail: userProfile.business_info.email,
-				businessPhone: userProfile.business_info.phone,
-				businessCountry: userProfile.business_info.country,
-				businessCity: userProfile.business_info.city,
-				displayName: userProfile.business_info.display_name,
-				desc: userProfile.business_info.description,
-				certificate: userProfile.business_info.certificate_of_incorporation,
+				businessInfo: userProfile.business_info,
 				displayPhoto: userProfile.display_photo,
 				bankInfo: userProfile.bank_information,
 				bankCountry: userProfile.bank_information[0]?.country,
@@ -176,7 +165,7 @@ const UserProfile = () => {
 
 	const handleView = (id) => navigate(Routes.property(id));
 	const handleSuspend = (data: suspendData) => {
-		runUserSuspend(userSuspendService(data))
+		runUserSuspend(suspendUserService(data))
 			.then(() => {
 				return runUserProfileData(userProfileService(id));
 			})
@@ -185,7 +174,7 @@ const UserProfile = () => {
 			});
 	};
 	const handleUnsuspend = (data: unsuspendData) => {
-		runUserUnsuspend(userUnsuspendService(data))
+		runUserUnsuspend(unsuspendUserService(data))
 			.then(() => {
 				return runUserProfileData(userProfileService(id));
 			})
@@ -194,7 +183,7 @@ const UserProfile = () => {
 			});
 	};
 	const handleVerifyUser = (id) => {
-		runUserVerify(userVerifyService(id))
+		runUserVerify(verifyProfileService(id))
 			.then(() => {
 				return runUserProfileData(userProfileService(id));
 			})
@@ -203,7 +192,7 @@ const UserProfile = () => {
 			});
 	};
 	const handleVerifyBusiness = (id) => {
-		runBusinessVerify(businessVerifyService(user?.businessID))
+		runBusinessVerify(approveCompanyService(user?.businessInfo.businessId))
 			.then(() => {
 				return runUserProfileData(userProfileService(id));
 			})
@@ -235,8 +224,8 @@ const UserProfile = () => {
 					limit: 10,
 				}}
 				id={id}
-				firstName={user?.firstName || ""}
-				lastName={user?.lastName || ""}
+				firstname={user?.firstname || ""}
+				lastname={user?.lastname || ""}
 				email={user?.email || ""}
 				role={user?.role || ""}
 				dateOfBirth={user?.dateOfBirth || ""}
@@ -245,24 +234,28 @@ const UserProfile = () => {
 				city={user?.city || ""}
 				country={user?.country || ""}
 				phone={user?.phone || ""}
-				idType={user?.idType || ""}
-				profileStatus={user?.profileStatus || ""}
-				idNumber={user?.idNumber || ""}
-				idExpiryDate={user?.idExpiryDate || ""}
+				idDocType={user?.idDocType || ""}
+				profileStat={user?.profileStat || ""}
+				idDocNumber={user?.idDocNumber || ""}
+				idDocExpiryDate={user?.idDocExpiryDate || ""}
 				idAlbumDoc1={user?.idAlbumDoc1 || ""}
 				idAlbumDoc2={user?.idAlbumDoc2 || ""}
-				businessID={user?.businessID || 0}
-				isVerified={user?.isVerified || false}
-				companyLogo={user?.companyLogo || ""}
-				regName={user?.regName || ""}
-				regNumber={user?.regNumber || ""}
-				businessEmail={user?.businessEmail || ""}
-				businessPhone={user?.businessPhone || ""}
-				businessCountry={user?.businessCountry || ""}
-				businessCity={user?.businessCity || ""}
-				displayName={user?.displayName || ""}
-				desc={user?.desc || ""}
-				certificate={user?.certificate || ""}
+				businessInfo={
+					user?.businessInfo || {
+						businessId: 0,
+						isVerified: false,
+						companyLogo: "",
+						regName: "",
+						regNumber: "",
+						email: "",
+						phone: "",
+						country: "",
+						city: "",
+						displayName: "",
+						desc: "",
+						certificate: "",
+					}
+				}
 				displayPhoto={user?.displayPhoto || ""}
 				bankCountry={user?.bankCountry || ""}
 				bankName={user?.bankName || ""}

@@ -7,11 +7,11 @@ import {
 	usersURL,
 	getRequest,
 	userProfileURL,
-	userSuspendURL,
+	suspendUserURL,
 	postRequest,
-	userVerifyURL,
-	userUnsuspendURL,
-	businessVerifyURL,
+	verifyProfileURL,
+	unsuspendUserURL,
+	approveCompanyURL,
 	userPropertyURL,
 } from "api";
 /**
@@ -67,9 +67,9 @@ export interface suspendData {
 	email: string;
 }
 
-export const userSuspendService = (data: suspendData) => {
+export const suspendUserService = (data: suspendData) => {
 	const request = {
-		url: userSuspendURL(),
+		url: suspendUserURL(),
 		data,
 	};
 	return postRequest(request);
@@ -84,9 +84,9 @@ export interface unsuspendData {
 	email: string;
 }
 
-export const userUnsuspendService = (data: unsuspendData) => {
+export const unsuspendUserService = (data: unsuspendData) => {
 	const request = {
-		url: userUnsuspendURL(),
+		url: unsuspendUserURL(),
 		data,
 	};
 	return postRequest(request);
@@ -97,9 +97,9 @@ export const userUnsuspendService = (data: unsuspendData) => {
  * @returns axios promise
  */
 
-export const userVerifyService = (id) => {
+export const verifyProfileService = (id) => {
 	const request = {
-		url: userVerifyURL(id),
+		url: verifyProfileURL(id),
 	};
 	return getRequest(request);
 };
@@ -109,9 +109,9 @@ export const userVerifyService = (id) => {
  * @returns axios promise
  */
 
-export const businessVerifyService = (id) => {
+export const approveCompanyService = (id) => {
 	const request = {
-		url: businessVerifyURL(id),
+		url: approveCompanyURL(id),
 	};
 	return getRequest(request);
 };

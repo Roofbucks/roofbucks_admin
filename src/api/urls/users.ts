@@ -52,7 +52,7 @@ export const userPropertyURL = (id) => `/admin/get_user_properties/${id}/`;
  *
  */
 
-export const userSuspendURL = () => `/admin/suspend_user/`;
+export const suspendUserURL = () => `/admin/suspend_user/`;
 
 /**
  * UNSUSPEND USER URL
@@ -61,7 +61,7 @@ export const userSuspendURL = () => `/admin/suspend_user/`;
  *
  */
 
-export const userUnsuspendURL = () => `/admin/unsuspend_user/`;
+export const unsuspendUserURL = () => `/admin/unsuspend_user/`;
 
 /**
  * VERIFY USER URL
@@ -70,7 +70,7 @@ export const userUnsuspendURL = () => `/admin/unsuspend_user/`;
  *
  */
 
-export const userVerifyURL = (id) => `/admin/verify_profile/${id}/`;
+export const verifyProfileURL = (id) => `/admin/verify_profile/${id}/`;
 
 /**
  * VERIFY USER URL
@@ -79,4 +79,4 @@ export const userVerifyURL = (id) => `/admin/verify_profile/${id}/`;
  *
  */
 
-export const businessVerifyURL = (id) => `/admin/approve_company/${id}/`;
+export const approveCompanyURL = (id) => `/admin/approve_company/${id}/`;

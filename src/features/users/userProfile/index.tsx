@@ -45,8 +45,8 @@ interface UserProfileProps {
 	handleVerifyUser: (id) => void;
 	handleVerifyBusiness: (id) => void;
 	id: string | undefined;
-	firstName: string;
-	lastName: string;
+	firstname: string;
+	lastname: string;
 	email: string;
 	role: string;
 	dateOfBirth: string;
@@ -55,24 +55,26 @@ interface UserProfileProps {
 	city: string;
 	country: string;
 	phone: string;
-	idType: string;
-	profileStatus: string;
-	idNumber: string;
-	idExpiryDate: string;
+	idDocType: string;
+	profileStat: string;
+	idDocNumber: string;
+	idDocExpiryDate: string;
 	idAlbumDoc1: string;
 	idAlbumDoc2: string;
-	businessID: number;
-	isVerified: boolean;
-	companyLogo: string;
-	regName: string;
-	regNumber: string;
-	businessEmail: string;
-	businessPhone: string;
-	businessCountry: string;
-	businessCity: string;
-	displayName: string;
-	desc: string;
-	certificate: string;
+	businessInfo: {
+		businessId: number;
+		isVerified: boolean;
+		companyLogo: string;
+		regName: string;
+		regNumber: string;
+		email: string;
+		phone: string;
+		country: string;
+		city: string;
+		displayName: string;
+		desc: string;
+		certificate: string;
+	};
 	displayPhoto: string;
 	bankCountry: string;
 	bankName: string;
@@ -103,10 +105,8 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 	handleVerifyUser,
 	handleVerifyBusiness,
 	id,
-	property,
-	pagination,
-	firstName,
-	lastName,
+	firstname,
+	lastname,
 	email,
 	role,
 	dateOfBirth,
@@ -115,30 +115,21 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 	city,
 	country,
 	phone,
-	idType,
-	profileStatus,
-	idNumber,
-	idExpiryDate,
+	idDocType,
+	profileStat,
+	idDocNumber,
+	idDocExpiryDate,
 	idAlbumDoc1,
 	idAlbumDoc2,
-	businessID,
-	isVerified,
-	companyLogo,
-	regName,
-	regNumber,
-	businessEmail,
-	businessPhone,
-	businessCountry,
-	businessCity,
-	displayName,
-	desc,
-	certificate,
+	businessInfo,
 	displayPhoto,
 	bankCountry,
 	bankName,
 	accountName,
 	accountNumber,
 	proofOfAddress,
+	property,
+	pagination,
 }) => {
 	const navigate = useNavigate();
 	const suspendData: suspendData = {
@@ -149,22 +140,22 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 	};
 
 	const handleClick = () => {
-		if (profileStatus === "VERIFIED") {
+		if (profileStat === "VERIFIED") {
 			handleSuspend(suspendData);
-		} else if (profileStatus === "SUSPENDED") {
+		} else if (profileStat === "SUSPENDED") {
 			handleUnsuspend(unsuspendData);
-		} else if (profileStatus === "UNVERIFIED") {
+		} else if (profileStat === "UNVERIFIED") {
 			handleVerifyUser(id);
 		}
 	};
 
 	const handleBusiness = () => {
-		if (!isVerified) {
-			handleVerifyBusiness(businessID);
+		if (!businessInfo.isVerified) {
+			handleVerifyBusiness(businessInfo.businessId);
 		}
 	};
 
-	useEffect(() => {}, [profileStatus, isVerified]);
+	useEffect(() => {}, [profileStat, businessInfo.isVerified]);
 
 	return (
 		<>
@@ -182,26 +173,26 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 				<div className={styles.section__heading}>
 					<div className={styles.profile}>
 						<h1 className={styles.section__ttl}>Personal Information</h1>
-						<span className={`${styles.tag} ${styles[profileStatus]}`}>
-							{profileStatus === "VERIFIED"
+						<span className={`${styles.tag} ${styles[profileStat]}`}>
+							{profileStat === "VERIFIED"
 								? "Verified"
-								: profileStatus === "UNVERIFIED"
+								: profileStat === "UNVERIFIED"
 								? "Unverified"
-								: profileStatus === "SUSPENDED"
+								: profileStat === "SUSPENDED"
 								? "Suspended"
 								: "Unknown Status"}
 						</span>
 					</div>
 					<Button
-						className={`${styles[profileStatus]} ${styles.active}`}
+						className={`${styles[profileStat]} ${styles.active}`}
 						type="primary"
 						onClick={handleClick}
 					>
-						{profileStatus === "UNVERIFIED"
+						{profileStat === "UNVERIFIED"
 							? "Verify Personal Profile"
-							: profileStatus === "VERIFIED"
+							: profileStat === "VERIFIED"
 							? "Suspend Account"
-							: profileStatus === "SUSPENDED"
+							: profileStat === "SUSPENDED"
 							? "Unsuspend Account"
 							: "Unknown Action"}
 					</Button>
@@ -211,12 +202,12 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 						<img className={styles.image} src={displayPhoto} alt="avatar" />
 						<div>
 							<span>First name </span>
-							<p>{firstName}</p>
+							<p>{firstname}</p>
 						</div>
 					</div>
 					<div>
 						<span>Last name</span>
-						<p>{lastName}</p>
+						<p>{lastname}</p>
 					</div>
 					<div>
 						<span>Email</span>
@@ -262,15 +253,15 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 				<div className={styles.section__content}>
 					<div>
 						<span>ID Type</span>
-						<p>{idType}</p>
+						<p>{idDocType}</p>
 					</div>
 					<div>
 						<span>ID No</span>
-						<p>{idNumber}</p>
+						<p>{idDocNumber}</p>
 					</div>
 					<div>
 						<span>Expiration Date</span>
-						<p>{idExpiryDate}</p>
+						<p>{idDocExpiryDate}</p>
 					</div>
 				</div>
 
@@ -309,10 +300,10 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 					<div className={styles.profile}>
 						<h1 className={styles.section__ttl}>Business Information</h1>
 						<span className={styles.tag}>
-							{isVerified === true ? "Verified" : "Unverified"}
+							{businessInfo.isVerified === true ? "Verified" : "Unverified"}
 						</span>
 					</div>
-					{!isVerified && (
+					{!businessInfo.isVerified && (
 						<Button
 							className={styles.actionBtn}
 							type="primary"
@@ -326,42 +317,42 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
 					<div className={styles.imageSec}>
 						<img
 							className={styles.image}
-							src={companyLogo}
+							src={businessInfo.companyLogo}
 							alt="company logo"
 						/>
 						<div>
 							<span>Company Name</span>
-							<p>{regName}</p>
+							<p>{businessInfo.regName}</p>
 						</div>
 					</div>
 					<div>
 						<span>Registration No</span>
-						<p>{regNumber}</p>
+						<p>{businessInfo.regNumber}</p>
 					</div>
 
 					<div>
 						<span>Email</span>
-						<p>{businessEmail}</p>
+						<p>{businessInfo.email}</p>
 					</div>
 					<div>
 						<span>City</span>
-						<p>{businessCity}</p>
+						<p>{businessInfo.city}</p>
 					</div>
 					<div>
 						<span>Country</span>
-						<p>{businessCountry}</p>
+						<p>{businessInfo.country}</p>
 					</div>
 				</div>
 				<div className={styles.description}>
 					<span>Description</span>
-					<p>{desc}</p>
+					<p>{businessInfo.desc}</p>
 				</div>
 				<div className={styles.section__documents}>
-					{certificate && (
+					{businessInfo.certificate && (
 						<div>
 							<DocumentIcon />
 							<p>Certificate of Incorporation</p>
-							<a href={certificate}>
+							<a href={businessInfo.certificate}>
 								<DownloadIcon />
 							</a>
 						</div>
