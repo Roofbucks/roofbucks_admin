@@ -74,7 +74,7 @@ export interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ active, children }) => {
   const { firstName, role } = useAppSelector((state) => state.user);
-  const SidebarItems: SidebarType[] = [
+  const allSidebarItems: SidebarType[] = [
     // {
     //   active,
     //   state: "Overview",
@@ -148,6 +148,12 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
     },
   ];
 
+  const SidebarItems: SidebarType[] = allSidebarItems.filter((item) =>
+    role === "member"
+      ? item.state !== "Finance" && item.state !== "Team"
+      : item.state
+  );
+
   const [showMenu, setShowMenu] = React.useState(false);
   const [showLogout, setShowLogout] = React.useState(false);
   const [showNotifDropdown, setShowNotifDropdown] = React.useState(false);
@@ -207,8 +213,6 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
     </>
   );
 };
-
-
 
 export { Layout };
 export * from "./logoutPrompt";
