@@ -4,7 +4,7 @@ import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "router";
-import { Preloader } from "components";
+import { Preloader, Toast } from "components";
 
 interface FilterData {
   status: {
@@ -22,7 +22,11 @@ const Users = () => {
     run: runUserData,
     data: userDataResponse,
     requestStatus,
+    error
   } = useApiRequest({});
+  const [toast, setToast] = useState(false);
+  const [toastHead, setToastHead] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
@@ -52,8 +56,10 @@ const Users = () => {
         verifiedEmail: item.email_verified,
       }));
       setUsers(userList);
-    } else if (userDataResponse?.status === 404) {
-      console.log("there was an error");
+    } else if (error) {
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage(error)
     }
   }, [userDataResponse]);
 
@@ -93,8 +99,13 @@ const Users = () => {
     navigate(Routes.user(id));
   };
 
+  const handleClose = () => {
+    setToast(false);
+  };
+
   return (
     <>
+      <Toast onClose={handleClose} loading={toast} head={toastHead} message={toastMessage} />
       <Preloader loading={loading} />
       <UsersUI
         handleView={handleView}

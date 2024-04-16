@@ -13,40 +13,49 @@ import {
 } from "api";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
-import { Preloader, UserPropertyTableItem } from "components";
+import { Preloader, Toast, UserPropertyTableItem } from "components";
 
 const UserProfile = () => {
   const {
     run: runUserPropertyData,
     data: userPropertyDataResponse,
     requestStatus: userPropertyStatus,
+    error: userPropertyError
   } = useApiRequest({});
   const {
     run: runUserProfileData,
     data: userProfileDataResponse,
     requestStatus: userRequestStatus,
+    error: userProfileError
   } = useApiRequest({});
   const {
     run: runUserSuspend,
     data: userSuspendResponse,
-    requestStatus: suspendRequestStatus,
+    requestStatus: suspendStatus,
+    error: userSuspendError
   } = useApiRequest({});
   const {
     run: runUserUnsuspend,
     data: userUnsuspendResponse,
-    requestStatus: unsuspendRequestStatus,
+    requestStatus: unsuspendStatus,
+    error: userUnsuspendError
   } = useApiRequest({});
   const {
     run: runUserVerify,
     data: userVerifyResponse,
     requestStatus: userVerifyStatus,
+    error: userVerifyError
   } = useApiRequest({});
   const {
     run: runBusinessVerify,
     data: businessVerifyResponse,
     requestStatus: businessVerifyStatus,
+    error: businessVerifyError
   } = useApiRequest({});
 
+  const [toast, setToast] = useState(false);
+  const [toastHead, setToastHead] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<UserProps | null>(null);
   const [userProperty, setUserProperty] = useState<UserPropertyTableItem[]>([]);
@@ -56,31 +65,47 @@ const UserProfile = () => {
   const { id } = useParams();
 
   useMemo(() => {
-    if (userSuspendResponse?.status === 200) {
-      alert("User Suspended!");
-    } else if (userSuspendResponse?.status === 404) {
-      alert("User Not Suspended!");
+    if (userSuspendResponse?.status === 204) {
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage("User Suspended!")
+    } else if (userSuspendError) {
+      setToast(true);
+      setToastHead("Error");
+      setToastMessage(userSuspendError)
     }
   }, [userSuspendResponse]);
   useMemo(() => {
-    if (userUnsuspendResponse?.status === 200) {
-      console.log("User Unsuspended!");
-    } else if (userUnsuspendResponse?.status === 404) {
-      alert("User still Suspended!");
+    if (userUnsuspendResponse?.status === 204) {
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage("User Unsuspended!")
+    } else if (userUnsuspendError) {
+      setToast(true);
+      setToastHead("Error");
+      setToastMessage(userUnsuspendError)
     }
   }, [userUnsuspendResponse]);
   useMemo(() => {
-    if (userVerifyResponse?.status === 200) {
-      alert("User Verified!");
-    } else if (userVerifyResponse?.status === 404) {
-      alert("User still Unverified!");
+    if (userVerifyResponse?.status === 204) {
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage("User Verified!")
+    } else if (userVerifyError) {
+      setToast(true);
+      setToastHead("Error");
+      setToastMessage(userVerifyError)
     }
   }, [userVerifyResponse]);
   useMemo(() => {
-    if (businessVerifyResponse?.status === 200) {
-      alert("Business Verified!");
-    } else if (businessVerifyResponse?.status === 404) {
-      alert("Business still Unverified!");
+    if (businessVerifyResponse?.status === 204) {
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage("Business Verified!")
+    } else if (businessVerifyError) {
+      setToast(true);
+      setToastHead("Error");
+      setToastMessage(businessVerifyError)
     }
   }, [businessVerifyResponse]);
   useMemo(() => {
@@ -127,8 +152,10 @@ const UserProfile = () => {
         proofOfAddress: userProfile.proof_of_address_document,
       };
       setUser(ProfileData);
-    } else if (userProfileDataResponse?.status === 404) {
-      console.log("there was an error");
+    } else if (userProfileError) {
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage(userProfileError)
     }
   }, [userProfileDataResponse]);
   useMemo(() => {
@@ -146,8 +173,10 @@ const UserProfile = () => {
         date: item.created_at?.substring(0, 10),
       }));
       setUserProperty(userList);
-    } else if (userPropertyDataResponse?.status === 404) {
-      console.log("there was an error");
+    } else if (userPropertyError) {
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage(userPropertyError);
     }
   }, [userPropertyDataResponse]);
 
@@ -159,16 +188,16 @@ const UserProfile = () => {
   useEffect(() => {
     setLoading(
       userRequestStatus.isPending ||
-        suspendRequestStatus.isPending ||
-        unsuspendRequestStatus.isPending ||
+        suspendStatus.isPending ||
+        unsuspendStatus.isPending ||
         userVerifyStatus.isPending ||
         businessVerifyStatus.isPending ||
         userPropertyStatus.isPending
     );
   }, [
     userRequestStatus,
-    unsuspendRequestStatus,
-    suspendRequestStatus,
+    unsuspendStatus,
+    suspendStatus,
     userVerifyStatus,
     businessVerifyStatus,
     userPropertyStatus,
@@ -181,7 +210,9 @@ const UserProfile = () => {
         return runUserProfileData(userProfileService(id));
       })
       .catch((error) => {
-        console.log(error);
+        setToast(true);
+        setToastHead("Error");
+        setToastMessage(error);
       });
   };
   const handleUnsuspend = (data: unsuspendData) => {
@@ -190,7 +221,9 @@ const UserProfile = () => {
         return runUserProfileData(userProfileService(id));
       })
       .catch((error) => {
-        console.log(error);
+        setToast(true);
+        setToastHead("Error");
+        setToastMessage(error);
       });
   };
   const handleVerifyUser = (id) => {
@@ -199,7 +232,9 @@ const UserProfile = () => {
         return runUserProfileData(userProfileService(id));
       })
       .catch((error) => {
-        console.log(error);
+        setToast(true);
+        setToastHead("Error");
+        setToastMessage(error);
       });
   };
   const handleVerifyBusiness = (id) => {
@@ -208,17 +243,22 @@ const UserProfile = () => {
         return runUserProfileData(userProfileService(id));
       })
       .catch((error) => {
-        console.log(error);
+        setToast(true);
+        setToastHead("Error");
+        setToastMessage(error);
       });
   };
 
   const handlePages = (currentPage) => {
     setCurrentPage(currentPage);
   };
-
+  const handleClose = () => {
+    setToast(false);
+  };
   const navigate = useNavigate();
   return (
     <>
+      <Toast onClose={handleClose} loading={toast} head={toastHead} message={toastMessage} />
       <Preloader loading={loading} />
       <UserProfileUI
         handleView={handleView}

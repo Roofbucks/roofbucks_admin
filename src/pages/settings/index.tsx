@@ -5,7 +5,7 @@ import {
   settingsSecurityData,
   settingsSecurityService,
 } from "api";
-import { Preloader } from "components";
+import { Preloader, Toast } from "components";
 import { AccountData, SettingsUI } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
@@ -14,21 +14,27 @@ const Settings = () => {
   const {
     run: runuserSecurityData,
     data: userSecurityResponse,
-    requestStatus: userSecurityRequestStatus
+    requestStatus: userSecurityStatus,
+    error: userSecurityError
   } = useApiRequest({});
   const {
     run: runUserProfileData,
     data: userProfileDataResponse,
-    requestStatus: userProfileRequestStatus
+    requestStatus: userProfileStatus,
+    error: userProfileError
   } =  useApiRequest({});
   const {
     run: runAccountData,
     data: userAccountDataResponse,
-    requestStatus: userAccountDataStatus
+    requestStatus: userAccountDataStatus,
+    error: userAccountError
   } = useApiRequest(
     {}
   );
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState(false);
+  const [toastHead, setToastHead] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
   const [name, setName] = useState<AccountData>({
     firstName: "",
     lastName: "",
@@ -37,15 +43,26 @@ const Settings = () => {
     runuserSecurityData(settingsSecurityService(data));
   };
   const accountSettings = (data: settingsAccountData) => {
-    runAccountData(settingsAccountService(data));
-    runUserProfileData(fetchUserProfileService());
+    runAccountData(settingsAccountService(data))
+      .then(() => {
+        runUserProfileData(fetchUserProfileService());
+      })
+      .catch((error) => {
+
+      })
+    
   };
 
   useMemo(() => {
     if (userSecurityResponse?.status === 200) {
-      alert("Password Changed!");
-    } else if (userSecurityResponse?.status === 404) {
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage("Password Changed!")
+    } else if (userSecurityError) {
       alert("Sorry, an error occured.");
+      setToast(true);
+      setToastHead("Error");
+      setToastMessage(userSecurityError)
     }
   }, [userSecurityResponse]);
 
@@ -57,15 +74,19 @@ const Settings = () => {
         lastName: userProfile.lastname,
       };
       setName(ProfileData);
-    } else if (userProfileDataResponse?.status === 404) {
+    } else if (userProfileError) {
     }
   }, [userProfileDataResponse]);
 
   useMemo(() => {
     if (userAccountDataResponse?.status === 200) {
-      alert("Name Changed!");
-    } else if (userAccountDataResponse?.status === 404) {
-      alert("Sorry, an error occured.");
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage("Name changed!")
+    } else if (userAccountError) {
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage(userAccountError)
     }
   }, [userAccountDataResponse]);
 
@@ -75,17 +96,22 @@ const Settings = () => {
 
   useEffect(() => {
     setLoading(
-      userSecurityRequestStatus.isPending ||
-      userProfileRequestStatus.isPending ||
+      userSecurityStatus.isPending ||
+      userProfileStatus.isPending ||
       userAccountDataStatus.isPending
     )
   }, [
     userAccountDataStatus,
-    userProfileRequestStatus,
-    userSecurityRequestStatus
-  ])
+    userProfileStatus,
+    userSecurityStatus
+  ]);
+
+  const handleClose = () => {
+    setToast(false);
+  };
   return (
     <>
+      <Toast onClose={handleClose} loading={toast} head={toastHead} message={toastMessage} />
       <Preloader loading={loading} />
       <SettingsUI
         submitPassword={securitySettings}

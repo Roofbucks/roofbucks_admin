@@ -1,4 +1,5 @@
 import { forgotPasswordData, forgotPasswordService } from "api";
+import { Toast } from "components";
 import { ForgotPasswordUI, RecoveryData } from "features";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useMemo, useState } from "react";
@@ -7,6 +8,9 @@ import { Routes } from "router";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const [toast, setToast] = useState(false);
+  const [toastHead, setToastHead] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
   const { run: runRecovery, data: recoveryResponse, error } = useApiRequest({});
 
   const reset = (data: RecoveryData) => {
@@ -17,17 +21,25 @@ const ForgotPassword = () => {
 
   useMemo(() => {
     if (recoveryResponse?.status === 200) {
-      alert("Check your email for instructions!");
+      setToast(true);
+      setToastHead("Success");
+      setToastMessage("Check your email for instructions!")
     } else if (error) {
-      alert("Sorry, an error occured");
+      setToast(true);
+      setToastHead("Error");
+      setToastMessage(error)
     }
   }, [error, recoveryResponse]);
 
   const login = () => {
     navigate(Routes.home);
   };
+  const handleClose = () => {
+    setToast(false);
+  };
   return (
     <>
+      <Toast onClose={handleClose} loading={toast} head={toastHead} message={toastMessage} />
       <ForgotPasswordUI login={login} recovery={reset} clear />
     </>
   );

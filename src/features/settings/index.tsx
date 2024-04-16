@@ -46,7 +46,6 @@ const SettingsUI: React.FC<SettingsProps> = ({
   }, [reset]);
 
   const onSubmitAccount: SubmitHandler<AccountData> = (data) => {
-    console.log(data);
     updateName({
       firstname: data.firstName,
       lastname: data.lastName,
@@ -125,7 +124,6 @@ const AccountForm: React.FC<AccountProps> = ({
     defaultValues: account,
   });
   const onSubmit: SubmitHandler<AccountData> = (data) => {
-    console.log(data);
     return changeName(data);
   };
 
