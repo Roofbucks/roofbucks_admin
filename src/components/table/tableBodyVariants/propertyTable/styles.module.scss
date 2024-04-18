@@ -8,6 +8,7 @@
   width: fit-content;
   margin: auto 0;
   width: 90px;
+  min-width: 90px;
   text-align: center;
   font-weight: 500;
 }
@@ -55,14 +56,8 @@
 .name {
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
+  // white-space: nowrap;
   margin: auto;
-  display: flex;
-
-  svg {
-    width: 16px;
-    margin-left: 8px;
-  }
 }
 .propertyID {
   text-overflow: ellipsis;

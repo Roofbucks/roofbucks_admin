@@ -11,6 +11,7 @@ export interface UserPropertyTableItem {
   marketValue: string;
   amount: string;
   date: string;
+  percentOwned?: number;
 }
 
 // Test Table Body Props
@@ -19,6 +20,7 @@ interface TableBodyProps {
   view: (id) => void;
   tableBodyItemClassName?: string;
   tableBodyRowClassName?: string;
+  isShareholder?: boolean;
 }
 
 const UserPropertyTable: React.FC<TableBodyProps> = ({
@@ -26,6 +28,7 @@ const UserPropertyTable: React.FC<TableBodyProps> = ({
   view,
   tableBodyItemClassName,
   tableBodyRowClassName,
+  isShareholder,
 }) => {
   return (
     <>
@@ -44,11 +47,17 @@ const UserPropertyTable: React.FC<TableBodyProps> = ({
             <span className={tableBodyItemClassName}>{item.amount}</span>
             <span className={tableBodyItemClassName}>{item.marketValue}</span>
             <span className={tableBodyItemClassName}>{item.date}</span>
-            <span className={tableBodyItemClassName}>
-              <p className={`${styles.status} ${styles[item.status]}`}>
-                {item.status}
-              </p>
-            </span>
+            {isShareholder ? (
+              <span className={tableBodyItemClassName}>
+                {item.percentOwned}%
+              </span>
+            ) : (
+              <span className={tableBodyItemClassName}>
+                <p className={`${styles.status} ${styles[item.status]}`}>
+                  {item.status}
+                </p>
+              </span>
+            )}
             <span className={tableBodyItemClassName}>
               <EyeIconOutline
                 role="button"

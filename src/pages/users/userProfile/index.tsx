@@ -196,6 +196,7 @@ const UserProfile = () => {
         date: new Date(item.created_at).toLocaleDateString(),
         amount: `NGN ${item.total_property_cost?.toLocaleString()}`,
         marketValue: `NGN ${item.market_value?.toLocaleString()}`,
+        percentOwned: item.percentage 
       }));
     } else if (propertiesError) {
       setToast({

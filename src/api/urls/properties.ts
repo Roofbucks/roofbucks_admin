@@ -122,3 +122,12 @@ export const approveEditURL = (id) => `/admin/approve_property_change/${id}/`;
 
 export const fetchEditURL = (id) =>
   `/admin/single_property_change_application/${id}`;
+
+/**
+ * Delete property URL
+ *
+ * @returns url string
+ *
+ */
+
+export const deletePropertyURL = (id) => `/admin/delete_property/${id}/`;

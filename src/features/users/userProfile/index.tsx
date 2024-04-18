@@ -16,16 +16,6 @@ import {
   UserPropertyTableItem,
 } from "components";
 
-const tableHeaderTitles: TableHeaderItemProps[] = [
-  { title: "ID" },
-  { title: "Name" },
-  { title: "Amount" },
-  { title: "Market Value" },
-  { title: "Date Created" },
-  { title: "Status" },
-  { title: "" },
-];
-
 interface PersonalInfo {
   avatar: string;
   firstName: string;
@@ -103,7 +93,15 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
   handleVerifyProfile,
 }) => {
   const { personal, billing, business, identification } = user;
-
+  const tableHeaderTitles: TableHeaderItemProps[] = [
+    { title: "ID" },
+    { title: "Name" },
+    { title: "Amount" },
+    { title: "Market Value" },
+    { title: "Date Created" },
+    { title: user.personal.type === "shareholder" ? "Ownership %" : "Status" },
+    { title: "" },
+  ];
   return (
     <>
       <Button className={styles.backBtn} type="tertiary" onClick={handleBack}>
@@ -343,6 +341,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
               tableBodyItems={properties}
               view={handleView}
               tableBodyRowClassName={styles.tableBodyItem}
+              isShareholder={user.personal.type === "shareholder"}
             />
           }
           customTableClasses={{
