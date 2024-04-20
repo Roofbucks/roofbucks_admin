@@ -21,6 +21,8 @@ import {
   rejectPropertyURL,
   setMarketValueURL,
   setRentURL,
+  suspendPropertyURL,
+  unsuspendPropertyURL,
 } from "api";
 
 interface fetchPropertiesParams {
@@ -212,6 +214,39 @@ export const rejectEditService = (id: string, reason: string) => {
 export const fetchEditService = (id: string) => {
   const requestData = {
     url: fetchEditURL(id),
+  };
+  return getRequest(requestData);
+};
+
+/**
+ * Suspend property service
+ * @returns axios promise
+ */
+
+export const suspendPropertyService = ({
+  id,
+  reason,
+}: {
+  id: string;
+  reason: string;
+}) => {
+  const requestData = {
+    url: suspendPropertyURL(id),
+    data: {
+      reason,
+    },
+  };
+  return postRequest(requestData);
+};
+
+/**
+ * Unuspend property service
+ * @returns axios promise
+ */
+
+export const unsuspendPropertyService = (id: string) => {
+  const requestData = {
+    url: unsuspendPropertyURL(id),
   };
   return getRequest(requestData);
 };

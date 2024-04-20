@@ -5,11 +5,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { CloseIcon } from "assets";
 
-interface RejectData {
+interface SuspendData {
   reason: string;
 }
 
-const initialValues: RejectData = {
+const initialValues: SuspendData = {
   reason: "",
 };
 
@@ -19,30 +19,28 @@ const schema = yup
   })
   .required();
 
-interface RejectPropertyModalProps {
+interface SuspendPropertyModalProps {
   show: boolean;
   close: () => void;
-  submit: (data: RejectData) => void;
-  isEdit?: boolean;
+  submit: (data: SuspendData) => void;
 }
 
-const RejectPropertyModal: React.FC<RejectPropertyModalProps> = ({
+const SuspendPropertyModal: React.FC<SuspendPropertyModalProps> = ({
   show,
   close,
   submit,
-  isEdit,
 }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<RejectData>({
+  } = useForm<SuspendData>({
     resolver: yupResolver(schema),
     defaultValues: initialValues,
   });
 
-  const onSubmit: SubmitHandler<RejectData> = (data) => {
+  const onSubmit: SubmitHandler<SuspendData> = (data) => {
     reset();
     submit(data);
   };
@@ -50,7 +48,7 @@ const RejectPropertyModal: React.FC<RejectPropertyModalProps> = ({
   return (
     <Modal show={show} close={close}>
       <div className={styles.header}>
-        <h1 className={styles.header__ttl}>Reject Property</h1>
+        <h1 className={styles.header__ttl}>Suspend Property</h1>
 
         <CloseIcon
           className={styles.header__close}
@@ -61,7 +59,7 @@ const RejectPropertyModal: React.FC<RejectPropertyModalProps> = ({
 
       <form>
         <Input
-          label={`Why are you rejecting this property${isEdit ? " edit" : ""}?`}
+          label={`Why are you suspending this property?`}
           placeholder="Enter reason"
           type="text"
           parentClassName={styles.input}
@@ -75,11 +73,11 @@ const RejectPropertyModal: React.FC<RejectPropertyModalProps> = ({
           type="primary"
           onClick={handleSubmit(onSubmit)}
         >
-          Reject
+          Suspend
         </Button>
       </form>
     </Modal>
   );
 };
 
-export { RejectPropertyModal };
+export { SuspendPropertyModal };

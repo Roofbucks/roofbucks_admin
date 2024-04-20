@@ -124,10 +124,19 @@ export const fetchEditURL = (id) =>
   `/admin/single_property_change_application/${id}`;
 
 /**
- * Delete property URL
+ * Suspend property URL
  *
  * @returns url string
  *
  */
 
-export const deletePropertyURL = (id) => `/admin/delete_property/${id}/`;
+export const suspendPropertyURL = (id) => `/admin/suspend_property/${id}/`;
+
+/**
+ * unsuspend property URL
+ *
+ * @returns url string
+ *
+ */
+
+export const unsuspendPropertyURL = (id) => `/admin/unsuspend_property/${id}/`;

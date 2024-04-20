@@ -93,6 +93,8 @@ interface PropertyProps {
   handleReject: () => void;
   handleMarketValue: () => void;
   handleRent: () => void;
+  handleSuspend: () => void;
+  handleUnsuspend: () => void;
   property: PropertyData;
 }
 
@@ -103,6 +105,8 @@ const PropertyUI: React.FC<PropertyProps> = ({
   handleMarketValue,
   handleRent,
   property,
+  handleUnsuspend,
+  handleSuspend,
 }) => {
   const { agent, homeBuyer, investors } = property;
 
@@ -151,6 +155,29 @@ const PropertyUI: React.FC<PropertyProps> = ({
                 onClick={handleMarketValue}
               >
                 Update market value
+              </Button>
+            ) : (
+              ""
+            )}
+            {property.status === "approved" ? (
+              <Button
+                className={`${styles.actionBtn} ${styles.rejectBtn}`}
+                type="secondary"
+                onClick={handleSuspend}
+              >
+                Suspend property
+              </Button>
+            ) : (
+              ""
+            )}
+
+            {property.status === "suspended" ? (
+              <Button
+                className={`${styles.actionBtn} ${styles.rejectBtn}`}
+                type="secondary"
+                onClick={handleUnsuspend}
+              >
+                Unsuspend property
               </Button>
             ) : (
               ""

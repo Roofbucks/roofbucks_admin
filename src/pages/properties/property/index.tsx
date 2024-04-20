@@ -9,10 +9,14 @@ import { useApiRequest } from "hooks";
 import { fetchPropertyService } from "api";
 import { getErrorMessage } from "helpers";
 import { Preloader, Toast } from "components";
+import { SuspendProperty } from "../suspendProperty";
+import { UnsuspendProperty } from "../unsuspendProperty";
 
 const Property = () => {
   const [approve, setApprove] = useState(false);
   const [reject, setReject] = useState(false);
+  const [suspend, setSuspend] = useState(false);
+  const [unsuspend, setUnsuspend] = useState(false);
   const [marketValue, setMarketValue] = useState(false);
   const [rent, setRent] = useState(false);
   const [toast, setToast] = useState({
@@ -160,6 +164,18 @@ const Property = () => {
             propertyID={propertyID}
             callback={fetchProperty}
           />
+          <SuspendProperty
+            show={suspend}
+            close={() => setSuspend(false)}
+            propertyID={propertyID}
+            callback={fetchProperty}
+          />
+          <UnsuspendProperty
+            show={unsuspend}
+            close={() => setUnsuspend(false)}
+            propertyID={propertyID}
+            callback={fetchProperty}
+          />
           <UpdateRent
             propertyID={propertyID}
             callback={fetchProperty}
@@ -186,6 +202,8 @@ const Property = () => {
           handleReject={() => setReject(true)}
           handleMarketValue={() => setMarketValue(true)}
           handleRent={() => setRent(true)}
+          handleSuspend={() => setSuspend(true)}
+          handleUnsuspend={() => setUnsuspend(true)}
           property={property}
         />
       ) : (

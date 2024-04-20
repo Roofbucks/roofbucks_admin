@@ -20,7 +20,8 @@
     #f3aa1c;
   color: #f3aa1c;
 }
-.rejected {
+.rejected,
+.suspended {
   background: linear-gradient(
       0deg,
       rgba(255, 255, 255, 0.9),
@@ -67,7 +68,7 @@
   span {
     overflow: hidden;
   }
-  
+
   // * {
   //   word-break: break-all;
   // }

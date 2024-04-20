@@ -58,7 +58,8 @@
       color: var(--red);
     }
 
-    &--rejected {
+    &--rejected,
+    &--suspended {
       background: #ffcbcb;
       color: var(--red);
     }
