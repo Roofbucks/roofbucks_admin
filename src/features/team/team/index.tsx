@@ -38,8 +38,6 @@ const member: TeamTableItem = {
   dateAdded: "12/08/2023",
 };
 
-const members = new Array(10).fill(member);
-
 export const roleOptions: optionType[] = [
   {
     label: "Administrator",
@@ -94,6 +92,7 @@ interface TeamUIProps {
     pageLimit: number;
   };
   handleDelete: ({ id, email }) => void;
+  isAdmin: boolean;
 }
 const TeamUI: React.FC<TeamUIProps> = ({
   handleInvite,
@@ -103,6 +102,7 @@ const TeamUI: React.FC<TeamUIProps> = ({
   search,
   role,
   handleDelete,
+  isAdmin,
 }) => {
   const {
     register,
@@ -141,78 +141,82 @@ const TeamUI: React.FC<TeamUIProps> = ({
         <h1 className={styles.heading__ttl}>Team Management</h1>
         <p>Manage your team members and their accounts here.</p>
       </section>
-      <section className={`${styles.infoSec} ${styles.border}`}>
-        <div className={styles.descrip}>
-          <p className={styles.descrip__ttl}>Add Team Members</p>
-          <p className={styles.descrip__txt}>
-            Expand your team, add new team members
-          </p>
-        </div>
-        <div className={styles.formWrap}>
-          <form className={styles.form}>
-            {fields.map((field, index) => (
-              <fieldset key={field.id}>
-                <Input
-                  label=""
-                  placeholder="Enter email"
-                  type="email"
-                  className={styles.inputName}
-                  required
-                  validatorMessage={
-                    errors.invites ? errors.invites[index]?.email?.message : ""
-                  }
-                  name={`invites.${index}.email`}
-                  register={register}
-                  parentClassName={`${styles.inputWrap}`}
-                  value={watch(`invites.${index}.email`)}
-                />
-                <CustomSelect
-                  onChange={(val) => setValue(`invites.${index}.role`, val)}
-                  validatorMessage={
-                    errors.invites
-                      ? errors.invites[
-                          index
-                        ]?.role?.value?.message?.toString() ?? ""
-                      : ""
-                  }
-                  name={`invites.${index}.role`}
-                  placeholder={"Select role"}
-                  label={""}
-                  options={roleOptions}
-                  value={watch(`invites.${index}.role`)}
-                  parentClassName={`${styles.inputWrap} ${styles.halfInput}`}
-                  inputClass={styles.input}
-                />
-                <CloseIcon
-                  role="button"
-                  className={styles.remove}
-                  onClick={() => {
-                    if (fields.length === 1) reset();
-                    else remove(index);
-                  }}
-                />
-              </fieldset>
-            ))}
-            <div>
-              <Button
-                className={styles.addBtn}
-                onClick={handleSubmit(onAppend)}
-                type="tertiary"
-              >
-                <AddIcon />
-                Add another
-              </Button>
-              <Button
-                className={styles.sendBtn}
-                onClick={handleSubmit(onSubmit)}
-                type="primary"
-              >
-                Send invites
-              </Button>
-            </div>
-          </form>
-        </div>
-      </section>
+      {isAdmin && (
+        <section className={`${styles.infoSec} ${styles.border}`}>
+          <div className={styles.descrip}>
+            <p className={styles.descrip__ttl}>Add Team Members</p>
+            <p className={styles.descrip__txt}>
+              Expand your team, add new team members
+            </p>
+          </div>
+          <div className={styles.formWrap}>
+            <form className={styles.form}>
+              {fields.map((field, index) => (
+                <fieldset key={field.id}>
+                  <Input
+                    label=""
+                    placeholder="Enter email"
+                    type="email"
+                    className={styles.inputName}
+                    required
+                    validatorMessage={
+                      errors.invites
+                        ? errors.invites[index]?.email?.message
+                        : ""
+                    }
+                    name={`invites.${index}.email`}
+                    register={register}
+                    parentClassName={`${styles.inputWrap}`}
+                    value={watch(`invites.${index}.email`)}
+                  />
+                  <CustomSelect
+                    onChange={(val) => setValue(`invites.${index}.role`, val)}
+                    validatorMessage={
+                      errors.invites
+                        ? errors.invites[
+                            index
+                          ]?.role?.value?.message?.toString() ?? ""
+                        : ""
+                    }
+                    name={`invites.${index}.role`}
+                    placeholder={"Select role"}
+                    label={""}
+                    options={roleOptions}
+                    value={watch(`invites.${index}.role`)}
+                    parentClassName={`${styles.inputWrap} ${styles.halfInput}`}
+                    inputClass={styles.input}
+                  />
+                  <CloseIcon
+                    role="button"
+                    className={styles.remove}
+                    onClick={() => {
+                      if (fields.length === 1) reset();
+                      else remove(index);
+                    }}
+                  />
+                </fieldset>
+              ))}
+              <div>
+                <Button
+                  className={styles.addBtn}
+                  onClick={handleSubmit(onAppend)}
+                  type="tertiary"
+                >
+                  <AddIcon />
+                  Add another
+                </Button>
+                <Button
+                  className={styles.sendBtn}
+                  onClick={handleSubmit(onSubmit)}
+                  type="primary"
+                >
+                  Send invites
+                </Button>
+              </div>
+            </form>
+          </div>
+        </section>
+      )}
       <div className={styles.tableHeading}>
         <div>
           <h1 className={styles.tableHeading__ttl}>Team Members</h1>

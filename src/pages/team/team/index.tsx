@@ -9,6 +9,7 @@ import { getErrorMessage } from "helpers";
 import { useDebounce } from "hooks";
 import { useApiRequest } from "hooks/useApiRequest";
 import { useEffect, useMemo, useState } from "react";
+import { useAppSelector } from "state/hooks";
 
 const Team = () => {
   // States
@@ -32,6 +33,7 @@ const Team = () => {
     email: "",
     show: false,
   });
+  const { role: adminRole } = useAppSelector((state) => state.user);
 
   // API Hooks
   const {
@@ -197,6 +199,7 @@ const Team = () => {
         handleDelete={({ id, email }) =>
           setRemoveMember({ id, email, show: true })
         }
+        isAdmin={adminRole === "administrator"}
       />
     </>
   );
