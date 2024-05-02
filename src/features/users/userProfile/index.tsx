@@ -246,7 +246,7 @@ const UserProfileUI: React.FC<UserProfileProps> = ({
               <p className={styles.isVerified}>Verified</p>
             ) : (
               <Button
-                disabled={!business.certOfInc}
+                // disabled={!business.certOfInc}
                 className={styles.actionBtn}
                 type="primary"
                 onClick={handleApproveBusiness}
