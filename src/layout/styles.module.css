@@ -126,6 +126,18 @@ button.sidebarType {
 .notifWrap {
   position: relative;
 }
+.notifWrap::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 4px;
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  right: 1px;
+}
 @media screen and (max-width: 1200px) {
   .navBar {
     padding-left: 1rem;

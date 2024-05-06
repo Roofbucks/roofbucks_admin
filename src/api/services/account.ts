@@ -66,9 +66,16 @@ export const fetchProfileService = () => {
  * @returns axios promise
  */
 
-export const fetchNotifsService = (page) => {
+export const fetchNotifsService = (page, status?) => {
   const requestData = {
-    url: fetchNotifsURL(page),
+    url: fetchNotifsURL(),
+    config: {
+      params: {
+        page,
+        status,
+        limit: 20,
+      },
+    },
   };
 
   return getRequest(requestData);

@@ -28,6 +28,8 @@ const Notifications: React.FC<NotifDropdownProps> = ({
     totalPages: 1,
     totalCount: 0,
   });
+  const [status, setStatus] = useState("");
+
   const listRef = useRef(null);
   const onHide = () => {
     closeMenu(false);
@@ -54,12 +56,12 @@ const Notifications: React.FC<NotifDropdownProps> = ({
   } = useApiRequest({});
 
   const fetchNotifs = (page?) =>
-    runFetch(fetchNotifsService(page ?? pages.currentPage));
+    runFetch(fetchNotifsService(page ?? pages.currentPage, status));
   const handleRemoveActivity = (id) => runRead(markAsReadService(id));
 
   useEffect(() => {
     show && fetchNotifs();
-  }, [show]);
+  }, [show, status]);
 
   const notifications = useMemo(() => {
     if (fetchResponse?.status === 200) {
@@ -69,10 +71,11 @@ const Notifications: React.FC<NotifDropdownProps> = ({
         totalCount: fetchResponse.data.total,
       }));
 
-      return fetchResponse.data.results.map((item) => ({
+      return fetchResponse.data.results.results.map((item) => ({
         date: timeAgo(new Date(item.created_at)),
         message: item.message,
         id: item.id,
+        unread: item.status.toLowerCase() === "unread",
       }));
     } else if (fetchError) {
       setToast({
@@ -121,6 +124,21 @@ const Notifications: React.FC<NotifDropdownProps> = ({
 
   const showLoader = readStatus.isPending || fetchStatus.isPending;
 
+  const statuses = [
+    {
+      label: "All",
+      value: "",
+    },
+    {
+      label: "Read",
+      value: "read",
+    },
+    {
+      label: "Unread",
+      value: "unread",
+    },
+  ];
+
   return (
     <>
       <Preloader loading={showLoader} />
@@ -134,10 +152,24 @@ const Notifications: React.FC<NotifDropdownProps> = ({
             <p className={styles.notifHeading}>Notifications</p>{" "}
             {/* <button>Clear all</button> */}
           </div>
+          <div className={styles.notifTabs}>
+            {statuses.map((item) => (
+              <button
+                onClick={() => setStatus(item.value)}
+                className={item.value === status ? styles.activeStatus : ""}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
           <div className={styles.notifList}>
             {notifications.length > 0 ? (
-              notifications.map(({ date, message, id }) => (
-                <div className={styles.notifCard}>
+              notifications.map(({ date, message, id, unread }) => (
+                <div
+                  className={`${styles.notifCard} ${
+                    unread ? styles.unread : ""
+                  }`}
+                >
                   <p className={styles.notifTxt}>{message}</p>
                   <div>
                     <CloseIcon

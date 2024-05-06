@@ -18,6 +18,8 @@ import styles from "./styles.module.css";
 import { Logout } from "./logoutPrompt";
 import { useAppSelector } from "state/hooks";
 import { Notifications } from "./notifications";
+import { fetchNotifsService } from "api";
+import { useApiRequest } from "hooks";
 
 interface SidebarType {
   active: dashboardPages;
@@ -158,12 +160,27 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
   const [showLogout, setShowLogout] = React.useState(false);
   const [showNotifDropdown, setShowNotifDropdown] = React.useState(false);
 
+  const [unreadNotif, setUnreadNotif] = React.useState(0);
   const menuRef = React.useRef(null);
 
   const onHide = () => {
     setShowMenu(false);
   };
   useOutsideAlerter(menuRef, onHide);
+
+  const { run: runFetch, data: fetchResponse } = useApiRequest({});
+
+  const fetchNotifs = () => runFetch(fetchNotifsService(1));
+
+  React.useEffect(() => {
+    fetchNotifs();
+  }, [active]);
+
+  React.useMemo(() => {
+    if (fetchResponse?.status === 200) {
+      setUnreadNotif(fetchResponse.data.results.unread_count);
+    }
+  }, [fetchResponse]);
 
   return (
     <>
@@ -194,7 +211,7 @@ const Layout: React.FC<LayoutProps> = ({ active, children }) => {
           <div
             className={`${styles.notifWrap} ${styles.notifRed} ${
               showNotifDropdown ? styles.disableCaret : ""
-            }`}
+            } ${unreadNotif > 0 ? styles.unread : ""}`}
           >
             <BellIconOutline
               role="button"

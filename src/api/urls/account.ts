@@ -38,7 +38,7 @@ export const fetchProfileURL = () => `/user/profile/`;
  *
  */
 
-export const fetchNotifsURL = (page) => `/admin/activities/?page=${page}&limit=${20}`;
+export const fetchNotifsURL = () => `/admin/activities/`;
 
 /**
  * Mark activity as read url
